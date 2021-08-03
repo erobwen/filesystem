@@ -1,15 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
+
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, Button, Text, View, TextInput, ScrollView, SuperScript } from 'react-native';
+import { ScreenAnalyzer } from './components/ScreenAnalyzer';
+import { Column, Row } from './components/Layout';
+import { Scroller, scrollerContentStyle } from './components/Scroller';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>Foobar!</Text>
       <StatusBar style="auto" />
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
