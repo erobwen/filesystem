@@ -8,21 +8,29 @@ import { Column, Row } from './components/Layout';
 import { Scroller, scrollerContentStyle } from './components/Scroller';
 
 export default function App() {
+  
   return (
-    <View style={styles.container}>
-      <Text>Foobar!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ScreenAnalyzer render={({style, bounds}) => {
+      return (
+        <View>
+          <Column>
+            <Row>
+              <Text>Foobar! + { bounds.width + ", " + bounds.height}</Text>
+              <StatusBar style="auto" />
+            </Row>
+          </Column>
+        </View>
+      )
+    }}/>
   );
 }
 
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// style={styles.container}
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
