@@ -6,6 +6,8 @@ import { StyleSheet, Button, Text, View, TextInput, ScrollView, SuperScript } fr
 import { ScreenAnalyzer } from './components/ScreenAnalyzer';
 import { Column, Row, fitStyle } from './components/Layout';
 import { Scroller, scrollerContentStyle } from './components/Scroller';
+import { createTestTree } from './application/model/TreeModel';
+import { TreeView } from './components/TreeView';
 
 export default function App() {
   
@@ -13,7 +15,7 @@ export default function App() {
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
       <Column class="Column" style={{padding: 20, ...fitStyle, width: bounds.width, height: bounds.height}}>
         <Row style={fitStyle} class="Row">
-          <Text style={{width:"20%", height:"100%", backgroundColor:"lightgray"}}>Foodd baffr! + { bounds.width + ", " + bounds.height}</Text>
+          <TreeView style={{width:"20%", height:"100%", backgroundColor:"lightgray"}} tree={ createTestTree() }/>
           <div></div>
         </Row>
       <StatusBar style="auto" />
