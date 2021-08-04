@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'; 
 import { Dimensions } from 'react-native';
+import { fitStyle } from './Layout';
 
 let dimensions = null; 
 
@@ -11,6 +12,7 @@ export class ScreenAnalyzer extends Component {
     this.state = { 
       dimensions: this.getDimensions() 
     };
+    this.myDiv = React.createRef();
   }
 
   getDimensions() {
@@ -34,13 +36,7 @@ export class ScreenAnalyzer extends Component {
   }
 
   render() {
-    const { style, child, render } = this.props
-    if (child) {
-      const { component, props } = child; 
-      const childProps = {style, bounds: this.state.dimensions, ...props};
-      return <component {... childProps}/>      
-    } else {
-      return render({style, bounds: this.state.dimensions})
-    }
+    let { style, render } = this.props;
+    return <div style={style} id="ScreenAnalyzer" ref={this.myDiv}>{render({style: fitStyle, bounds: this.state.dimensions})}</div>
   }
 }
