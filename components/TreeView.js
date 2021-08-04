@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component } from 'react';
 import { Column, Row } from './Layout';
 import { Icon } from './Typography';
-import folderImage from '../assets/folder_category_outline.svg';
+import folderImage from '../assets/folder_category.svg';
 export function TreeView({style, bounds, tree}) {
     console.log("render Tree View: " + tree.name);
     console.log(tree.children.map(child => <TreeView tree={child}/>));

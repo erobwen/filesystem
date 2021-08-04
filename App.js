@@ -6,7 +6,7 @@ import { StyleSheet, Button, Text, View, TextInput, ScrollView, SuperScript } fr
 import { ScreenAnalyzer } from './components/ScreenAnalyzer';
 import { Column, Row, fitStyle } from './components/Layout';
 import { Scroller, scrollerContentStyle } from './components/Scroller';
-import { createTestTree } from './application/model/TreeModel';
+import { createTestTree } from './application/createDemoData.js';
 import { TreeView } from './components/TreeView';
 
 export default function App() {
