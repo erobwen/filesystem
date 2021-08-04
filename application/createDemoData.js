@@ -1,8 +1,24 @@
-import { createCategory, createStore, createTree } from "./model/TreeModel";
+import { createCategory, createDesign, createStore, createTree } from "./model/TreeModel";
+import boat1 from "../assets/designs/boat1.jpg";
+import boat2 from "../assets/designs/boat2.jpg";
+import boat3 from "../assets/designs/boat3.jpg";
+import cat1 from "../assets/designs/cat1.jpg";
+import cat2 from "../assets/designs/cat2.jpg";
+import cat3 from "../assets/designs/cat3.jpg";
+import catboat1 from "../assets/designs/catboat1.jpg";
+import catboat2 from "../assets/designs/catboat2.jpg";
+import catdog1 from "../assets/designs/catdog1.jpg";
+import catdog2 from "../assets/designs/catdog2.jpg";
+import catdog3 from "../assets/designs/catdog3.jpg";
+import catdogboat1 from "../assets/designs/catdogboat1.jpg";
+import dog1 from "../assets/designs/dog1.jpg";
+import dog2 from "../assets/designs/dog2.jpg";
+import dog3 from "../assets/designs/dog3.jpg";
+import dogboat1 from "../assets/designs/dogboat1.jpg";
+import dogboat2 from "../assets/designs/dogboat2.jpg";
 
 const Dog = createCategory("Dog");
 const Cat = createCategory("Cat");
-const Car = createCategory("Car");
 const Boat = createCategory("Boat");
 
 const RibbonDesign = createCategory("RibbonDesign");
@@ -18,27 +34,42 @@ const RecycleBin = createCategory("RecycleBin");
 
 
 const categories = createStore();
-[Dog, Cat, Car, Boat, RibbonDesign, Felting, Draft, Finished, Locked, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
+[Dog, Cat, Boat, RibbonDesign, Felting, Draft, Finished, Locked, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
-export function createTestTree() {
-    let tree = createTree;
-    let newTree = tree("Quick access",
-        tree("My Designs",
-            tree(Cat, 
-                tree(RibbonDesign)),
-            tree(Dog, 
-                tree(RibbonDesign)),
-            tree(Car, 
-                tree(Boat)),
-            tree(Boat)),
-        tree("Design Stages", 
-            tree(Draft), 
-            tree(Finished), 
-            tree(Locked)),
-        tree(Favorite),
-        tree(MyEpic2),
-        tree(RecycleBin)
-    );
-    newTree.setupFilters();
-    return newTree; 
-} 
+let tree = createTree;
+export const demoTree = tree("Quick access",
+    tree("My Designs",
+        tree(Cat, 
+            tree(RibbonDesign)),
+        tree(Dog, 
+            tree(RibbonDesign)),
+        tree(Boat)),
+    tree("Design Stages", 
+        tree(Draft), 
+        tree(Finished), 
+        tree(Locked)),
+    tree(Favorite),
+    tree(MyEpic2),
+    tree(RecycleBin)
+);
+demoTree.setupFilters();
+
+export const designs = createStore();
+designs.items.push(createDesign("Striped Boat", boat1));
+designs.items.push(createDesign("Stylized boat", boat2));
+designs.items.push(createDesign("Boat with red cross", boat3));
+designs.items.push(createDesign("Fancy cat", cat1));
+designs.items.push(createDesign("Multi cat", cat2));
+designs.items.push(createDesign("Yawn!", cat3));
+designs.items.push(createDesign("Cat on water", catboat1));
+designs.items.push(createDesign("Window scene", catboat2));
+designs.items.push(createDesign("Friends", catdog1));
+designs.items.push(createDesign("Red and blue cat", catdog2));
+designs.items.push(createDesign("Best Friends", catdog3));
+designs.items.push(createDesign("Happy ride!", catdogboat1));
+designs.items.push(createDesign("Mr dog", dog1));
+designs.items.push(createDesign("Shepherd", dog2));
+designs.items.push(createDesign("Funky dog", dog3));
+designs.items.push(createDesign("Sailor dog", dogboat1));
+designs.items.push(createDesign("Away", dogboat2));
+
