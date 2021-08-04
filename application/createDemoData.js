@@ -20,11 +20,9 @@ const RecycleBin = createCategory("RecycleBin");
 const categories = createStore();
 [Dog, Cat, Car, Boat, RibbonDesign, Felting, Draft, Finished, Locked, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
-
-
 export function createTestTree() {
     let tree = createTree;
-    return tree("Quick access",
+    let newTree = tree("Quick access",
         tree("My Designs",
             tree(Cat, 
                 tree(RibbonDesign)),
@@ -41,4 +39,6 @@ export function createTestTree() {
         tree(MyEpic2),
         tree(RecycleBin)
     );
+    newTree.setupFilters();
+    return newTree; 
 } 

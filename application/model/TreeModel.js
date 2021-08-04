@@ -1,4 +1,4 @@
-import { autorun, observable, reaction } from "mobx";
+import { action, autorun, observable, reaction } from "mobx";
 
 export function createTree(categoryOrName, ...children) {
     let name; 
@@ -14,10 +14,45 @@ export function createTree(categoryOrName, ...children) {
         parent: null,
         name,
         category,
-        children: observable(children)
+        filter: createIntersectionFilter(),
+        children: observable(children),
+        disposeFilterSetup: null,
+        setupFilters: function() {
+            tree.disposeFilterSetup = reaction(
+                () => {
+                    let categories = [];
+                    if (tree.parent) {
+                        tree.parent.filter.categories.forEach(category => categories.push(category));
+                    }
+                    if (tree.category) {
+                        categories.push(tree.category) 
+                    }
+                    return categories;
+                },
+                categories => {
+                    action(() => {
+                        tree.filter.categories.length = 0;
+                        categories.forEach(category => tree.filter.push(category));
+                    });
+                }
+            );
+        }
     })
     children.forEach(child => child.parent = tree);
     return tree; 
+}
+
+export function createIntersectionFilter() {
+    const filter = {
+        includes: function(design) {
+            for (let category of filter.categories) {
+                if (design.categories.indexOf(category) == -1) return false;
+            }
+            return true; 
+        }, 
+        categories: observable([])
+    };
+    return filter; 
 }
 
 export function createCategory(name) {
@@ -36,7 +71,8 @@ export function createDesign(name, image, categories) {
 
 export function createStore() {
     return observable({
-        items: observable([])
+        items: observable([]),
+        reactionDisposer: null
     });
 }
 
