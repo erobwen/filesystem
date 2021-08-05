@@ -1,38 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-
 import React from 'react';
 
-import { StyleSheet, Button, Text, View, TextInput, ScrollView, SuperScript } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { ScreenAnalyzer } from './components/ScreenAnalyzer';
-import { Column, Row, fitStyle } from './components/Layout';
-import { Scroller, scrollerContentStyle } from './components/Scroller';
-import { demoTree } from './application/createDemoData.js';
-import { TreeView } from './components/TreeView';
-import catdog2 from "./assets/designs/catdog2.jpg";
-import { Icon } from './components/Typography';
+import { CenterMiddle, Column, fitStyle, flexAutoStyle, flexGrowShrinkStyle } from './components/Layout';
+import { DesignExplorer } from './components/DesignExplorer';
+import { panelStyle } from './components/Style';
+
 
 export default function App() {
-  
   return (
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
-      <Column class="Column" style={{padding: 20, ...fitStyle, width: bounds.width, height: bounds.height}}>
-        <Icon style={{width: 100, height: 100}} image={catdog2}/>
-        <Row style={fitStyle} class="Row">
-          <TreeView style={{width:"20%", height:"100%", backgroundColor:"lightgray"}} tree={ demoTree }/>
-          <div></div>
-        </Row>
-      <StatusBar style="auto" />
-      </Column>
+      <MaxSizePadder style={style} bounds={bounds} maxWidth={900} maxHeight={700} render={({style, bounds}) => 
+        <Column style={style}>
+          <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds}/>
+          <StatusBar style={flexAutoStyle}/>
+        </Column>
+      }/>
     }/>
   );
 }
 
-// style={styles.container}
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+
+
+function MaxSizePadder({style, bounds, maxWidth, maxHeight, render}) {
+  const restricted = bounds.width < maxWidth + 10 || bounds.height < maxHeight + 10; 
+
+  if (restricted) { // Note: this if statement could potentially cause flicker as the synthetic dom is rearranged. 
+    return render({style: style, bounds})
+  } else {
+    const newBounds = {
+      width: Math.min(bounds.width, maxWidth) - 2,
+      height: Math.min(bounds.height, maxHeight) -2
+    }
+    return (
+      <CenterMiddle style={style} overflowVisible={true}>
+        {render({style: {...panelStyle, width: newBounds.width + 2, height: newBounds.height + 2}, bounds: newBounds})}
+      </CenterMiddle>
+    );  
+  }
+}

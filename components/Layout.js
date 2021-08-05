@@ -44,6 +44,34 @@ export function Row({style, children, overflowVisible=false, left=false, right=f
   return <View style={{...rowStyle, ...style}} children={children}/>;
 }
 
+/**
+ * Center and middle
+ */
+
+
+export function Middle({style, children}) {
+  const spaceAround = {
+    justifyContent : "space-around" // Note: did not work with camel case for some reason!
+  };
+  return <div className="Middle" style={{...columnStyle, ...spaceAround, ...style}} children={children}/>;
+}
+
+export function Center({style, children}) {
+  const spaceAround = {
+    justifyContent : "space-around" // Note: did not work with camel case for some reason!
+  };
+  return <div className="Center" style={{...rowStyle, ...spaceAround, ...style}} children={children}/>;
+}
+
+export function CenterMiddle({style, children, overflowVisible=false}) {
+  if (overflowVisible) style={...style, overflow: "visible"};
+  return (
+    <Center style={style}>
+      <Middle style={{overflow: overflowVisible ? "visible" : "hidden"}} children={children}/>
+    </Center>
+  );
+}
+
 
 /**
  * Child placement styles
