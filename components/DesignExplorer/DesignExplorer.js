@@ -31,7 +31,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
         <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
-          <DesignsView style={flexGrowShrinkStyle} designs={this.filteredStore}/>
+          <DesignsView style={flexGrowShrinkStyle} designs={this.filteredStore.items}/>
           <CategoriesView style={flexAutoStyle} selected={this.selected}/>
         </Column>
         <DesignView style={flexAutoStyle} selected={this.selected}/>

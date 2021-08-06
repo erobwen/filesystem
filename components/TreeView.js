@@ -4,15 +4,15 @@ import { Column, Row } from './Layout';
 import { Icon } from './Typography';
 import folderImage from '../assets/folder_category.svg';
 export function TreeView({style, bounds, tree}) {
-    console.log("render Tree View: " + tree.name);
-    console.log(tree.children.map(child => <TreeView tree={child}/>));
+    // console.log("render Tree View: " + tree.name);
+    // console.log(tree.children.map(child => <TreeView tree={child}/>));
     return (
         <Column style={style}>
             <Row>
                 <Icon style={{marginRight: "0.5em"}} image={folderImage}/>
                 <Text>{tree.name}</Text>
             </Row>
-            <Column style={{paddingLeft: 20}} children={tree.children.map(child => <TreeView tree={child}/>)}/>
+            <Column style={{paddingLeft: 20}} children={tree.children.map(child => <TreeView key={child.id} tree={child}/>)}/>
         </Column>
     );
 }

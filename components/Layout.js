@@ -47,8 +47,6 @@ export function Row({style, children, overflowVisible=false, left=false, right=f
 /**
  * Center and middle
  */
-
-
 export function Middle({style, children}) {
   const spaceAround = {
     justifyContent : "space-around" // Note: did not work with camel case for some reason!
@@ -147,6 +145,19 @@ export function flexAutoHeightStyle(height) {
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: 'auto'
+  };
+};
+
+// Convenience for an auto width style with fixed width. 
+export function flexAutoWidthHeightStyle(width, height) {
+  return {
+    overflow: "hidden",
+    boxSizing: "border-box",
+    width: width, 
+    height: height, 
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: 'auto'    
   };
 };
 

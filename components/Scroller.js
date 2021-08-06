@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export function Scroller({style, bounds, render}) {
   return (
-    <ScrollView style={style} children={render({style: scrollerContentStyle(), bounds: {width: bounds.width}})}/>
+    <ScrollView style={style} children={render({style: scrollerContentStyle(), bounds: {width: bounds ? bounds.width : null, height: null}})}/>
   );
 }
 

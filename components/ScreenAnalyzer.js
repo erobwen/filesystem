@@ -8,7 +8,7 @@ let dimensions = null;
 export class ScreenAnalyzer extends Component {
   constructor() {
     super();
-    console.log(Dimensions);
+    // console.log(Dimensions);
     this.state = { 
       dimensions: this.getDimensions() 
     };

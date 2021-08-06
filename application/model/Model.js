@@ -1,5 +1,6 @@
 import { action, autorun, observable, reaction } from "mobx";
 
+let nextTreeId = 1;
 export function createTree(categoryOrName, ...children) {
     let name; 
     let category;
@@ -11,6 +12,7 @@ export function createTree(categoryOrName, ...children) {
         category = categoryOrName;
     }
     const tree = observable({
+        id: nextTreeId++,
         parent: null,
         name,
         category,
@@ -83,7 +85,7 @@ export function createFilterStore() {
             () => {
                 let result = [];
                 source.items.forEach(item => { 
-                    if (filter.include(item)) {
+                    if (filter.includes(item)) {
                         result.push(item);
                     }
                 })
