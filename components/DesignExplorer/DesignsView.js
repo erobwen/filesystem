@@ -1,9 +1,11 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Column, flexAutoStyle, flexAutoWidthHeightStyle, Row } from '../Layout';
+import { Column, flexAutoHeightStyle, flexAutoStyle, flexAutoWidthHeightStyle, Row } from '../Layout';
 import { Scroller } from '../Scroller';
 import { Icon } from '../Typography';
+import { log, logg } from '../utility/Debug';
 import { Placeholder } from './DesignExplorer';
+import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 
 export const DesignsView = observer(class DesignsView extends React.Component {
   constructor(props) {
@@ -16,12 +18,16 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 
 
   render() {
+    const {designs} = this.props;
+    log("DesignsView:render");
+    const designsCopy = designs.slice();
     return <Scroller render={({style, bounds}) => {
-      return (
-        <Row style={{...style, flexWrap: "wrap" }}>
-          {this.props.designs.map(design => <DesignThumbView design={design}/>)}
+      let result = (
+        <Row style={{...style, flexWrap: "wrap", justifyContent:"space-between" }}>
+          {designsCopy.map(design => <DesignThumbView key={design.id} design={design}/>)}
         </Row>
       );
+      return result;
     }}/>
   }
 });
@@ -29,9 +35,9 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 
 export function DesignThumbView({style, design}) {
   return (
-    <Column style={style}>
+    <Column style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20}}>
       <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
-      <Text style={flexAutoStyle}>{design.name}</Text>
+      <Text style={flexAutoHeightStyle(20)}>{design.name}</Text>
     </Column>
   );
 }

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createFilterStore, createIntersectionFilter } from '../../application/model/Model';
 import { DesignsView } from './DesignsView';
+import { log } from '../utility/Debug';
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
@@ -26,6 +27,10 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
   render() {
     const {style, bounds, vault } = this.props;
+    log("DesignExplorer:render");
+    log(vault);
+    log(this.filteredStore);
+    log(this.filter);
     return (
       <Row style={fitStyle} class="Row">
         <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />

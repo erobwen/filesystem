@@ -1,5 +1,5 @@
 
-import { production } from 'config.js';
+import { production } from '../../config.js';
 
 // IE compatibility issue. 
 export function IEConsoleFix() {

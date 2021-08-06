@@ -1,4 +1,5 @@
-import { action, autorun, observable, reaction } from "mobx";
+import { action, autorun, observable, reaction, runInAction } from "mobx";
+import { log, loge } from "../../components/utility/Debug";
 
 let nextTreeId = 1;
 export function createTree(categoryOrName, ...children) {
@@ -63,8 +64,10 @@ export function createCategory(name) {
     });
 }
 
+let nextDesignId = 1;
 export function createDesign(name, image, categories) {
     return observable({
+        id: nextDesignId++,
         name,
         image, 
         categories: observable(categories)
@@ -83,20 +86,24 @@ export function createFilterStore() {
     store.initialize = function(filter, source) {
         store.reactionDisposer = reaction(
             () => {
+                loge("trigger filter store");
                 let result = [];
                 source.items.forEach(item => { 
                     if (filter.includes(item)) {
                         result.push(item);
                     }
                 })
+                log(result);
                 return result; 
             },
-            result => {
-                action(() => {
+            (result, previousValue, reaction) => {
+                log("before action")
+                runInAction(() => {
+                    loge("updating filter store");
                     store.items.splice(0, store.items.length);
                     result.forEach((item) => store.items.push(item));
-                })();
-            });    
+                });
+            }, {fireImmediately: true});    
     }
     return store;
 }
