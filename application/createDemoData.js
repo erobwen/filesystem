@@ -73,3 +73,10 @@ demoDesigns.items.push(createDesign("Funky dog", dog3));
 demoDesigns.items.push(createDesign("Sailor dog", dogboat1));
 demoDesigns.items.push(createDesign("Away", dogboat2));
 
+
+export const demoVault = {
+    designs: demoDesigns,
+    tree: demoTree,
+    categories: categories
+}
+

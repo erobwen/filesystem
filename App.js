@@ -3,9 +3,9 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ScreenAnalyzer } from './components/ScreenAnalyzer';
 import { CenterMiddle, Column, fitStyle, flexAutoStyle, flexGrowShrinkStyle } from './components/Layout';
-import { DesignExplorer } from './components/DesignExplorer';
+import { DesignExplorer } from './components/DesignExplorer/DesignExplorer';
 import { panelStyle } from './components/Style';
-import { demoDesigns } from './application/createDemoData';
+import { demoVault } from './application/createDemoData';
 
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
       <MaxSizePadder style={style} bounds={bounds} maxWidth={900} maxHeight={700} render={({style, bounds}) => 
         <Column style={style}>
-          <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} designs={demoDesigns}/>
+          <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
           <StatusBar style={flexAutoStyle}/>
         </Column>
       }/>

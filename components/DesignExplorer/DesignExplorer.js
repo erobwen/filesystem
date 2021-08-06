@@ -1,18 +1,15 @@
 import React from 'react';
 
-import { StyleSheet, Button, Text, View, TextInput, ScrollView, SuperScript } from 'react-native';
-import { Scroller, scrollerContentStyle } from './Scroller';
-import { demoTree } from '../application/createDemoData.js';
-import { TreeView } from './TreeView';
-import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from './Layout';
+import { TreeView } from '../TreeView';
+import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { createFilterStore, createIntersectionFilter } from '../application/model/Model';
+import { createFilterStore, createIntersectionFilter } from '../../application/model/Model';
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.designsStore = props.designs;
+    this.vault = props.vault;
     this.filteredStore = createFilterStore();
     this.filter = createIntersectionFilter();
 
@@ -20,30 +17,30 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   }
 
   componentDidMount() {
-    this.filteredStore.initialize(this.filter, this.designsStore);
+    this.filteredStore.initialize(this.filter, this.vault.designs);
   }
   
   componentWillUnmount() {}
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
-    const {style, bounds} = this.props;
+    const {style, bounds, vault } = this.props;
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser style={flexAutoStyle} filter={this.filter} />
+        <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
           <DesignsView style={flexGrowShrinkStyle} designs={this.filteredStore}/>
           <CategoriesView style={flexAutoStyle} selected={this.selected}/>
         </Column>
-        <DesignView style={flexAutoStyle}/>
+        <DesignView style={flexAutoStyle} selected={this.selected}/>
       </Row>
     );
    }
 });
  
-export function FilterBrowser({style, bounds}) {
-  return <TreeView sytle={style} bounds={bounds} tree={demoTree}/>;
+export function FilterBrowser({style, bounds, tree}) {
+  return <TreeView sytle={style} bounds={bounds} tree={tree}/>;
 }
 
 export function FilterView({style}) {
