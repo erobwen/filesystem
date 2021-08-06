@@ -76,24 +76,26 @@ export function createStore() {
     });
 }
 
-export function createFilterStore(filter, source) {
+export function createFilterStore() {
     let store = createStore();
-    store.reactionDisposer = reaction(
-        () => {
-            let result = [];
-            source.items.forEach(item => { 
-                if (filter.include(item)) {
-                    result.push(item);
-                }
-            })
-            return result; 
-        },
-        result => {
-            action(() => {
-                store.items.splice(0, store.items.length);
-                result.forEach((item) => store.items.push(item));
-            })();
-        });
+    store.initialize = function(filter, source) {
+        store.reactionDisposer = reaction(
+            () => {
+                let result = [];
+                source.items.forEach(item => { 
+                    if (filter.include(item)) {
+                        result.push(item);
+                    }
+                })
+                return result; 
+            },
+            result => {
+                action(() => {
+                    store.items.splice(0, store.items.length);
+                    result.forEach((item) => store.items.push(item));
+                })();
+            });    
+    }
     return store;
 }
 

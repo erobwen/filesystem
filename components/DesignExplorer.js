@@ -7,27 +7,34 @@ import { TreeView } from './TreeView';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from './Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
+import { createFilterStore, createIntersectionFilter } from '../application/model/Model';
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.designsStore = props.designs;
+    this.filteredStore = createFilterStore();
+    this.filter = createIntersectionFilter();
+
     this.selected =  observable([]);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.filteredStore.initialize(this.filter, this.designsStore);
+  }
+  
   componentWillUnmount() {}
-  componentDidUpdate() {}
+  componentDidUpdate(nextProps, nextState) {}
 
   render() {
     const {style, bounds} = this.props;
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser style={flexAutoStyle}/>
+        <FilterBrowser style={flexAutoStyle} filter={this.filter} />
         <Column style={flexGrowShrinkStyle}>
-          <FilterView style={flexAutoStyle}/>
-          <DesignsView style={flexGrowShrinkStyle}/>
-          <CategoriesView style={flexAutoStyle}/>
+          <FilterView style={flexAutoStyle} filter={this.filter}/>
+          <DesignsView style={flexGrowShrinkStyle} designs={this.filteredStore}/>
+          <CategoriesView style={flexAutoStyle} selected={this.selected}/>
         </Column>
         <DesignView style={flexAutoStyle}/>
       </Row>

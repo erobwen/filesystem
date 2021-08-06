@@ -1,4 +1,4 @@
-import { createCategory, createDesign, createStore, createTree } from "./model/TreeModel";
+import { createCategory, createDesign, createStore, createTree } from "./model/Model";
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
 import boat3 from "../assets/designs/boat3.jpg";
