@@ -7,7 +7,7 @@ export function TreeView({style, bounds, tree}) {
     console.log("render Tree View: " + tree.name);
     console.log(tree.children.map(child => <TreeView tree={child}/>));
     return (
-        <Column>
+        <Column style={style}>
             <Row>
                 <Icon style={{marginRight: "0.5em"}} image={folderImage}/>
                 <Text>{tree.name}</Text>

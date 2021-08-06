@@ -5,20 +5,35 @@ import { Scroller, scrollerContentStyle } from './Scroller';
 import { demoTree } from '../application/createDemoData.js';
 import { TreeView } from './TreeView';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from './Layout';
+import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 
-export function DesignExplorer({style, bounds}) {
-  return (
-    <Row style={fitStyle} class="Row">
-      <FilterBrowser style={flexAutoStyle}/>
-      <Column style={flexGrowShrinkStyle}>
-        <FilterView style={flexAutoStyle}/>
-        <DesignsView style={flexGrowShrinkStyle}/>
-        <CategoriesView style={flexAutoStyle}/>
-      </Column>
-      <DesignView style={flexAutoStyle}/>
-    </Row>
-  );
-}
+export const DesignExplorer = observer(class DesignExplorer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.designsStore = props.designs;
+    this.selected =  observable([]);
+  }
+
+  componentDidMount() {}
+  componentWillUnmount() {}
+  componentDidUpdate() {}
+
+  render() {
+    const {style, bounds} = this.props;
+    return (
+      <Row style={fitStyle} class="Row">
+        <FilterBrowser style={flexAutoStyle}/>
+        <Column style={flexGrowShrinkStyle}>
+          <FilterView style={flexAutoStyle}/>
+          <DesignsView style={flexGrowShrinkStyle}/>
+          <CategoriesView style={flexAutoStyle}/>
+        </Column>
+        <DesignView style={flexAutoStyle}/>
+      </Row>
+    );
+   }
+});
  
 export function FilterBrowser({style, bounds}) {
   return <TreeView sytle={style} bounds={bounds} tree={demoTree}/>;
