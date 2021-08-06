@@ -5,6 +5,7 @@ import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createFilterStore, createIntersectionFilter } from '../../application/model/Model';
+import { DesignsView } from './DesignsView';
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
@@ -47,9 +48,6 @@ export function FilterView({style}) {
   return <Placeholder style={style} name="Filter"/>
 }
 
-export function DesignsView({style}) {
-  return <Placeholder style={style} name="Designs"/>
-}
 
 export function CategoriesView({style}) {
   return <Placeholder style={style} name="Categories"/>
