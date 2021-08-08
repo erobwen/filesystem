@@ -108,16 +108,28 @@ export function createFilterStore() {
   return store;
 }
 
-function createDeltaItem(item, state) {
+function createDeltaItem(item, status) {
   return observable({
     item: item,
-    status: state
+    status: status
   });
 }
 
 export function createDeltaStore() {
   const store = createStore();
- 
+
+  store.resetDelta = function() {
+    for (let id in store.originalMap) {
+      let deltaItem = store.originalMap[id];
+      if (deltaItem.status === "removed") {
+        store.items.remove(deltaItem);
+        delete store.originalMap[id]
+      } else if (deltaItem.status === "added") {
+        deltaItem.status = "original";
+      }
+    }
+  }
+
   store.initialize = function(source) {
     runInAction(() => {
       store.originalMap = {};
@@ -128,18 +140,6 @@ export function createDeltaStore() {
         store.originalMap[item.id] = deltaItem;
       });    
     });
-
-    store.resetDelta = function() {
-      for (let id in store.originalMap) {
-        let deltaItem = store.originalMap[id];
-        if (deltaItem.status === "removed") {
-          store.items.remove(deltaItem);
-          delete store.originalMap[id]
-        } else if (deltaItem.status === "added") {
-          deltaItem.status = "original";
-        }
-      }
-    }
 
     store.reactionDisposer = reaction(
       () => {
@@ -158,7 +158,7 @@ export function createDeltaStore() {
         runInAction(() => {
           for (let id in store.originalMap) {
             if (typeof(newMap[id]) === "undefined") {
-              store.originalMap[id].staus = "removed"
+              store.originalMap[id].status = "removed"
             } else {
               store.originalMap[id].status = "original"
             }

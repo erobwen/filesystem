@@ -8,6 +8,37 @@ import { createDeltaStore, createFilterStore, createIntersectionFilter } from '.
 import { DesignsView } from './DesignsView';
 import { log } from '../utility/Debug';
 
+function createSelection(deltaStore) {
+  const selection = {
+    add: function(itemOrItems) {
+      deltaStore.resetDelta();
+      let items = itemOrItems;
+      if (!(items instanceof Array)) items = [items];
+      log(items);
+      items.forEach(item => selection.items[item.id] = item);
+    }, 
+  
+    remove: function(itemOrItems) {
+      deltaStore.resetDelta();
+      let items = itemOrItems;
+      if (!(items instanceof Array)) items = [items];
+      items.forEach(item => delete selection.items[item.id]);
+    },
+  
+    clear: function() {
+      deltaStore.resetDelta();
+      for (let itemId in selection.items) {
+        delete selection.items[itemId];
+      }
+    }, 
+  
+    items: observable({})
+  };
+  return selection;
+}
+
+
+
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -16,37 +47,20 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     this.deltaStore = createDeltaStore();
     this.filter = createIntersectionFilter();
 
-    this.selection =  observable({
-      initialize: function() {
-        this.items = observable({}); 
-      },
-      add: function(itemOrItems) {
-        this.deltaStore.resetDelta();
-        let items = itemOrItems;
-        if (!(items instanceof Array)) items = [items];
-        items.forEach(item => this.items[item.id] = item);
-      }, 
-      remove: function(itemOrItems) {
-        this.deltaStore.resetDelta();
-        let items = itemOrItems;
-        if (!(items instanceof Array)) items = [items];
-        items.forEach(item => delete this.items[item.id]);
-      },
-      clear: function() {
-        this.deltaStore.resetDelta();
-        for (let itemId in this.items) {
-          delete this.items[itemId];
-        }
-      }, 
-      items: null
-    });
+    this.selection = createSelection(this.deltaStore);
+    this.selection.add(this.vault.designs.items[0]);
+    this.selection.add(this.vault.designs.items[1]);
+    setTimeout(() => {
+      this.vault.designs.items.pop();
+      this.vault.designs.items.shift();
+    },50000);
   }
-
+  
   componentDidMount() {
     this.filteredStore.initialize(this.filter, this.vault.designs);
     this.deltaStore.initialize(this.filteredStore);
-
-    this.selection.initialize();
+    
+    log(this.vault.designs.items[0]);
   }
   
   componentWillUnmount() {}
@@ -64,10 +78,10 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
         <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
-          <DesignsView style={flexGrowShrinkStyle} selected={this.selection} designs={this.filteredStore.items}/>
-          <CategoriesView style={flexAutoStyle} selected={this.selection}/>
+          <DesignsView style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
+          <CategoriesView style={flexAutoStyle} selection={this.selection}/>
         </Column>
-        <DesignView style={flexAutoStyle} selected={this.selection}/>
+        <DesignView style={flexAutoStyle} selection={this.selection}/>
       </Row>
     );
    }
