@@ -6,7 +6,9 @@ import { CenterMiddle, Column, fitStyle, flexAutoStyle, flexGrowShrinkStyle } fr
 import { DesignExplorer } from './components/DesignExplorer/DesignExplorer';
 import { panelStyle } from './components/Style';
 import { demoVault } from './application/createDemoData';
+import { javaScriptUtility } from './components/utility/javaScriptUtility';
 
+javaScriptUtility.install();
 
 export default function App() {
   return (

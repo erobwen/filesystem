@@ -4,7 +4,7 @@ import { TreeView } from '../TreeView';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { createFilterStore, createIntersectionFilter } from '../../application/model/Model';
+import { createDeltaStore, createFilterStore, createIntersectionFilter } from '../../application/model/Model';
 import { DesignsView } from './DesignsView';
 import { log } from '../utility/Debug';
 
@@ -13,13 +13,40 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     super(props);
     this.vault = props.vault;
     this.filteredStore = createFilterStore();
+    this.deltaStore = createDeltaStore();
     this.filter = createIntersectionFilter();
 
-    this.selected =  observable([]);
+    this.selection =  observable({
+      initialize: function() {
+        this.items = observable({}); 
+      },
+      add: function(itemOrItems) {
+        this.deltaStore.resetDelta();
+        let items = itemOrItems;
+        if (!(items instanceof Array)) items = [items];
+        items.forEach(item => this.items[item.id] = item);
+      }, 
+      remove: function(itemOrItems) {
+        this.deltaStore.resetDelta();
+        let items = itemOrItems;
+        if (!(items instanceof Array)) items = [items];
+        items.forEach(item => delete this.items[item.id]);
+      },
+      clear: function() {
+        this.deltaStore.resetDelta();
+        for (let itemId in this.items) {
+          delete this.items[itemId];
+        }
+      }, 
+      items: null
+    });
   }
 
   componentDidMount() {
     this.filteredStore.initialize(this.filter, this.vault.designs);
+    this.deltaStore.initialize(this.filteredStore);
+
+    this.selection.initialize();
   }
   
   componentWillUnmount() {}
@@ -31,15 +58,16 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     log(vault);
     log(this.filteredStore);
     log(this.filter);
+
     return (
       <Row style={fitStyle} class="Row">
         <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
-          <DesignsView style={flexGrowShrinkStyle} designs={this.filteredStore.items}/>
-          <CategoriesView style={flexAutoStyle} selected={this.selected}/>
+          <DesignsView style={flexGrowShrinkStyle} selected={this.selection} designs={this.filteredStore.items}/>
+          <CategoriesView style={flexAutoStyle} selected={this.selection}/>
         </Column>
-        <DesignView style={flexAutoStyle} selected={this.selected}/>
+        <DesignView style={flexAutoStyle} selected={this.selection}/>
       </Row>
     );
    }
