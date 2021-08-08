@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createDeltaStore, createFilterStore, createIntersectionFilter } from '../../application/model/Model';
 import { DesignsView } from './DesignsView';
-import { log } from '../utility/Debug';
+import { log, logg } from '../utility/Debug';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -51,9 +51,10 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     this.selection.add(this.vault.designs.items[0]);
     this.selection.add(this.vault.designs.items[1]);
     setTimeout(() => {
+      logg("removing!");
       this.vault.designs.items.pop();
       this.vault.designs.items.shift();
-    },50000);
+    },5000);
   }
   
   componentDidMount() {

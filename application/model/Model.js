@@ -150,6 +150,7 @@ export function createDeltaStore() {
         return newItems; 
       },
       (newItems, previousValue, reaction) => {
+        loge("delta store reacting.");
         const newMap = {};
         newItems.forEach(item => { 
           newMap[item.id] = item;
@@ -158,6 +159,7 @@ export function createDeltaStore() {
         runInAction(() => {
           for (let id in store.originalMap) {
             if (typeof(newMap[id]) === "undefined") {
+              loge("setting removed");
               store.originalMap[id].status = "removed"
             } else {
               store.originalMap[id].status = "original"

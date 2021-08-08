@@ -3,7 +3,7 @@ import React from 'react';
 import { Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, flexAutoWidthHeightStyle, Row } from '../Layout';
 import { Scroller } from '../Scroller';
 import { Icon } from '../Typography';
-import { log, logg } from '../utility/Debug';
+import { log, loge, logg } from '../utility/Debug';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 
@@ -65,15 +65,17 @@ function SelectionBase({style, render, selected}) {
   return <div style={{...style, ...(selected ? selectionStyle : unselectedStyle)}}>{render(fitStyle)}</div>;
 }
 
-function DeltaDesignThumbView({style, deltaDesign, selected}) {
+const DeltaDesignThumbView = observer(function({style, deltaDesign, selected}) {
+  loge("reacting");
+  let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) => 
-      <div style={{...style, opacity: deltaDesign.status === "original" ? 1 : 0.5}}>
+      <div style={{...style, opacity: opacity}}>
         <DesignThumbView style={fitStyle} design={deltaDesign.item}/> 
       </div>
     }/>
   );
-}
+});
 
 
 function DesignThumbView({style, design}) {
