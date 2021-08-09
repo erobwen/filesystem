@@ -4,7 +4,8 @@ import { FilterBrowser, FolderView } from './FilterBrowser';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { createDeltaStore, createFilterStore, createIntersectionFilter } from '../../application/model/Model';
+import { createDeltaStore, createFilterStore } from '../../application/model/Store';
+import { createIntersectionFilter } from '../../application/model/Filter';
 import { DesignsView } from './DesignsView';
 import { log, logg } from '../utility/Debug';
 import { panelPadding } from '../Style';
@@ -83,6 +84,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       me.setState({filter: filter});
       log(filter);
       me.filteredStore.filter = filter; 
+      me.deltaStore.resetDelta();
     }
 
     return (

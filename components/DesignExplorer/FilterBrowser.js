@@ -5,6 +5,9 @@ import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
 import { panelBorderRight, panelPadding, SelectionBase, transparentBlue } from '../Style';
+import { log } from '../utility/Debug';
+
+const iconSize = 25;
 
 export function FilterBrowser({style, setFilter, bounds, folder}) {
   const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);
@@ -12,9 +15,10 @@ export function FilterBrowser({style, setFilter, bounds, folder}) {
     setSelectedFolder(folder);
     setFilter(folder.filter);
   }
+  folder.children.map(child => log(child));
 
   return <Column 
-    style={{paddingTop:20, width: 200, ...panelBorderRight, ...style}} 
+    style={{paddingTop:iconSize, width: 200, ...panelBorderRight, ...style}} 
     children={folder.children.map(child => 
       <FolderView 
         indentation={20}
@@ -37,14 +41,14 @@ export function FolderView({style, bounds, indentation, folder, selectedFolder, 
         callback={() => selectFolder(folder)}>
         <SelectionBase selected={folder === selectedFolder}>
           <Row style={{...fitStyle, paddingLeft:indentation}}>
-            <Icon style={{marginRight: "0.5em"}} image={folderImage}/>
-            <Text>{folder.name}</Text>
+            <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
+            <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
           </Row>
         </SelectionBase>
       </ClickablePanel>
       <Column style={flexAutoStyle} children={folder.children.map(child => 
         <FolderView 
-          indentation={indentation + 20} 
+          indentation={indentation + Math.floor(iconSize / 2)} 
           key={child.id} 
           folder={child}
           selectedFolder={selectedFolder}
