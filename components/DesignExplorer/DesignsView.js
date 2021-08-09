@@ -2,10 +2,11 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, flexAutoWidthHeightStyle, Row } from '../Layout';
 import { Scroller } from '../Scroller';
-import { Icon } from '../Typography';
+import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
+import { SelectionBase } from '../Style';
 
 export const DesignsView = observer(class DesignsView extends React.Component {
   constructor(props) {
@@ -36,34 +37,6 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   }
 });
 
-export function transparentPurple(opacity) {
-  return "rgba(107,81,150, " + opacity + ")";
-  // return `rgba(108, 81, 152, ${opacity})` // the template version somehow did not work on 
-}
-
-const transparentColor = "rgba(1, 1, 1, 0)";
-
-const selectionStyle = {
-  overflow: "hidden",
-  boxSizing: "border-box",
-  borderWidth: "1px",
-  borderColor: "rgba(30, 30, 124, 0.2)",
-  borderStyle: "solid",
-  backgroundColor: "rgba(30, 30, 124, 0.1)",
-};
-
-const unselectedStyle = {
-  overflow: "hidden",
-  boxSizing: "border-box",
-  borderWidth: "1px",
-  borderColor: transparentColor,
-  borderStyle: "solid",
-  backgroundColor: transparentColor,
-}
-
-function SelectionBase({style, render, selected}) {
-  return <div style={{...style, ...(selected ? selectionStyle : unselectedStyle)}}>{render(fitStyle)}</div>;
-}
 
 const DeltaDesignThumbView = observer(function({style, deltaDesign, selected}) {
   loge("reacting");

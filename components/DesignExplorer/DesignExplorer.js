@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FolderView } from '../FolderView';
+import { FilterBrowser, FolderView } from './FilterBrowser';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
@@ -89,11 +89,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
    }
 });
  
-export function FilterBrowser({style, bounds, folder}) {
-  const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);
-  return <Column style={{...panelPadding, ...style}} children={folder.children.map(child => <FolderView sytle={style} bounds={bounds} folder={child} selectedFolder={selectedFolder}/>)}/>
-}
-
 export function FilterView({style}) {
   return <Placeholder style={style} name="Filter"/>
 }
