@@ -16,6 +16,10 @@ import dog2 from "../assets/designs/dog2.jpg";
 import dog3 from "../assets/designs/dog3.jpg";
 import dogboat1 from "../assets/designs/dogboat1.jpg";
 import dogboat2 from "../assets/designs/dogboat2.jpg";
+import trashCanImage from "../assets/trash_can.svg"
+import sewingMachineImage from "../assets/sewing_machine.svg"
+import heartImage from "../assets/heart.svg"
+import lockImage from "../assets/lock.svg"
 
 const Dog = createCategory("Dog");
 const Cat = createCategory("Cat");
@@ -46,11 +50,11 @@ export const demoFolder = folder("Quick access",
         folder(Boat)),
     folder("Design Stages", 
         folder(Draft), 
-        folder(Finished), 
-        folder(Locked)),
-    folder(Favorite),
-    folder(MyEpic2),
-    folder(RecycleBin)
+        folder(Finished)), 
+    folder({image: lockImage, category: Locked}),
+    folder({image: heartImage, category: Favorite}),
+    folder({image: sewingMachineImage, category: MyEpic2}),
+    folder({image: trashCanImage, category: RecycleBin})
 );
 demoFolder.setupFilters();
 

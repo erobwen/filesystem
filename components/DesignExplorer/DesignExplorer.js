@@ -15,7 +15,7 @@ function createSelection(deltaStore) {
       deltaStore.resetDelta();
       let items = itemOrItems;
       if (!(items instanceof Array)) items = [items];
-      log(items);
+      // log(items);
       items.forEach(item => selection.items[item.id] = item);
     }, 
   
@@ -43,10 +43,12 @@ function createSelection(deltaStore) {
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      filter: null 
+    };
     this.vault = props.vault;
     this.filteredStore = createFilterStore();
     this.deltaStore = createDeltaStore();
-    this.filter = createIntersectionFilter();
 
     this.selection = createSelection(this.deltaStore);
     this.selection.add(this.vault.designs.items[0]);
@@ -59,25 +61,33 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   }
   
   componentDidMount() {
-    this.filteredStore.initialize(this.filter, this.vault.designs);
+    this.filteredStore.initialize(null, this.vault.designs);
     this.deltaStore.initialize(this.filteredStore);
     
-    log(this.vault.designs.items[0]);
+    // log(this.vault.designs.items[0]);
   }
   
   componentWillUnmount() {}
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
+    const me = this; 
     const {style, bounds, vault } = this.props;
-    log("DesignExplorer:render");
-    log(vault);
-    log(this.filteredStore);
-    log(this.filter);
+    const {filter} = this.state; 
+    // log("DesignExplorer:render");
+    // log(vault);
+    // log(this.filteredStore);
+
+    function setFilter(filter) {
+      log(filter)
+      me.setState({filter: filter});
+      log(filter);
+      me.filteredStore.filter = filter; 
+    }
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser style={flexAutoStyle} filter={this.filter} folder={this.vault.folder} />
+        <FilterBrowser style={flexAutoStyle} setFilter={setFilter} folder={this.vault.folder} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
           <DesignsView style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>

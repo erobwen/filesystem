@@ -1,71 +1,111 @@
 import { action, autorun, observable, reaction, runInAction } from "mobx";
 import { log, loge } from "../../components/utility/Debug";
+import categoryFolderImage from '../../assets/folder_category.svg';
+import folderImage from '../../assets/folder.svg';
 
 let nextFolderId = 1;
-export function createFolder(categoryOrName, ...children) {
+export function createFolder(input, ...children) {
   let name; 
   let category;
-  if (typeof(categoryOrName) == "string") {
-    name = categoryOrName;
+  let image;
+
+  if (typeof(input) == "string") {
+    name = input;
     category = null;
-  } else {
-    name = categoryOrName.name;
-    category = categoryOrName;
+  } else if (typeof(input) === "object"){
+    if (input.isCategory) {
+      name = input.name;
+      category = input;  
+    } else {
+      if (input.category) {
+        // log(input);
+        category = input.category;
+        name = category.name;
+      }
+    
+      if (input.image) {
+        image = input.image;
+      }
+    }
   }
+
   const folder = observable({
     id: nextFolderId++,
     parent: null,
     name,
+    image,
     category,
-    filter: createIntersectionFilter(),
+    filter: null,
     children: observable(children),
     disposeFilterSetup: null,
-    setupFilters: function() {
-      folder.disposeFilterSetup = reaction(
-        () => {
-          let categories = [];
-          if (folder.parent) {
-            folder.parent.filter.categories.forEach(category => categories.push(category));
-          }
-          if (folder.category) {
-            categories.push(folder.category) 
-          }
-          return categories;
-        },
-        categories => {
-          action(() => {
-            folder.filter.categories.length = 0;
-            categories.forEach(category => folder.filter.push(category));
-          });
-        }
-      );
+    getImage: function() {
+      if (folder.image) {
+        return folder.image;
+      } else if (folder.category) {
+        return categoryFolderImage;
+      } else {
+        return folderImage;
+      }
+    },
+
+    setupFilters: function(parentFilter) {
+      if (parentFilter && folder.category) {
+        folder.filter = createIntersectionFilter(parentFilter, createCategoryFilter(folder.category));
+      } else if (parentFilter) {
+        folder.filter = parentFilter
+      } else if (folder.category) {
+        folder.filter = createCategoryFilter(folder.category);
+      }
+      folder.children.forEach(child => child.setupFilters(folder.filter)); 
     }
   })
   children.forEach(child => child.parent = folder);
   return folder; 
 }
 
-export function createIntersectionFilter() {
+export function createCategoryFilter(category) {
   const filter = {
+    category,
     includes: function(design) {
-      for (let category of filter.categories) {
-        if (design.categories.indexOf(category) == -1) return false;
-      }
-      return true; 
+      log(design.categories);
+      return design.categories.contains(category); 
+    } 
+  }
+  return filter;
+}
+
+export function createIntersectionFilter(first, second) {
+  const filter = {
+    first, 
+    second, 
+    includes: function(design) {
+      return filter.first.includes(design) && filter.second.includes(design);
     }, 
-    categories: observable([])
+  };
+  return filter; 
+}
+
+export function createUnionFilter(first, second) {
+  const filter = {
+    first, 
+    second, 
+    includes: function(design) {
+      return filter.first.includes(design) || filter.second.includes(design);
+    }, 
   };
   return filter; 
 }
 
 export function createCategory(name) {
   return observable({
+    isCategory: true,
     name,
   });
 }
 
 let nextDesignId = 1;
 export function createDesign(name, image, categories) {
+  if (typeof(categories) === "undefined") categories = [];
   return observable({
     id: nextDesignId++,
     name,
@@ -81,23 +121,25 @@ export function createStore() {
   });
 }
 
-export function createFilterStore() {
+export function createFilterStore(filter) {
+  if (typeof(filter) === "undefined") filter = null;
   let store = createStore();
+  store.filter = filter;
   store.initialize = function(filter, source) {
     store.reactionDisposer = reaction(
       () => {
         loge("trigger filter store");
         let result = [];
         source.items.forEach(item => { 
-          if (filter.includes(item)) {
+          if (!store.filter || store.filter.includes(item)) {
             result.push(item);
           }
         })
-        log(result);
+        // log(result);
         return result; 
       },
       (result, previousValue, reaction) => {
-        log("before action")
+        // log("before action")
         runInAction(() => {
           loge("updating filter store");
           store.items.splice(0, store.items.length);

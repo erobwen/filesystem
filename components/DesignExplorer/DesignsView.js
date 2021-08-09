@@ -20,7 +20,7 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 
   render() {
     const {deltaDesigns, selection} = this.props;
-    log("DesignsView:render");
+    // log("DesignsView:render");
     const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
       let result = (//, justifyContent:"space-between"

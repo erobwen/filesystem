@@ -2,12 +2,17 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
 import { Column, fitStyle, flexAutoStyle, Row } from '../Layout';
 import { Icon } from '../Icon';
-import folderImage from '../../assets/folder_category.svg';
+
 import { ClickablePanel } from '../ClickablePanel';
 import { panelBorderRight, panelPadding, SelectionBase, transparentBlue } from '../Style';
 
-export function FilterBrowser({style, bounds, folder}) {
+export function FilterBrowser({style, setFilter, bounds, folder}) {
   const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);
+  function selectFolder(folder) {
+    setSelectedFolder(folder);
+    setFilter(folder.filter);
+  }
+
   return <Column 
     style={{paddingTop:20, width: 200, ...panelBorderRight, ...style}} 
     children={folder.children.map(child => 
@@ -17,12 +22,14 @@ export function FilterBrowser({style, bounds, folder}) {
         style={{paddingBottom:10, ...style}} 
         bounds={bounds} 
         folder={child} 
-        selectFolder={setSelectedFolder}
+        selectFolder={selectFolder}
         selectedFolder={selectedFolder}/>)}/>
 }
 
+
 export function FolderView({style, bounds, indentation, folder, selectedFolder, selectFolder}) {
   if (typeof(indentation) === "undefined") indentation = 0;
+  const folderImage = folder.getImage();
   return (
     <Column id="FolderView" style={style}>
       <ClickablePanel style={flexAutoStyle} 
