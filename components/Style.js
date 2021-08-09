@@ -13,3 +13,7 @@ export const panelStyle = {
   backgroundColor: "white",
   boxShadow: paperShadow,
 };
+
+export const panelPadding = {
+  padding: 20
+}

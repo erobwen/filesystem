@@ -3,16 +3,15 @@ import React, { Component } from 'react';
 import { Column, Row } from './Layout';
 import { Icon } from './Typography';
 import folderImage from '../assets/folder_category.svg';
-export function TreeView({style, bounds, tree}) {
-  // console.log("render Tree View: " + tree.name);
-  // console.log(tree.children.map(child => <TreeView tree={child}/>));
+
+export function FolderView({style, bounds, folder}) {
   return (
     <Column style={style}>
       <Row>
         <Icon style={{marginRight: "0.5em"}} image={folderImage}/>
-        <Text>{tree.name}</Text>
+        <Text>{folder.name}</Text>
       </Row>
-      <Column style={{paddingLeft: 20}} children={tree.children.map(child => <TreeView key={child.id} tree={child}/>)}/>
+      <Column style={{paddingLeft: 20}} children={folder.children.map(child => <FolderView key={child.id} folder={child}/>)}/>
     </Column>
   );
 }

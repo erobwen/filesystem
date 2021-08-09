@@ -1,8 +1,8 @@
 import { action, autorun, observable, reaction, runInAction } from "mobx";
 import { log, loge } from "../../components/utility/Debug";
 
-let nextTreeId = 1;
-export function createTree(categoryOrName, ...children) {
+let nextFolderId = 1;
+export function createFolder(categoryOrName, ...children) {
   let name; 
   let category;
   if (typeof(categoryOrName) == "string") {
@@ -12,8 +12,8 @@ export function createTree(categoryOrName, ...children) {
     name = categoryOrName.name;
     category = categoryOrName;
   }
-  const tree = observable({
-    id: nextTreeId++,
+  const folder = observable({
+    id: nextFolderId++,
     parent: null,
     name,
     category,
@@ -21,28 +21,28 @@ export function createTree(categoryOrName, ...children) {
     children: observable(children),
     disposeFilterSetup: null,
     setupFilters: function() {
-      tree.disposeFilterSetup = reaction(
+      folder.disposeFilterSetup = reaction(
         () => {
           let categories = [];
-          if (tree.parent) {
-            tree.parent.filter.categories.forEach(category => categories.push(category));
+          if (folder.parent) {
+            folder.parent.filter.categories.forEach(category => categories.push(category));
           }
-          if (tree.category) {
-            categories.push(tree.category) 
+          if (folder.category) {
+            categories.push(folder.category) 
           }
           return categories;
         },
         categories => {
           action(() => {
-            tree.filter.categories.length = 0;
-            categories.forEach(category => tree.filter.push(category));
+            folder.filter.categories.length = 0;
+            categories.forEach(category => folder.filter.push(category));
           });
         }
       );
     }
   })
-  children.forEach(child => child.parent = tree);
-  return tree; 
+  children.forEach(child => child.parent = folder);
+  return folder; 
 }
 
 export function createIntersectionFilter() {

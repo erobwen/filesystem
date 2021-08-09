@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { TreeView } from '../TreeView';
+import { FolderView } from '../FolderView';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createDeltaStore, createFilterStore, createIntersectionFilter } from '../../application/model/Model';
 import { DesignsView } from './DesignsView';
 import { log, logg } from '../utility/Debug';
+import { panelPadding } from '../Style';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -76,7 +77,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser style={flexAutoStyle} filter={this.filter} tree={this.vault.tree} />
+        <FilterBrowser style={flexAutoStyle} filter={this.filter} folder={this.vault.folder} />
         <Column style={flexGrowShrinkStyle}>
           <FilterView style={flexAutoStyle} filter={this.filter}/>
           <DesignsView style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
@@ -88,8 +89,9 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
    }
 });
  
-export function FilterBrowser({style, bounds, tree}) {
-  return <TreeView sytle={style} bounds={bounds} tree={tree}/>;
+export function FilterBrowser({style, bounds, folder}) {
+  const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);
+  return <Column style={{...panelPadding, ...style}} children={folder.children.map(child => <FolderView sytle={style} bounds={bounds} folder={child} selectedFolder={selectedFolder}/>)}/>
 }
 
 export function FilterView({style}) {

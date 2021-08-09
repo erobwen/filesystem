@@ -1,4 +1,4 @@
-import { createCategory, createDesign, createStore, createTree } from "./model/Model";
+import { createCategory, createDesign, createStore, createFolder } from "./model/Model";
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
 import boat3 from "../assets/designs/boat3.jpg";
@@ -36,23 +36,23 @@ const RecycleBin = createCategory("RecycleBin");
 const categories = createStore();
 [Dog, Cat, Boat, RibbonDesign, Felting, Draft, Finished, Locked, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
-let tree = createTree;
-export const demoTree = tree("Quick access",
-    tree("My Designs",
-        tree(Cat, 
-            tree(RibbonDesign)),
-        tree(Dog, 
-            tree(RibbonDesign)),
-        tree(Boat)),
-    tree("Design Stages", 
-        tree(Draft), 
-        tree(Finished), 
-        tree(Locked)),
-    tree(Favorite),
-    tree(MyEpic2),
-    tree(RecycleBin)
+let folder = createFolder;
+export const demoFolder = folder("Quick access",
+    folder("My Designs",
+        folder(Cat, 
+            folder(RibbonDesign)),
+        folder(Dog, 
+            folder(RibbonDesign)),
+        folder(Boat)),
+    folder("Design Stages", 
+        folder(Draft), 
+        folder(Finished), 
+        folder(Locked)),
+    folder(Favorite),
+    folder(MyEpic2),
+    folder(RecycleBin)
 );
-demoTree.setupFilters();
+demoFolder.setupFilters();
 
 export const demoDesigns = createStore();
 demoDesigns.items.push(createDesign("Striped Boat", boat1));
@@ -76,7 +76,7 @@ demoDesigns.items.push(createDesign("Away", dogboat2));
 
 export const demoVault = {
     designs: demoDesigns,
-    tree: demoTree,
+    folder: demoFolder,
     categories: categories
 }
 
