@@ -11,6 +11,7 @@ import { FilterView } from './FilterView';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { AllDesigns } from '../../application/createDemoData';
 import { DesignView } from './DesignView';
+import { anyKeyDown } from '../KeyStateTracker';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -21,7 +22,19 @@ function createSelection(deltaStore) {
       // log(items);
       items.forEach(item => selection.items[item.id] = item);
     }, 
-  
+
+    set: function(itemOrItems) {
+      deltaStore.resetDelta();
+      let items = itemOrItems;
+      if (!(items instanceof Array)) items = [items];
+      // log(items);
+      for (let itemId in selection.items) {
+        delete selection.items[itemId];
+      }
+      items.forEach(item => selection.items[item.id] = item);
+    }, 
+
+
     remove: function(itemOrItems) {
       deltaStore.resetDelta();
       let items = itemOrItems;
@@ -38,12 +51,17 @@ function createSelection(deltaStore) {
 
     click: function(item) {
       log(item);
-      if (selection.items[item.id]) {
-        loge("removing");
-        selection.remove(item);
+      if (anyKeyDown(["ControlLeft", "ControlRight"])) {
+        if (selection.items[item.id]) {
+          loge("removing");
+          selection.remove(item);
+        } else {
+          loge("adding");
+          selection.add(item);
+        }  
       } else {
-        loge("adding");
-        selection.add(item);
+        loge("setting");
+        selection.set(item);
       }
     },
   

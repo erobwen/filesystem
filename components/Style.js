@@ -1,5 +1,5 @@
 import React from 'react';
-import { fitStyle } from './Layout';
+import { fitStyle, flexShrinkAutoStyle } from './Layout';
 
 export const paperShadow = "1px 1px 4px 2px rgba(0, 0, 0, 0.1)"; 
 export const hardPaperShadow = "1px 1px 2px 1px rgba(0, 0, 0, 0.2)"; 
@@ -90,3 +90,10 @@ export const panelBorderBottomStyle = panelBorder("Bottom");
 //   borderStyle: "solid",
 //   borderColor: borderColor,
 // };
+
+export const Spacer = function({style, size, addedSize=0, overflowVisible=false}) {
+  if (typeof(size) === 'undefined') size = 20;
+  size += addedSize;
+  if (overflowVisible) style={...style, overflow: "visible"};
+  return <div style={{width: size, height: size, ...flexShrinkAutoStyle, ...style}}/>
+};

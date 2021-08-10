@@ -7,8 +7,11 @@ import { DesignExplorer } from './components/DesignExplorer/DesignExplorer';
 import { panelStyle } from './components/Style';
 import { demoVault } from './application/createDemoData';
 import { javaScriptUtility } from './components/utility/javaScriptUtility';
+import { initializeKeyTracker } from './components/KeyStateTracker';
 
 javaScriptUtility.install();
+initializeKeyTracker();
+
 
 export default function App() {
   return (
