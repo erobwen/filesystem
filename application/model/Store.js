@@ -63,6 +63,21 @@ export function createDeltaStore() {
     }
   }
 
+  store.reInitialize = function() {
+    if (store.newItems) {
+      runInAction(() => {
+        store.originalMap = {};
+        store.items.length = 0;
+        store.newItems.map(item => {
+          const deltaItem = createDeltaItem(item, "original");
+          store.items.push(deltaItem);
+          store.originalMap[item.id] = deltaItem;
+        });          
+      });
+      delete store.newItems;
+    }
+  }
+
   store.initialize = function(source) {
     runInAction(() => {
       store.originalMap = {};
@@ -85,6 +100,7 @@ export function createDeltaStore() {
       (newItems, previousValue, reaction) => {
         loge("delta store reacting.");
         const newMap = {};
+        store.newItems = newItems;
         newItems.forEach(item => { 
           newMap[item.id] = item;
         });
