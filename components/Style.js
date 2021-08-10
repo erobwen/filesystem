@@ -15,6 +15,8 @@ export const panelStyle = {
   boxShadow: paperShadow,
 };
 
+export const sidePanelWidth = 200;
+
 export const panelPadding = 15;
 
 export const iconSize = 25;

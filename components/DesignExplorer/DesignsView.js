@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, flexAutoWidthHeightStyle, Row } from '../Layout';
+import { CenterMiddle, Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, flexAutoWidthHeightStyle, flexGrowAutoStyle, Row } from '../Layout';
 import { Scroller } from '../Scroller';
 import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
-import { SelectionBase } from '../Style';
+import { SelectionBase, transparentBlue } from '../Style';
+import { ClickablePanel } from '../ClickablePanel';
 
 export const DesignsView = observer(class DesignsView extends React.Component {
   constructor(props) {
@@ -18,7 +19,14 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
+
+
     const {deltaDesigns, selection} = this.props;
+
+    function selectDesign(design) {
+      selection.click(design);
+    }
+
     // log("DesignsView:render");
     const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
@@ -27,7 +35,8 @@ export const DesignsView = observer(class DesignsView extends React.Component {
           {deltaDesignsCopy.map(deltaDesign => 
             <DeltaDesignThumbView 
               key={deltaDesign.item.id} 
-              deltaDesign={deltaDesign} 
+              deltaDesign={deltaDesign}
+              selectDesign={selectDesign}
               selected={typeof(selection.items[deltaDesign.item.id]) !== "undefined"}/>)}
         </Row>
       );
@@ -37,24 +46,28 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 });
 
 
-const DeltaDesignThumbView = observer(function({style, deltaDesign, selected}) {
+const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, selectDesign}) {
   loge("reacting");
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
-    <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) => 
-      <div style={{...style, opacity: opacity}}>
-        <DesignThumbView style={fitStyle} design={deltaDesign.item}/> 
-      </div>
+    <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  
+      <DesignThumbView style={{flexAutoStyle, opacity: opacity}} design={deltaDesign.item} selectDesign={selectDesign}/>
     }/>
   );
 });
 
 
-function DesignThumbView({style, design}) {
+function DesignThumbView({style, design, selectDesign}) {
   return (
-    <Column style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20}}>
-      <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
-      <Text style={flexAutoHeightStyle(20)}>{design.name}</Text>
-    </Column>
+    <ClickablePanel style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20, padding: 5}}
+      mouseOverBackgroundColor={transparentBlue(0.1)} 
+      callback={() => selectDesign(design)}>
+      <CenterMiddle style={flexAutoStyle}>
+        <Column style={flexAutoStyle}>
+          <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
+          <Text style={{...flexAutoWidthHeightStyle(100, 20), overflow: "hidden"}}>{design.name}</Text>
+        </Column>
+      </CenterMiddle>
+    </ClickablePanel>
   );
 }

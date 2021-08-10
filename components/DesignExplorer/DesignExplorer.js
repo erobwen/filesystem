@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createDeltaStore, createFilterStore } from '../../application/model/Store';
 import { DesignsView } from './DesignsView';
-import { log, logg } from '../utility/Debug';
+import { log, loge, logg } from '../utility/Debug';
 import { FilterView } from './FilterView';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { AllDesigns } from '../../application/createDemoData';
@@ -34,6 +34,17 @@ function createSelection(deltaStore) {
         delete selection.items[itemId];
       }
     }, 
+
+    click: function(item) {
+      log(item);
+      if (selection.items[item.id]) {
+        loge("removing");
+        selection.remove(item);
+      } else {
+        loge("adding");
+        selection.add(item);
+      }
+    },
   
     items: observable({})
   };
