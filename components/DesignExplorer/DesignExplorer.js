@@ -10,6 +10,7 @@ import { log, loge, logg } from '../utility/Debug';
 import { FilterView } from './FilterView';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { AllDesigns } from '../../application/createDemoData';
+import { DesignView } from './DesignView';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -64,13 +65,13 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     this.deltaStore = createDeltaStore();
 
     this.selection = createSelection(this.deltaStore);
-    this.selection.add(this.vault.designs.items[0]);
-    this.selection.add(this.vault.designs.items[1]);
-    setTimeout(() => {
-      logg("removing!");
-      this.vault.designs.items.pop();
-      this.vault.designs.items.shift();
-    },5000);
+    // this.selection.add(this.vault.designs.items[0]);
+    // this.selection.add(this.vault.designs.items[1]);
+    // setTimeout(() => {
+    //   logg("removing!");
+    //   this.vault.designs.items.pop();
+    //   this.vault.designs.items.shift();
+    // },5000);
   }
   
   componentDidMount() {
@@ -116,10 +117,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
 export function CategoriesView({style}) {
   return <Placeholder style={style} name="Categories"/>
-}
-
-export function DesignView({style}) {
-  return <Placeholder style={style} name="Design"/>
 }
 
 
