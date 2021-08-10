@@ -35,7 +35,7 @@ export function createIntersectionFilter(first, second) {
     }, 
 
     toString: function() {
-      return first.toString() + " + " + second.toString();
+      return first.toString() + " / " + second.toString();
     }
   };
   return filter; 
@@ -54,7 +54,7 @@ export function createUnionFilter(filters) {
     }, 
 
     toString: function() {
-      return filter.filters.map(filter => filter.toString()).join();
+      return filter.filters.map(filter => filter.toString()).join(" + ");
     }
   };
   return filter; 

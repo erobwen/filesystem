@@ -4,10 +4,9 @@ import { Column, fitStyle, flexAutoStyle, Row } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { panelBorderRightStyle, panelPadding, SelectionBase, transparentBlue } from '../Style';
+import { iconSize, panelBorderRightStyle, SelectionBase, transparentBlue } from '../Style';
 import { log } from '../utility/Debug';
 
-const iconSize = 25;
 
 export function FilterBrowser({style, setFilter, bounds, folder}) {
   const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);

@@ -8,6 +8,8 @@ import { createDeltaStore, createFilterStore } from '../../application/model/Sto
 import { DesignsView } from './DesignsView';
 import { log, logg } from '../utility/Debug';
 import { FilterView } from './FilterView';
+import { createCategoryFilter } from '../../application/model/Filter';
+import { AllDesigns } from '../../application/createDemoData';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -44,7 +46,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   constructor(props) {
     super(props);
     this.state = { 
-      filter: null 
+      filter: createCategoryFilter(AllDesigns) 
     };
     this.vault = props.vault;
     this.filteredStore = createFilterStore();
@@ -88,7 +90,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       <Row style={fitStyle} class="Row">
         <FilterBrowser style={flexAutoStyle} setFilter={setFilter} folder={this.vault.folder} />
         <Column style={flexGrowShrinkStyle}>
-          <FilterView style={flexAutoStyle} filter={this.filter}/>
+          <FilterView style={flexAutoStyle} filter={filter}/>
           <DesignsView style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
           <CategoriesView style={flexAutoStyle} selection={this.selection}/>
         </Column>

@@ -15,9 +15,13 @@ export const panelStyle = {
   boxShadow: paperShadow,
 };
 
-export const panelPadding = {
-  padding: 20
-}
+export const panelPadding = 15;
+
+export const iconSize = 25;
+
+export const panelPaddingStyle = {
+  padding: panelPadding
+};
 
 export function transparentBlue(opacity) {
   return "rgba(30, 30, 124, " + opacity + ")";

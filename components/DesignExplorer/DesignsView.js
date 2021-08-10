@@ -17,7 +17,6 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   componentWillUnmount() {}
   componentDidUpdate(nextProps, nextState) {}
 
-
   render() {
     const {deltaDesigns, selection} = this.props;
     // log("DesignsView:render");
