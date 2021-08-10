@@ -32,7 +32,7 @@ function MaxSizePadder({style, bounds, maxWidth, maxHeight, render}) {
   const restricted = bounds.width < maxWidth + 10 || bounds.height < maxHeight + 10; 
 
   if (restricted) { // Note: this if statement could potentially cause flicker as the synthetic dom is rearranged. 
-    return render({style: style, bounds})
+    return render({style: {...style, width: bounds.width-1, height: bounds.height-1}, bounds})
   } else {
     const newBounds = {
       width: Math.min(bounds.width, maxWidth) - 2,

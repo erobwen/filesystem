@@ -30,14 +30,17 @@ export const DesignsView = observer(class DesignsView extends React.Component {
     const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
       let result = (//, justifyContent:"space-between"
-        <Row style={{...style, flexWrap: "wrap" }}>
-          {deltaDesignsCopy.map(deltaDesign => 
-            <DeltaDesignThumbView 
-              key={deltaDesign.item.id} 
-              deltaDesign={deltaDesign}
-              selectDesign={selectDesign}
-              selected={typeof(selection.items[deltaDesign.item.id]) !== "undefined"}/>)}
-        </Row>
+        <ClickablePanel style={style}
+          callback={() => selection.clear()}>
+          <Row style={{...flexAutoStyle, flexWrap: "wrap" }}>
+            {deltaDesignsCopy.map(deltaDesign => 
+              <DeltaDesignThumbView 
+                key={deltaDesign.item.id} 
+                deltaDesign={deltaDesign}
+                selectDesign={selectDesign}
+                selected={typeof(selection.items[deltaDesign.item.id]) !== "undefined"}/>)}
+          </Row>
+        </ClickablePanel>
       );
       return result;
     }}/>
