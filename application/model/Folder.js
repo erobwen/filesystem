@@ -1,8 +1,8 @@
 import { action, autorun, observable, reaction, runInAction } from "mobx";
-import { log, loge } from "../../components/utility/Debug";
+import { log, loge, logg } from "../../components/utility/Debug";
 import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
-import { createCategoryFilter, createIntersectionFilter } from "./Filter";
+import { createCategoryFilter, createIntersectionFilter, createUnionFilter } from "./Filter";
 
 
 let nextFolderId = 1;
@@ -56,14 +56,21 @@ export function createFolder(input, ...children) {
     },
 
     setupFilters: function(parentFilter) {
+      let bottomUpFilter = false; 
       if (parentFilter && folder.category) {
         folder.filter = createIntersectionFilter(parentFilter, createCategoryFilter(folder.category));
       } else if (parentFilter) {
         folder.filter = parentFilter
       } else if (folder.category) {
         folder.filter = createCategoryFilter(folder.category);
+      } else {
+        bottomUpFilter = true;
       }
-      folder.children.forEach(child => child.setupFilters(folder.filter)); 
+      folder.children.forEach(child => child.setupFilters(folder.filter));
+      if (bottomUpFilter) {
+        logg("Creating bottom up filter")
+        folder.filter = createUnionFilter(folder.children.map(child => child.filter));
+      } 
     }
   })
   children.forEach(child => child.parent = folder);

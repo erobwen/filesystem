@@ -31,12 +31,16 @@ export function createIntersectionFilter(first, second) {
   return filter; 
 }
 
-export function createUnionFilter(first, second) {
+export function createUnionFilter(filters) {
   const filter = {
-    first, 
-    second, 
+    filters,
     includes: function(design) {
-      return filter.first.includes(design) || filter.second.includes(design);
+      for (let childFilter of filter.filters) {
+        if (childFilter.includes(design)) {
+          return true;
+        }
+      }
+      return false; 
     }, 
   };
   return filter; 

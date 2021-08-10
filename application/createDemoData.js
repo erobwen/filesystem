@@ -51,19 +51,19 @@ const categories = createStore();
 
 let folder = createFolder;
 export const demoFolder = folder("Quick access",
-    folder({image: allDesignsImage, category: AllDesigns, name: "All Designs"},
-        folder(Cat, 
-            folder(RibbonDesign)),
-        folder(Dog, 
-            folder(RibbonDesign)),
-        folder(Boat)),
-    folder("Design Stages", 
-        folder(Draft), 
-        folder(Finished)), 
-    folder({image: vaultImage, category: Vault}),
-    folder({image: heartImage, category: Favorite}),
-    folder({image: sewingMachineImage, category: MyEpic2}),
-    folder({image: trashCanImage, category: RecycleBin})
+  folder({image: allDesignsImage, category: AllDesigns, name: "All Designs"},
+    folder(Cat, 
+      folder(RibbonDesign)),
+    folder(Dog, 
+      folder(RibbonDesign)),
+    folder(Boat)),
+  folder("Design Stages", 
+    folder(Draft), 
+    folder(Finished)), 
+  folder({image: vaultImage, category: Vault}),
+  folder({image: heartImage, category: Favorite}),
+  folder({image: sewingMachineImage, category: MyEpic2}),
+  folder({image: trashCanImage, category: RecycleBin})
 );
 demoFolder.setupFilters();
 

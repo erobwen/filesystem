@@ -80,9 +80,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     // log(this.filteredStore);
 
     function setFilter(filter) {
-      log(filter)
       me.setState({filter: filter});
-      log(filter);
       me.filteredStore.filter = filter; 
       me.deltaStore.resetDelta();
     }
