@@ -61,8 +61,8 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser key={"left"} style={flexAutoStyle} setFilter={setFilter} folder={this.vault.folder} />
-        <Column style={flexAutoWidthStyle(sidePanelWidth)} key={"center"} style={flexGrowShrinkStyle}>
+        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} setFilter={setFilter} folder={this.vault.folder} />
+        <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
           <FilterView key={"filter"} style={flexAutoStyle} filter={filter}/>
           <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
         </Column>

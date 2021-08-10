@@ -16,7 +16,7 @@ initializeKeyTracker();
 export default function App() {
   return (
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
-      <MaxSizePadder style={style} bounds={bounds} maxWidth={900} maxHeight={700} render={({style, bounds}) => 
+      <MaxSizePadder style={style} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
         <Column style={style}>
           <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
           <StatusBar style={flexAutoStyle}/>

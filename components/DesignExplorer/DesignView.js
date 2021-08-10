@@ -21,7 +21,7 @@ export const DesignView = observer(function({style, selection}) {
     contents = [
       <Icon key={"icon"} style={flexAutoWidthHeightStyle(170, 170)} image={design.image} />,
       <Text key={"text"} style={{...flexAutoWidthHeightStyle(sidePanelWidth, 30), overflow: "hidden", fontSize: 20}}>{design.name}</Text>,
-      <Spacer/>,
+      <Spacer key={"spacer"}/>,
       <Text key={"text2"} style={{...flexAutoWidthHeightStyle(sidePanelWidth, 20), overflow: "hidden"}}>Dimensions: 40 x 50</Text>,
       <Text key={"text3"} style={{...flexAutoWidthHeightStyle(sidePanelWidth, 20), overflow: "hidden"}}>Creator: Godot</Text>
     ];
@@ -35,7 +35,7 @@ export const DesignView = observer(function({style, selection}) {
   }
   return (
     <Column style={{...panelBorderLeftStyle,  ...style}} >
-      <Column style={{...panelPaddingStyle, ...flexAutoStyle}} children={contents}/>
+      <Column key={"design"} style={{...panelPaddingStyle, ...flexAutoStyle}} children={contents}/>
       <CategoriesView key={"categories"} style={flexGrowAutoStyle} selection={selection}/>
     </Column>
   );

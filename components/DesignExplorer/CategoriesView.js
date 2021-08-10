@@ -17,6 +17,7 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import crossIcon from '../../assets/cross.svg';
 import { iconSize, panelBorderTopStyle, panelPaddingStyle, panelStyle } from '../Style';
 import { Icon } from '../Icon';
+import { ClickablePanel } from '../ClickablePanel';
 
 export const CategoriesView = observer(function({style, selection}) {
   const selectedDesigns = Object.values(selection.items);
@@ -42,22 +43,39 @@ export const CategoriesView = observer(function({style, selection}) {
     });
   }
 
+  function removeCategory(category) {
+    selectedDesigns.forEach(design => {
+      design.categories.remove(category);
+    });
+  }
+
   log(categoryInfos);
+
+  const children = Object.values(categoryInfos).map(categoryInfo => 
+    <CategoryInfoView 
+      key={categoryInfo.category.id} 
+      style={flexAutoStyle}
+      removeCategory={removeCategory} 
+      categoryInfo={categoryInfo}/>)
+
   return (
     <Row 
       style={{...panelBorderTopStyle, alignItems:"flex-start", alignContent: "flex-start", ...panelPaddingStyle, flexWrap: "wrap" , ...style}} 
-      children={Object.values(categoryInfos).map(categoryInfo => <CategoryInfoView key={categoryInfo.category.id} style={flexAutoStyle} categoryInfo={categoryInfo}/>)}/>
+      children={children}/>
   )
 })
 
 
-function CategoryInfoView({style, categoryInfo}) {
+function CategoryInfoView({style, categoryInfo, removeCategory}) {
   return (
     <Row style={{...panelStyle, padding:5, marginBottom: 3, marginRight: 3, opacity: categoryInfo.state === "all" ? 1 : 0.4, ...style}}>
       <Text key={"text"} style={{...flexAutoStyle, marginRight: "0.5em",  overflow:"visible", lineHeight: 15}}>{categoryInfo.category.name}</Text>
-      <Middle key={"cross"}>
-        <Icon size={10} image={crossIcon}/>
-      </Middle>
+      <ClickablePanel style={flexAutoStyle}
+        callback={() => removeCategory(categoryInfo.category)}>
+        <Middle style={fitStyle} key={"cross"}>
+          <Icon size={10} image={crossIcon}/>
+        </Middle>
+      </ClickablePanel>
     </Row>
   );
 }
