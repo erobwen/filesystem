@@ -13,6 +13,4 @@ export function FilterView({style, filter}) {
       <Text style={{lineHeight: iconSize}}>{filter.toString()}</Text>
     </Row>
   )
-
-  return <Placeholder style={style} name="Filter"/>
 }

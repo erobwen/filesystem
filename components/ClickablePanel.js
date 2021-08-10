@@ -2,14 +2,12 @@ import React from 'react';
 
 export class ClickablePanel extends React.Component {
   constructor(props) {
-    // logg("here..")
     super(props);
     this.myDiv = React.createRef();
     this.inAnimation = false; 
   }
 
   componentDidMount() {
-    // log("Clickable Panel: component did mount... ");
     let me = this;
     this.setCallbackAndMouseover(me.props);
   }
@@ -18,7 +16,6 @@ export class ClickablePanel extends React.Component {
     const { mouseOverBackgroundColor, callback, callbackKey } = nextProps;
     const aNewCallback = typeof(callbackKey) !== "undefined" ? (callbackKey !== this.props.callbackKey) : (callback !== this.props.callback) 
     if (mouseOverBackgroundColor !== this.props.mouseOverBackgroundColor || aNewCallback) {    
-      // log("a real update!");
       this.clearEventListeners();
       this.setCallbackAndMouseover(nextProps);
     }
@@ -126,8 +123,7 @@ export class ClickablePanel extends React.Component {
         if (!panel.mouseIn) {
           panel.mouseIn = true;         
           if (me.props.onMouseIn) me.props.onMouseIn();
-          // log("mouseover");
-          if (mouseOverBackgroundColor) {
+         if (mouseOverBackgroundColor) {
             panel.style["transition"] = "background-color 0.15s";
             panel._savedBackgroundColor = panel.style["background-color"];
             panel.style["background-color"] = mouseOverBackgroundColor;            
@@ -137,16 +133,13 @@ export class ClickablePanel extends React.Component {
       panel.addEventListener("mouseover", me.setMouseoverColor);
 
       // panel.addEventListener("mouseenter", () => {
-      //   log("mouseenter");
       // });
 
       me.removeMouseoverColor = function() {
         if (panel.mouseIn) {
           panel.mouseIn = false;     
           if (me.props.onMouseOut) me.props.onMouseOut();
-          // log("mouseout");
-          // log(panel._savedBackgroundColor);
-          if (mouseOverBackgroundColor) {
+           if (mouseOverBackgroundColor) {
             panel.style["background-color"] = panel._savedBackgroundColor; //"rgba(0, 0, 0, 0)";
           }
           // delete panel.style["background-color"]; // Note: Does not work in IE
@@ -163,9 +156,7 @@ export class ClickablePanel extends React.Component {
     if (callback) {
       style.cursor = "pointer";
     }
-    // log("ClickablePanel.render");
-    // log(style);
-    return (
+   return (
       <div className="ClickablePanel, noSelect" ref={ this.myDiv } style={style}>{children}</div>
     );
   }

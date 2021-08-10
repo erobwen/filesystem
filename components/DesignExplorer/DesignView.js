@@ -1,14 +1,17 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { Column, flexAutoWidthHeightStyle } from "../Layout";
+import { Column, flexAutoWidthHeightStyle, flexAutoStyle, flexGrowAutoStyle } from "../Layout";
 import { panelBorderLeftStyle, panelPaddingStyle, sidePanelWidth, Spacer } from "../Style";
 import { Placeholder } from "./DesignExplorer";
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { log, logg } from "../utility/Debug";
 import { Icon } from "../Icon";
+import { CategoriesView } from "./CategoriesView";
+import { AllDesigns } from "../../application/createDemoData";
+import allDesignsImage from "../../assets/all_designs.svg"
+
 
 export const DesignView = observer(function({style, selection}) {
-  logg("Design View... ")
   let contents;
   let selectedItems = Object.values(selection.items);
   if (selectedItems.length === 0) {
@@ -24,13 +27,16 @@ export const DesignView = observer(function({style, selection}) {
     ];
   } else {
     contents = [
+      <Icon key={"icon"} style={flexAutoWidthHeightStyle(170, 170)} image={allDesignsImage} />,
       <Text key={"text1"} style={{...flexAutoWidthHeightStyle(sidePanelWidth, 20), overflow: "hidden"}}>{selectedItems.length + " designs selected"}</Text>,
       <Spacer key={"spacer"}/>,
       <Text key={"text2"} style={{...flexAutoWidthHeightStyle(sidePanelWidth, 20), overflow: "hidden"}}>57 kb</Text>,
     ];
   }
-  log(contents);
   return (
-    <Column style={{...panelBorderLeftStyle, ...panelPaddingStyle,  width: sidePanelWidth, ...style}} children={contents}/>
+    <Column style={{...panelBorderLeftStyle,  ...style}} >
+      <Column style={{...panelPaddingStyle, ...flexAutoStyle}} children={contents}/>
+      <CategoriesView key={"categories"} style={flexGrowAutoStyle} selection={selection}/>
+    </Column>
   );
 });

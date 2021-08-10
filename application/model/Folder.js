@@ -20,7 +20,6 @@ export function createFolder(input, ...children) {
       category = input;  
     } else {
       if (input.category) {
-        // log(input);
         category = input.category;
         name = category.name;
       }
@@ -68,7 +67,6 @@ export function createFolder(input, ...children) {
       }
       folder.children.forEach(child => child.setupFilters(folder.filter));
       if (bottomUpFilter) {
-        logg("Creating bottom up filter")
         folder.filter = createUnionFilter(folder.children.map(child => child.filter));
       } 
     }

@@ -83,9 +83,6 @@ export const javaScriptUtility = {
     }
 
     Array.prototype.sortOn = function(keyFunction, reverse) {
-      // logg("sortOn");  
-      // log(reverse);
-
       function compareKey(a, b, reverse) {
         const factor = reverse ? -1 : 1;
         const type = typeof(a); 
@@ -199,7 +196,6 @@ function joinMethods(target, source, functionName) {
 
   target.prototype[functionName] = function() {
     const arglist = argumentList(arguments);
-    // log(arglist);
     let value1 = firstFunction.apply(this, arglist);
     let value2 = secondFunction.apply(this, arglist);
     if (value1) return value1;
@@ -212,20 +208,16 @@ export function inherits(Class, PotentialBaseClass) {
 }
 
 export function assert(condition) {
-  // log(condition);
   if(!condition) {
     throw new Error("Failed assertion");
   }
 }
 
 export function classMixinOne(target, source) {
-  // logg("mixin target: " + target.name);
   for (var key of Object.getOwnPropertyNames(source.prototype)) {
     if (!target.prototype[key]) { // !Object.hasOwnProperty(target.prototype, key)
-      // log("augmenting " + key);
       target.prototype[key] = source.prototype[key];
     } else {
-      // log("joining " + key);
       joinMethods(target, source, key);
     }
   }

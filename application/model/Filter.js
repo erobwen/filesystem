@@ -9,8 +9,6 @@ export function createCategoryFilter(category) {
     category,
 
     includes: function(design) {
-      // log(design.categories);
-      // return design.categories.contains(category); 
       if (filter.category === AllDesigns) {
         return true;
       } else {

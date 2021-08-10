@@ -14,10 +14,9 @@ export function FilterBrowser({style, setFilter, bounds, folder}) {
     setSelectedFolder(folder);
     setFilter(folder.filter);
   }
-  folder.children.map(child => log(child));
 
   return <Column 
-    style={{paddingTop:panelPadding, width: sidePanelWidth, ...panelBorderRightStyle, ...style}} 
+    style={{paddingTop:panelPadding, ...panelBorderRightStyle, ...style}} 
     children={folder.children.map(child => 
       <FolderView 
         indentation={panelPadding}

@@ -27,7 +27,6 @@ export const DesignsView = observer(class DesignsView extends React.Component {
       selection.click(design);
     }
 
-    // log("DesignsView:render");
     const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
       let result = (//, justifyContent:"space-between"
@@ -47,7 +46,6 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 
 
 const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, selectDesign}) {
-  loge("reacting");
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  

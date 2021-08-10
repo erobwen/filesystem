@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FilterBrowser } from './FilterBrowser';
-import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
+import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle, flexAutoWidthStyle, columnStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createDeltaStore, createFilterStore } from '../../application/model/Store';
@@ -12,63 +12,9 @@ import { createCategoryFilter } from '../../application/model/Filter';
 import { AllDesigns } from '../../application/createDemoData';
 import { DesignView } from './DesignView';
 import { anyKeyDown } from '../KeyStateTracker';
-
-function createSelection(deltaStore) {
-  const selection = {
-    add: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      // log(items);
-      items.forEach(item => selection.items[item.id] = item);
-    }, 
-
-    set: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      // log(items);
-      for (let itemId in selection.items) {
-        delete selection.items[itemId];
-      }
-      items.forEach(item => selection.items[item.id] = item);
-    }, 
-
-
-    remove: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      items.forEach(item => delete selection.items[item.id]);
-    },
-  
-    clear: function() {
-      deltaStore.resetDelta();
-      for (let itemId in selection.items) {
-        delete selection.items[itemId];
-      }
-    }, 
-
-    click: function(item) {
-      log(item);
-      if (anyKeyDown(["ControlLeft", "ControlRight"])) {
-        if (selection.items[item.id]) {
-          loge("removing");
-          selection.remove(item);
-        } else {
-          loge("adding");
-          selection.add(item);
-        }  
-      } else {
-        loge("setting");
-        selection.set(item);
-      }
-    },
-  
-    items: observable({})
-  };
-  return selection;
-}
+import { createSelection } from './DesignSelection';
+import { CategoriesView } from './CategoriesView';
+import { sidePanelWidth } from '../Style';
 
 
 
@@ -86,7 +32,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     // this.selection.add(this.vault.designs.items[0]);
     // this.selection.add(this.vault.designs.items[1]);
     // setTimeout(() => {
-    //   logg("removing!");
     //   this.vault.designs.items.pop();
     //   this.vault.designs.items.shift();
     // },5000);
@@ -96,7 +41,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     this.filteredStore.initialize(null, this.vault.designs);
     this.deltaStore.initialize(this.filteredStore);
     
-    // log(this.vault.designs.items[0]);
   }
   
   componentWillUnmount() {}
@@ -106,9 +50,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     const me = this; 
     const {style, bounds, vault } = this.props;
     const {filter} = this.state; 
-    // log("DesignExplorer:render");
-    // log(vault);
-    // log(this.filteredStore);
 
     function setFilter(filter) {
       me.selection.clear();
@@ -120,22 +61,17 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser style={flexAutoStyle} setFilter={setFilter} folder={this.vault.folder} />
-        <Column style={flexGrowShrinkStyle}>
-          <FilterView style={flexAutoStyle} filter={filter}/>
-          <DesignsView style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
-          <CategoriesView style={flexAutoStyle} selection={this.selection}/>
+        <FilterBrowser key={"left"} style={flexAutoStyle} setFilter={setFilter} folder={this.vault.folder} />
+        <Column style={flexAutoWidthStyle(sidePanelWidth)} key={"center"} style={flexGrowShrinkStyle}>
+          <FilterView key={"filter"} style={flexAutoStyle} filter={filter}/>
+          <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
         </Column>
-        <DesignView style={flexAutoStyle} selection={this.selection}/>
+        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} selection={this.selection}/>
       </Row>
     );
    }
 });
  
-
-export function CategoriesView({style}) {
-  return <Placeholder style={style} name="Categories"/>
-}
 
 
 

@@ -13,7 +13,6 @@ export function setAppState(property, value, inRender) {
   if (typeof(inRender) === 'undefined') inRender = false; 
   if (appState[property] !== value) {
     // let rendertag = inRender ? " ("+ inRender+")" : "";
-    // log("setAppState: " + property + " = " + value + rendertag); 
     if (inRender === "inRender")  {
       setTimeout(() => { // Not allowed to change state directly in render.
         appState[property] = value;

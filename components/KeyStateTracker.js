@@ -9,14 +9,11 @@ export function initializeKeyTracker() {
   if (initialized) return;
 
   document.addEventListener("keydown", function(event) {
-    log(event.key);
     keyStates[event.code] = 1;
-    // log(keyStates);
   }, true);
   
   document.addEventListener("keyup", function(event) {
     keyStates[event.code] = 0;
-    // log(keyStates);
   }, true);
  
   initialized = true; 

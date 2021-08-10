@@ -19,20 +19,16 @@ export function createFilterStore(filter) {
   store.initialize = function(filter, source) {
     store.reactionDisposer = reaction(
       () => {
-        loge("trigger filter store");
         let result = [];
         source.items.forEach(item => { 
           if (!store.filter || store.filter.includes(item)) {
             result.push(item);
           }
         })
-        // log(result);
         return result; 
       },
       (result, previousValue, reaction) => {
-        // log("before action")
         runInAction(() => {
-          loge("updating filter store");
           store.items.splice(0, store.items.length);
           result.forEach((item) => store.items.push(item));
         });
@@ -98,7 +94,6 @@ export function createDeltaStore() {
         return newItems; 
       },
       (newItems, previousValue, reaction) => {
-        loge("delta store reacting.");
         const newMap = {};
         store.newItems = newItems;
         newItems.forEach(item => { 
@@ -108,7 +103,6 @@ export function createDeltaStore() {
         runInAction(() => {
           for (let id in store.originalMap) {
             if (typeof(newMap[id]) === "undefined") {
-              loge("setting removed");
               store.originalMap[id].status = "removed"
             } else {
               store.originalMap[id].status = "original"

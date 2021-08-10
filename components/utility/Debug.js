@@ -52,8 +52,6 @@ export function logNthTime(count, action) {
   return returnValue;
 }
 
-// console.log("production");
-// console.log(production);
 
 export function log(a) {
   if (production || terminateLogging || suspendLogging > 0) return;
@@ -67,16 +65,12 @@ export function log(a) {
       const visitedSet = {};
 
       function mobXToJs(entity) {
-        // console.log("mobXToJs");
-        // console.log(entity);
-        // console.log();
         if (typeof(entity) === 'object' && entity && entity.$mobx) {
 
           // Check if mobX object is encountered before.
           if (typeof(visitedSet[entity.$mobx.name]) === "undefined") {
             if (entity.constructor.name === "ObservableArray$$1" ) {
               // MobX array case
-              // log("converting array...");
               const result = [];
               visitedSet[entity.$mobx.name] = result;
               for (let element of entity) {
@@ -86,8 +80,7 @@ export function log(a) {
               const result = {};
               visitedSet[entity.$mobx.name] = result;
               // MobX object case
-              // log("assigning... ");
-              for (let property in entity) {
+             for (let property in entity) {
                 // if (!property.startsWith("_")) {
                   result[property] = mobXToJs(entity[property]);
                 // }
