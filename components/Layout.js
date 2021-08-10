@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
+import { log, logg } from './utility/Debug';
 
 /**
  * Container Styles

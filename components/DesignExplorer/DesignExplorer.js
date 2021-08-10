@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { FilterBrowser, FolderView } from './FilterBrowser';
+import { FilterBrowser } from './FilterBrowser';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle } from '../Layout';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { createDeltaStore, createFilterStore } from '../../application/model/Store';
-import { createIntersectionFilter } from '../../application/model/Filter';
 import { DesignsView } from './DesignsView';
 import { log, logg } from '../utility/Debug';
-import { panelPadding } from '../Style';
+import { FilterView } from './FilterView';
 
 function createSelection(deltaStore) {
   const selection = {
@@ -99,10 +98,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
    }
 });
  
-export function FilterView({style}) {
-  return <Placeholder style={style} name="Filter"/>
-}
-
 
 export function CategoriesView({style}) {
   return <Placeholder style={style} name="Categories"/>

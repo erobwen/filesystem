@@ -7,6 +7,7 @@ import { AllDesigns } from "../createDemoData";
 export function createCategoryFilter(category) {
   const filter = {
     category,
+
     includes: function(design) {
       // log(design.categories);
       // return design.categories.contains(category); 
@@ -15,7 +16,11 @@ export function createCategoryFilter(category) {
       } else {
         return design.categories.contains(category); 
       }
-    } 
+    },
+
+    toString: function() {
+      return category.name;
+    }
   }
   return filter;
 }
@@ -24,9 +29,14 @@ export function createIntersectionFilter(first, second) {
   const filter = {
     first, 
     second, 
+
     includes: function(design) {
       return filter.first.includes(design) && filter.second.includes(design);
     }, 
+
+    toString: function() {
+      return first.toString() + " + " + second.toString();
+    }
   };
   return filter; 
 }
@@ -42,6 +52,10 @@ export function createUnionFilter(filters) {
       }
       return false; 
     }, 
+
+    toString: function() {
+      return filter.filters.map(filter => filter.toString()).join();
+    }
   };
   return filter; 
 }

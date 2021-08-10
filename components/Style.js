@@ -59,15 +59,23 @@ export function SelectionBase({style, render, children, selected}) {
   }
 }
 
-export const panelBorderRight = {
-  overflow: "hidden",
-  boxSizing: "border-box",
-  borderWidth: 1,
-  // borderWidthRight: 10,
-  borderColor: grayColor(Math.floor(0.9 *  255)),
-  borderStyle: "solid",
-  backgroundColor: transparentColor,
+function panelBorder(direction) {
+  const style = {
+    overflow: "hidden",
+    boxSizing: "border-box",
+    borderColor: grayColor(Math.floor(0.9 *  255)),
+    borderStyle: "solid",
+    backgroundColor: transparentColor,
+  }
+  style["border" + direction + "Width"] = "1px";
+  return style;
 }
+
+export const panelBorderStyle = panelBorder("");
+export const panelBorderRightStyle = panelBorder("Right");
+export const panelBorderLeftStyle = panelBorder("Left");
+export const panelBorderTopStyle = panelBorder("Top");
+export const panelBorderBottomStyle = panelBorder("Bottom");
 
 // const borderStyle = {
 //   overflow: "hidden",

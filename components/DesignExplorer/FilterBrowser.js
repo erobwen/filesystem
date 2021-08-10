@@ -4,7 +4,7 @@ import { Column, fitStyle, flexAutoStyle, Row } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { panelBorderRight, panelPadding, SelectionBase, transparentBlue } from '../Style';
+import { panelBorderRightStyle, panelPadding, SelectionBase, transparentBlue } from '../Style';
 import { log } from '../utility/Debug';
 
 const iconSize = 25;
@@ -18,7 +18,7 @@ export function FilterBrowser({style, setFilter, bounds, folder}) {
   folder.children.map(child => log(child));
 
   return <Column 
-    style={{paddingTop:iconSize, width: 200, ...panelBorderRight, ...style}} 
+    style={{paddingTop:iconSize, width: 200, ...panelBorderRightStyle, ...style}} 
     children={folder.children.map(child => 
       <FolderView 
         indentation={20}
