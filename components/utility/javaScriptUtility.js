@@ -135,6 +135,20 @@ export const javaScriptUtility = {
       }
     }
 
+    Array.prototype.removeWhere = function(test) {
+      while(true) {
+        const index = this.findIndex((element) => {
+          return test(element);
+        });
+        if (index >= 0) {
+          this.splice(index, 1);
+        } else {
+          return false; 
+        }  
+      }
+    }
+
+
     Array.prototype.replace = function(target, replacement) {
       const index = this.findIndex((element) => {
         return element === target;

@@ -1,5 +1,5 @@
 import { createStore } from "./model/Store";
-import { createDesign } from "./model/Design";
+import { Design } from "./model/Design";
 import { createCategory } from "./model/Category";
 import { createFolder } from "./model/Folder";
 
@@ -26,6 +26,7 @@ import heartImage from "../assets/heart.svg"
 import lockImage from "../assets/lock.svg"
 import allDesignsImage from "../assets/all_designs.svg"
 import vaultImage from "../assets/vault.svg"
+import implyImage from "../assets/imply.svg"
 
 
 export const AllDesigns = createCategory("AllDesigns");
@@ -58,8 +59,8 @@ export const demoFolder = folder("Quick access",
       folder(Felting)),
     folder(Boat)),
   folder("Design Stages", 
-    folder(Draft), 
-    folder(Finished)), 
+    folder({image: implyImage, category: Draft}), 
+    folder({image: implyImage, category: Finished})), 
   folder({image: vaultImage, category: Vault}),
   folder({image: heartImage, category: Favorite}),
   folder({image: sewingMachineImage, category: MyEpic2}),
@@ -68,23 +69,23 @@ export const demoFolder = folder("Quick access",
 demoFolder.setupFilters();
 
 export const demoDesigns = createStore();
-demoDesigns.items.push(createDesign("Striped Boat", boat1, [Boat]));
-demoDesigns.items.push(createDesign("Stylized boat", boat2, [Boat, RibbonDesign]));
-demoDesigns.items.push(createDesign("Boat with red cross", boat3, [Boat, Felting]));
-demoDesigns.items.push(createDesign("Fancy cat", cat1, [Cat, RibbonDesign, Draft]));
-demoDesigns.items.push(createDesign("Multi cat", cat2, [Cat]));
-demoDesigns.items.push(createDesign("Yawn!", cat3, [Cat, Draft]));
-demoDesigns.items.push(createDesign("Cat on water", catboat1, [Cat, Boat, Felting]));
-demoDesigns.items.push(createDesign("Window scene", catboat2, [Cat, Boat, Finished, Vault]));
-demoDesigns.items.push(createDesign("Friends", catdog1, [Cat, Dog]));
-demoDesigns.items.push(createDesign("Red and blue cat", catdog2, [Cat, Dog]));
-demoDesigns.items.push(createDesign("Best Friends", catdog3, [Cat, Dog, RibbonDesign]));
-demoDesigns.items.push(createDesign("Happy ride!", catdogboat1, [Cat, Dog, Boat, Felting, MyEpic2]));
-demoDesigns.items.push(createDesign("Mr dog", dog1, [Dog, Finished]));
-demoDesigns.items.push(createDesign("Shepherd", dog2, [Dog, Felting, Vault, Finished]));
-demoDesigns.items.push(createDesign("Funky dog", dog3, [Dog]));
-demoDesigns.items.push(createDesign("Sailor dog", dogboat1, [Dog, Boat, Draft]));
-demoDesigns.items.push(createDesign("Away", dogboat2, [Dog, Boat]));
+demoDesigns.items.push(new Design("Striped Boat", boat1, [Boat]));
+demoDesigns.items.push(new Design("Stylized boat", boat2, [Boat, RibbonDesign]));
+demoDesigns.items.push(new Design("Boat with red cross", boat3, [Boat, Felting]));
+demoDesigns.items.push(new Design("Fancy cat", cat1, [Cat, RibbonDesign, Draft]));
+demoDesigns.items.push(new Design("Multi cat", cat2, [Cat]));
+demoDesigns.items.push(new Design("Yawn!", cat3, [Cat, Draft]));
+demoDesigns.items.push(new Design("Cat on water", catboat1, [Cat, Boat, Felting]));
+demoDesigns.items.push(new Design("Window scene", catboat2, [Cat, Boat, Finished, Vault]));
+demoDesigns.items.push(new Design("Friends", catdog1, [Cat, Dog]));
+demoDesigns.items.push(new Design("Red and blue cat", catdog2, [Cat, Dog]));
+demoDesigns.items.push(new Design("Best Friends", catdog3, [Cat, Dog, RibbonDesign]));
+demoDesigns.items.push(new Design("Happy ride!", catdogboat1, [Cat, Dog, Boat, Felting, MyEpic2]));
+demoDesigns.items.push(new Design("Mr dog", dog1, [Dog, Finished]));
+demoDesigns.items.push(new Design("Shepherd", dog2, [Dog, Felting, Vault, Finished]));
+demoDesigns.items.push(new Design("Funky dog", dog3, [Dog]));
+demoDesigns.items.push(new Design("Sailor dog", dogboat1, [Dog, Boat, Draft]));
+demoDesigns.items.push(new Design("Away", dogboat2, [Dog, Boat]));
 
 
 export const demoVault = {

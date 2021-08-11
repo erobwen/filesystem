@@ -12,7 +12,7 @@ export function createCategoryFilter(category) {
       if (filter.category === AllDesigns) {
         return true;
       } else {
-        return design.categories.contains(category); 
+        return design.in(category); 
       }
     },
 

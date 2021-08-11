@@ -37,7 +37,7 @@ export const CategoriesView = observer(function({style, selection}) {
   for (let categoryId in categoryInfos) {
     const categoryInfo = categoryInfos[categoryId];
     selectedDesigns.forEach(design => {
-      if (!design.categories.contains(categoryInfo.category)) {
+      if (!design.in(categoryInfo.category)) {
         categoryInfo.state = "some";
       }
     });
@@ -45,7 +45,7 @@ export const CategoriesView = observer(function({style, selection}) {
 
   function removeCategory(category) {
     selectedDesigns.forEach(design => {
-      design.categories.remove(category);
+      design.uncategorize(category);
     });
   }
 
