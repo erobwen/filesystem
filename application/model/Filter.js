@@ -16,6 +16,11 @@ export function createCategoryFilter(category) {
       }
     },
 
+    categorizeToInclude(design) {
+      log(design)
+      design.categorize(filter.category);
+    },
+
     toString: function() {
       return category.name;
     }
@@ -31,6 +36,11 @@ export function createIntersectionFilter(first, second) {
     includes: function(design) {
       return filter.first.includes(design) && filter.second.includes(design);
     }, 
+    
+    categorizeToInclude(design) {
+      filter.first.categorizeToInclude(design);
+      filter.second.categorizeToInclude(design);
+    },
 
     toString: function() {
       return first.toString() + " / " + second.toString();
@@ -50,6 +60,12 @@ export function createUnionFilter(filters) {
       }
       return false; 
     }, 
+
+    categorizeToInclude(design) {
+      if (!filter.filters.empty()) {
+        filter.filters[0].categorizeToInclude(design);
+      }
+    },
 
     toString: function() {
       return filter.filters.map(filter => filter.toString()).join(" + ");

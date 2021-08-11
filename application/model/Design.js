@@ -3,6 +3,7 @@ import { log, loge } from "../../components/utility/Debug";
 import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { makeObservable, computed, flow } from "mobx"
+import { AllDesigns } from "../createDemoData";
 // import { AllDesigns } from "../createDemoData";
 
 
@@ -46,6 +47,14 @@ export class Design {
 
   in(category) {
     return this.categories.contains(category);
+  }
+
+  categorize(category, rule) {
+    if (category === AllDesigns) return;
+    if (typeof(rule) === "undefined") rule = null;
+    if (!this.categorizations.containsWhere(categorization => (categorization.rule === rule && categorization.category === category))) {
+      this.categorizations.push(new Categorization(this, category, rule));
+    }
   }
 
   uncategorize(category, rule) {

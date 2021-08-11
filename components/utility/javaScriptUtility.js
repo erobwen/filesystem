@@ -149,6 +149,13 @@ export const javaScriptUtility = {
     }
 
 
+    Array.prototype.containsWhere = function(test) {
+      const index = this.findIndex(element => {
+        return test(element);
+      });
+      return index >= 0;
+    }
+
     Array.prototype.replace = function(target, replacement) {
       const index = this.findIndex((element) => {
         return element === target;

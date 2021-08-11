@@ -4,7 +4,7 @@ import { CenterMiddle, Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, fle
 import { Scroller } from '../Scroller';
 import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
-import { Placeholder } from './DesignExplorer';
+import { draggingType } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { SelectionBase, transparentBlue } from '../Style';
 import { ClickablePanel } from '../ClickablePanel';
@@ -63,12 +63,26 @@ function DesignThumbView({style, design, selectDesign}) {
     <ClickablePanel style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20, padding: 5}}
       mouseOverBackgroundColor={transparentBlue(0.1)} 
       callback={() => selectDesign(design)}>
-      <CenterMiddle style={flexAutoStyle}>
-        <Column style={flexAutoStyle}>
-          <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
-          <Text style={{...flexAutoWidthHeightStyle(100, 20), overflow: "hidden"}}>{design.name}</Text>
-        </Column>
-      </CenterMiddle>
+      <Draggable style={flexAutoStyle}>
+        <CenterMiddle style={flexAutoStyle}>
+          <Column style={flexAutoStyle}>
+            <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
+            <Text style={{...flexAutoWidthHeightStyle(100, 20), overflow: "hidden"}}>{design.name}</Text>
+          </Column>
+        </CenterMiddle>
+      </Draggable>
     </ClickablePanel>
   );
+}
+
+
+function Draggable({style, children, onDragStart}) {
+  function innerOnDragStart(event) {
+    if (onDragStart) onDragStart();
+    draggingType.value = "design";
+    event.dataTransfer.effectAllowed = "copyMove";
+    event.stopPropagation();
+    return true;
+  }
+  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {draggingType.value = null}}>{children}</div>
 }

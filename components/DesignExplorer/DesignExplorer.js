@@ -16,7 +16,7 @@ import { createSelection } from './DesignSelection';
 import { CategoriesView } from './CategoriesView';
 import { sidePanelWidth } from '../Style';
 
-
+export let draggingType = { value: null};
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
@@ -61,7 +61,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} setFilter={setFilter} folder={this.vault.folder} />
+        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} setFilter={setFilter} folder={this.vault.folder} selection={this.selection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
           <FilterView key={"filter"} style={flexAutoStyle} filter={filter}/>
           <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
