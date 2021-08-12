@@ -1,4 +1,5 @@
 import React from 'react';
+import { iconSize } from './Style';
 
 /**
  * Icon
@@ -6,7 +7,7 @@ import React from 'react';
 //  export const Icon = observer(function({style, size, image, tooltip=false}) {
  export function Icon({style, size, image, tooltip=false}) {
     // if (typeof(size) === 'undefined' || size === null) size = dynamicTheme.clickTargetSize;
-    if (typeof(size) === 'undefined' || size === null) size = 20;
+    if (typeof(size) === 'undefined' || size === null) size = iconSize;
     let img =  <img style={{width: size, height: size, ...style}} src={image}/>
     // if (!!tooltip) {
     //   return(<Tooltip title={tooltip}>

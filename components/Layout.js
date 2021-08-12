@@ -4,6 +4,47 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { log, logg } from './utility/Debug';
 
 /**
+ * ZStack
+ */
+ export const zStackElementStyle = {
+  ...fitStyle,
+  position:"absolute", 
+  top:0, 
+  left:0,
+  width: "100%",
+  height: "100%",
+}
+
+export const zStackStyle = {
+  position: "relative"
+}
+
+export function ZStack({style, children}) {
+  return <div className="ZStack" style={{...style, position: "relative"}} children={children}/>;
+}
+
+export const pointerEventsAutoStyle = {
+  pointerEvents: "auto"
+}
+
+export const pointerEventsNoneStyle = { // For divs that can be clicked through. 
+  pointerEvents: "none" 
+}
+
+export const whiteFadeStyle = {
+  backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0), white, white)"
+}
+
+/**
+ * Padders
+ */
+
+export function Flexer({style, overflowVisible=false}) {
+  if (overflowVisible) style={...style, overflow: "visible"};
+  return <div className="Flexer" style={{...flexGrowShrinkStyle, ...style}}/>
+}
+
+/**
  * Container Styles
  */
 export const columnStyle = {

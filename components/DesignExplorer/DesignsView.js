@@ -38,6 +38,7 @@ export const DesignsView = observer(class DesignsView extends React.Component {
                 key={deltaDesign.item.id} 
                 deltaDesign={deltaDesign}
                 selectDesign={selectDesign}
+                selection={selection}
                 selected={typeof(selection.items[deltaDesign.item.id]) !== "undefined"}/>)}
           </Row>
         </ClickablePanel>
@@ -48,22 +49,30 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 });
 
 
-const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, selectDesign}) {
+const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, selection, selectDesign}) {
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  
-      <DesignThumbView style={{flexAutoStyle, opacity: opacity}} design={deltaDesign.item} selectDesign={selectDesign}/>
+      <DesignThumbView 
+        onDragStart={() => {
+          if (!selection.items[deltaDesign.item.id]) {
+            selection.set(deltaDesign.item);
+          }
+        }}
+        style={{flexAutoStyle, opacity: opacity}} 
+        design={deltaDesign.item} 
+        selectDesign={selectDesign}/>
     }/>
   );
 });
 
 
-function DesignThumbView({style, design, selectDesign}) {
+function DesignThumbView({style, design, selectDesign, onDragStart}) {
   return (
     <ClickablePanel style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20, padding: 5}}
       mouseOverBackgroundColor={transparentBlue(0.1)} 
       callback={() => selectDesign(design)}>
-      <Draggable style={flexAutoStyle}>
+      <Draggable style={flexAutoStyle} onDragStart={onDragStart}>
         <CenterMiddle style={flexAutoStyle}>
           <Column style={flexAutoStyle}>
             <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />

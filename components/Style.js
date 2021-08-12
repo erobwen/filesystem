@@ -15,7 +15,7 @@ export const panelStyle = {
   boxShadow: paperShadow,
 };
 
-export const sidePanelWidth = 200;
+export const sidePanelWidth = 225;
 
 export const panelPadding = 15;
 

@@ -35,7 +35,7 @@ const Dog = createCategory("Dog");
 const Cat = createCategory("Cat");
 const Boat = createCategory("Boat");
 
-const RibbonDesign = createCategory("RibbonDesign");
+const Ribbon = createCategory("Ribbon");
 const Felting = createCategory("Felting");
 
 const Draft = createCategory("Draft");
@@ -48,13 +48,13 @@ const RecycleBin = createCategory("RecycleBin");
 
 
 const categories = createStore();
-[Dog, Cat, Boat, RibbonDesign, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
+[Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
 let folder = createFolder;
 export const demoFolder = folder("Quick access",
   folder({image: allDesignsImage, category: AllDesigns, name: "All Designs"},
     folder(Cat, 
-      folder(RibbonDesign)),
+      folder(Ribbon)),
     folder(Dog, 
       folder(Felting)),
     folder(Boat)),
@@ -70,16 +70,16 @@ demoFolder.setupFilters();
 
 export const demoDesigns = createStore();
 demoDesigns.items.push(new Design("Striped Boat", boat1, [Boat]));
-demoDesigns.items.push(new Design("Stylized boat", boat2, [Boat, RibbonDesign]));
+demoDesigns.items.push(new Design("Stylized boat", boat2, [Boat, Ribbon]));
 demoDesigns.items.push(new Design("Boat with red cross", boat3, [Boat, Felting]));
-demoDesigns.items.push(new Design("Fancy cat", cat1, [Cat, RibbonDesign, Draft]));
+demoDesigns.items.push(new Design("Fancy cat", cat1, [Cat, Ribbon, Draft]));
 demoDesigns.items.push(new Design("Multi cat", cat2, [Cat]));
 demoDesigns.items.push(new Design("Yawn!", cat3, [Cat, Draft]));
 demoDesigns.items.push(new Design("Cat on water", catboat1, [Cat, Boat, Felting]));
 demoDesigns.items.push(new Design("Window scene", catboat2, [Cat, Boat, Finished, Vault]));
 demoDesigns.items.push(new Design("Friends", catdog1, [Cat, Dog]));
 demoDesigns.items.push(new Design("Red and blue cat", catdog2, [Cat, Dog]));
-demoDesigns.items.push(new Design("Best Friends", catdog3, [Cat, Dog, RibbonDesign]));
+demoDesigns.items.push(new Design("Best Friends", catdog3, [Cat, Dog, Ribbon]));
 demoDesigns.items.push(new Design("Happy ride!", catdogboat1, [Cat, Dog, Boat, Felting, MyEpic2]));
 demoDesigns.items.push(new Design("Mr dog", dog1, [Dog, Finished]));
 demoDesigns.items.push(new Design("Shepherd", dog2, [Dog, Felting, Vault, Finished]));

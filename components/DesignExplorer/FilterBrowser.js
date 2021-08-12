@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
-import { Column, fitStyle, flexAutoStyle, Row } from '../Layout';
+import { Column, fitStyle, flexAutoStyle, Flexer, pointerEventsNoneStyle, Row, zStackElementStyle, zStackStyle } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderRightStyle, panelPadding, SelectionBase, sidePanelWidth, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
+import implyImage from '../../assets/imply.svg'
+import { DropTarget } from '../DropTarget';
 
 
 export function FilterBrowser({style, setFilter, bounds, folder, selection}) {
@@ -35,7 +37,9 @@ export function FolderView({style, bounds, indentation, folder, selectedFolder, 
   if (typeof(indentation) === "undefined") indentation = 0;
   // log(selection)
   
-  function drop() {
+  const [ showArrow, setShowArrow ] = useState(false);
+
+  function onDrop() {
     if (draggingType.value === "design") {
       // log(selection)
       logg("foo")
@@ -49,17 +53,25 @@ export function FolderView({style, bounds, indentation, folder, selectedFolder, 
   const folderImage = folder.getImage();
   return (
     <Column id="FolderView" style={style}>
-      <ClickablePanel style={flexAutoStyle} 
+      <ClickablePanel style={{...fitStyle}} 
         mouseOverBackgroundColor={transparentBlue(0.1)} 
         callback={() => selectFolder(folder)}>
-        <Droppable style={flexAutoStyle} onDrop={drop}>
-          <SelectionBase selected={folder === selectedFolder}>
+        <DropTarget style={{...fitStyle, ...zStackStyle, height: iconSize + 2}} 
+          onDragEnter={() => setShowArrow(true)}
+          onDragLeave={() => setShowArrow(false)}
+          onDrop={onDrop}>
+          {/* <Row style={{...zStackElementStyle, ...pointerEventsNoneStyle}}>
+            <Flexer/>
+            <Icon style={{paddingRight:panelPadding, display: showArrow ? "initial" : "none"}} image={implyImage}/>
+          </Row> */}
+          <SelectionBase style={{...zStackElementStyle}} selected={folder === selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
+              <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
             </Row>
           </SelectionBase>
-        </Droppable>
+        </DropTarget>
       </ClickablePanel>
       <Column style={flexAutoStyle} children={folder.children.map(child => 
         <FolderView 
@@ -72,85 +84,4 @@ export function FolderView({style, bounds, indentation, folder, selectedFolder, 
           />)}/>
     </Column>
   );
-}
-
-// function Droppable({style, children, onDrop}) {
-//   return <div id="Droppable" style={style}
-//     onDragOver={(event) => { event.preventDefault();}} 
-//     onDragEnter={() => {}} 
-//     onDrop={(event) => onDrop(event)} 
-//     children={children}/>
-// }
-
-class Droppable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.myDiv = React.createRef();
-  }
-
-  componentDidMount() {
-    log(this.myDiv.current);
-    const panel = this.myDiv.current;
-    const mouseOverBackgroundColor = transparentBlue(0.1)
-    const me = this; 
-    let counter = 0;
-
-    me.setMouseoverColor = function() {
-      counter++;
-      if (counter === 1) {
-        loge("add")
-        if (mouseOverBackgroundColor) {
-          // panel.style["transition"] = "background-color 0.15s";
-          panel._savedBackgroundColor = panel.style["background-color"];
-          panel.style["background-color"] = mouseOverBackgroundColor;            
-        }
-      }
-    }
-    panel.addEventListener("dragenter", me.setMouseoverColor, true);
-    
-    me.removeMouseoverColor = function() {
-      counter--;
-      if (counter === 0) {
-        loge("remove")
-         if (mouseOverBackgroundColor) {
-          panel.style["background-color"] = panel._savedBackgroundColor; //"rgba(0, 0, 0, 0)";
-        }
-        // delete panel.style["background-color"]; // Note: Does not work in IE
-        // panel.style["background-color"] = null; // Note: Does not work in IE
-      }
-    }
-    panel.addEventListener("dragleave", me.removeMouseoverColor, true);
-  }
-
-  componentWillUpdate(nextProps, nextState) {}
-
-  componentWillUnmount() {
-    this.clearEventListeners();
-  }
-
-  clearEventListeners() {
-    // Clear old listeners
-    const panel = this.myDiv.current;
-    if (this.setMouseoverColor) {
-      panel.removeEventListener("dragenter", this.setMouseoverColor);  
-      delete this.setMouseoverColor;
-    }
-    if (this.removeMouseoverColor) {
-      panel.removeEventListener("dragleave", this.removeMouseoverColor);
-      delete this.removeMouseoverColor;
-    }
-  }
-
-  render() {
-    const me = this;
-    const {style, children, onDrop} = this.props
-    return ( 
-      <div ref={this.myDiv} id="Droppable" style={style}
-        onDragOver={(event) => { event.preventDefault();}} 
-        // onDragEnter={(event) => {me.setMouseoverColor()}} 
-        // onDragLeave={(event) => {me.removeMouseoverColor()}}
-        onDrop={(event) => { me.removeMouseoverColor(); onDrop(event)} } 
-        children={children}/>
-    );
-  }
 }
