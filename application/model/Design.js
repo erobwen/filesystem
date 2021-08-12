@@ -21,8 +21,8 @@ let nextDesignId = 1;
 export class Design {
   constructor(name, image, categories) {
     if (typeof(categories) === "undefined") categories = [];
-    
     this.id = nextDesignId++;
+
     this.name = name; 
     this.image = image; 
     this.categorizations = observable([]);

@@ -1,15 +1,14 @@
-import { action, autorun, observable, reaction, runInAction } from "mobx";
+import { action, autorun, makeObservable, observable, reaction, runInAction } from "mobx";
 import { log, loge, logg } from "../../components/utility/Debug";
 import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createUnionFilter } from "./Filter";
 
 
-let nextFolderId = 1;
-export function createFolder(input, ...children) {
+export function folder(input, ...children) {
   let name; 
-  let category;
   let image;
+  let category;
 
   if (typeof(input) == "string") {
     name = input;
@@ -19,6 +18,7 @@ export function createFolder(input, ...children) {
       name = input.name;
       category = input;  
     } else {
+      // Setup object
       if (input.category) {
         category = input.category;
         name = category.name;
@@ -34,43 +34,60 @@ export function createFolder(input, ...children) {
     }
   }
 
-  const folder = observable({
-    isFolder: true,
-    id: nextFolderId++,
-    parent: null,
-    name,
-    image,
-    category,
-    filter: null,
-    children: observable(children),
-    disposeFilterSetup: null,
-    getImage: function() {
-      if (folder.image) {
-        return folder.image;
-      } else if (folder.category) {
-        return categoryFolderImage;
-      } else {
-        return folderImage;
-      }
-    },
+  return new Folder(name, image, category, null, children);
+}
 
-    setupFilters: function(parentFilter) {
-      let bottomUpFilter = false; 
-      if (parentFilter && folder.category) {
-        folder.filter = createIntersectionFilter(parentFilter, createCategoryFilter(folder.category));
-      } else if (parentFilter) {
-        folder.filter = parentFilter
-      } else if (folder.category) {
-        folder.filter = createCategoryFilter(folder.category);
-      } else {
-        bottomUpFilter = true;
-      }
-      folder.children.forEach(child => child.setupFilters(folder.filter));
-      if (bottomUpFilter) {
-        folder.filter = createUnionFilter(folder.children.map(child => child.filter));
-      } 
+
+let nextFolderId = 1;
+
+export class Folder {
+  constructor(name, image, category, rule, children) {
+
+    this.name = name; 
+    this.image = image; 
+    this.category = category;
+    this.rule = rule;
+    
+    this.parent = null;
+    this.children = observable(children);
+    children.forEach(child => child.parent = folder);
+
+    this.filter = null;
+
+    makeObservable(this, {
+      name: observable,
+      image: observable,
+      category: observable,
+      rule: observable,
+      parent: observable,
+      filter: observable,
+    });    
+  }
+
+  getImage() {
+    if (this.image) {
+      return this.image;
+    } else if (this.category) {
+      return categoryFolderImage;
+    } else {
+      return folderImage;
     }
-  })
-  children.forEach(child => child.parent = folder);
-  return folder; 
+  }
+
+  setupFilters(parentFilter) {
+    let bottomUpFilter = false; 
+    if (parentFilter && this.category) {
+      this.filter = createIntersectionFilter(parentFilter, createCategoryFilter(this.category));
+    } else if (parentFilter) {
+      this.filter = parentFilter
+    } else if (this.category) {
+      this.filter = createCategoryFilter(this.category);
+    } else {
+      bottomUpFilter = true;
+    }
+    this.children.forEach(child => child.setupFilters(this.filter));
+    if (bottomUpFilter) {
+      this.filter = createUnionFilter(this.children.map(child => child.filter));
+    } 
+  }
 }

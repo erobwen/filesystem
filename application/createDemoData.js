@@ -1,7 +1,7 @@
 import { createStore } from "./model/Store";
 import { Design } from "./model/Design";
 import { createCategory } from "./model/Category";
-import { createFolder } from "./model/Folder";
+import { folder } from "./model/Folder";
 
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
@@ -50,7 +50,6 @@ const RecycleBin = createCategory("RecycleBin");
 const categories = createStore();
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
-let folder = createFolder;
 export const demoFolder = folder("Quick access",
   folder({image: allDesignsImage, category: AllDesigns, name: "All Designs"},
     folder(Cat, 
