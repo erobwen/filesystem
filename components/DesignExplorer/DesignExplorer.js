@@ -22,7 +22,8 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   constructor(props) {
     super(props);
     this.state = { 
-      filter: createCategoryFilter(AllDesigns) 
+      filter: createCategoryFilter(AllDesigns),
+      folder: props.vault.folder
     };
     this.vault = props.vault;
     this.filteredStore = createFilterStore();
@@ -57,6 +58,10 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       me.filteredStore.filter = filter; 
       me.deltaStore.reInitialize();
       // me.deltaStore.resetDelta();
+    }
+
+    function setSelectedFolder(folder) {
+      this.setState({folder: folder});
     }
 
     return (

@@ -4,7 +4,7 @@ import { Column, fitStyle, flexAutoStyle, Flexer, pointerEventsAutoStyle, pointe
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { iconSize, panelBorderRightStyle, panelPadding, panelStyle, SelectionBase, sidePanelWidth, transparentBlue, transparentGray } from '../Style';
+import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
@@ -14,36 +14,42 @@ import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
 import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
+import { Popover } from '../Popover';
+import { icons } from '../Icons';
+
+function MenuItem({image, text, onClick}) {
+  return (
+    <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} callback={onClick}>
+      <Row>
+        <Icon style={{marginRight: "0.5em"}} image={image}/>
+        <Text style={{lineHeight: iconSize}}>{text}</Text>
+      </Row>
+    </ClickablePanel>
+  ); 
+}
 
 function AddFolderPopover({open, close, boundingClientRect}) {
-  let width = 200;
-  let height = 100;
+  let panelPadding = 5;
+  let spacerSize = 5;
+  let width = 200 + 2*panelPadding;
+  let height = 3*iconSize + 2*panelPadding + 2*spacerSize;
   const bounds = {
     top: boundingClientRect.top - height,
-    left: boundingClientRect.left,
+    left: boundingClientRect.left - panelPadding,
     width: width,
     height: height
   }
-  return <Popover open={open} close={close} bounds={bounds}/>
-}
-
-export let modalLayer = 1;
-
-export function Popover({open, close, bounds}) {
-  if (!open) return null;
-  const popover = (
-    <div style={{...fitStyle, backgroundColor:"rgba(0,0,0,0.05)", position: "fixed", top:0, left: 0, display: open ? "initial" : "none"}}
-      onClick={() => close()}>
-      <div style={{
-        position:"fixed", 
-        top:bounds.top, 
-        left:bounds.left, 
-        width:bounds.width, 
-        height:bounds.height, 
-        ...panelStyle}}>Foobar</div>
-    </div>);
-
-  return <Portal hostName={"ModalLayer" + modalLayer}>{popover}</Portal>
+  return <Popover open={open} close={close} bounds={bounds} render={({style, bounds}) => {
+    return (
+      <Column style={{padding: panelPadding}}>
+        <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {}}/>
+        <Spacer size={5}/>
+        <MenuItem key="unsorted" text="Unsorted Folder" image={icons.unsorted} onClick={() => {}}/>
+        <Spacer size={5}/>
+        <MenuItem key="collection" text="Collection Folder" image={icons.folderDashed} onClick={() => {}}/>
+      </Column>
+    )
+  }}/>
 }
 
 
@@ -79,11 +85,11 @@ export function FilterBrowser({style, bounds, setFilter, folder, selection}) {
           <Row style={{padding: panelPadding}}>
             <Flexer/>
             <Row style={pointerEventsAutoStyle}>
-              <ClickablePanel callback={(boundingClientRect) => {
+              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)}  callback={(boundingClientRect) => {
                 openAddFolder(boundingClientRect);}}>
                 <Icon image={addFolderImage}/>
               </ClickablePanel>
-              <ClickablePanel style={{paddingLeft: "0.5em"}} callback={(boundingClientRect) => {
+              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)}  style={{paddingLeft: "0.5em"}} callback={(boundingClientRect) => {
                 openRemoveFolder(boundingClientRect);}}>
                 <Icon image={removeFolderImage}/>
               </ClickablePanel>
