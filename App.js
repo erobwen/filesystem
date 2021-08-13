@@ -8,24 +8,38 @@ import { panelStyle } from './components/Style';
 import { demoVault } from './application/createDemoData';
 import { javaScriptUtility } from './components/utility/javaScriptUtility';
 import { initializeKeyTracker } from './components/KeyStateTracker';
+import { log, logg, loggg } from './components/utility/Debug';
+import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
 javaScriptUtility.install();
 initializeKeyTracker();
 
 
 export default function App() {
+  loggg()
   return (
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
-      <MaxSizePadder style={style} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
-        <Column style={style}>
-          <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
-          <StatusBar style={flexAutoStyle}/>
-        </Column>
+      <ModalDialogWrapper style={style} bounds={bounds} render={({style, bounds}) => 
+        <MaxSizePadder style={style} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
+          <Column style={style}>
+            <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
+            <StatusBar style={flexAutoStyle}/>
+          </Column>
+        }/>      
       }/>
     }/>
   );
 }
 
+
+function ModalDialogWrapper({style, bounds, render}) {
+  return (
+    <PortalProvider>
+      {render({fitStyle, bounds})}
+      <PortalHost name="ModalLayer1"/>
+    </PortalProvider>
+  );
+}
 
 
 function MaxSizePadder({style, bounds, maxWidth, maxHeight, render}) {

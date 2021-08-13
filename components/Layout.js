@@ -219,3 +219,14 @@ export const flexGrowAutoStyle = {
   flexShrink: 0,
   flexBasis: 'auto',  
 } 
+
+export function Wrapper({style, children, overflowVisible=false}) {
+  if (overflowVisible) style={...style, overflow: "visible"};
+  const divStyle = {
+    overflow: "hidden", // Enforce top down bounds. If set to auto or display, bounds might be influenced by grand children that are too large to fit within their given space. 
+    boxSizing: "border-box",  // Each component needs to be responsible of their own padding/border space...
+    ...style
+  };
+  return <div className="Wrapper" style={divStyle} children={children}/>;
+}
+

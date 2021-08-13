@@ -55,13 +55,14 @@ export const demoFolder = folder("Quick access",
     folder(Cat, 
       folder(Ribbon)),
     folder(Dog, 
+      folder(Ribbon),
       folder(Felting)),
     folder(Boat)),
-  folder("Design Stages", 
-    folder({image: implyImage, category: Draft}), 
-    folder({image: implyImage, category: Finished})), 
+  // folder("Design Stages", 
+  //   folder({image: implyImage, category: Draft}), 
+  //   folder({image: implyImage, category: Finished})), 
   folder({image: vaultImage, category: Vault}),
-  folder({image: heartImage, category: Favorite}),
+  folder({image: heartImage, category: Favorite}, folder({image: implyImage, category: Cat})),
   folder({image: sewingMachineImage, category: MyEpic2}),
   folder({image: trashCanImage, category: RecycleBin})
 );
@@ -71,18 +72,18 @@ export const demoDesigns = createStore();
 demoDesigns.items.push(new Design("Striped Boat", boat1, [Boat]));
 demoDesigns.items.push(new Design("Stylized boat", boat2, [Boat, Ribbon]));
 demoDesigns.items.push(new Design("Boat with red cross", boat3, [Boat, Felting]));
-demoDesigns.items.push(new Design("Fancy cat", cat1, [Cat, Ribbon, Draft]));
+demoDesigns.items.push(new Design("Fancy cat", cat1, [Cat, Favorite,  Ribbon, Draft]));
 demoDesigns.items.push(new Design("Multi cat", cat2, [Cat]));
-demoDesigns.items.push(new Design("Yawn!", cat3, [Cat, Draft]));
-demoDesigns.items.push(new Design("Cat on water", catboat1, [Cat, Boat, Felting]));
-demoDesigns.items.push(new Design("Window scene", catboat2, [Cat, Boat, Finished, Vault]));
-demoDesigns.items.push(new Design("Friends", catdog1, [Cat, Dog]));
-demoDesigns.items.push(new Design("Red and blue cat", catdog2, [Cat, Dog]));
-demoDesigns.items.push(new Design("Best Friends", catdog3, [Cat, Dog, Ribbon]));
-demoDesigns.items.push(new Design("Happy ride!", catdogboat1, [Cat, Dog, Boat, Felting, MyEpic2]));
+demoDesigns.items.push(new Design("Yawn!", cat3, [Cat, Favorite,  Draft]));
+demoDesigns.items.push(new Design("Cat on water", catboat1, [Cat, Favorite,  Boat, Felting]));
+demoDesigns.items.push(new Design("Window scene", catboat2, [Cat, Favorite,  Boat, Finished, Vault]));
+demoDesigns.items.push(new Design("Friends", catdog1, [Cat, Favorite,  Dog]));
+demoDesigns.items.push(new Design("Red and blue cat", catdog2, [Cat, Favorite,  Dog]));
+demoDesigns.items.push(new Design("Best Friends", catdog3, [Cat, Favorite,  Dog, Ribbon]));
+demoDesigns.items.push(new Design("Happy ride!", catdogboat1, [Cat, Favorite,  Dog, Boat, Felting, MyEpic2]));
 demoDesigns.items.push(new Design("Mr dog", dog1, [Dog, Finished]));
 demoDesigns.items.push(new Design("Shepherd", dog2, [Dog, Felting, Vault, Finished]));
-demoDesigns.items.push(new Design("Funky dog", dog3, [Dog]));
+demoDesigns.items.push(new Design("Funky dog", dog3, [Dog, Favorite]));
 demoDesigns.items.push(new Design("Sailor dog", dogboat1, [Dog, Boat, Draft]));
 demoDesigns.items.push(new Design("Away", dogboat2, [Dog, Boat]));
 

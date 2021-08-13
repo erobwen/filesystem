@@ -73,6 +73,10 @@ function panelBorder(direction) {
     borderStyle: "solid",
     backgroundColor: transparentColor,
   }
+  style["borderRightWidth"] = "0px";
+  style["borderLeftWidth"] = "0px";
+  style["borderTopWidth"] = "0px";
+  style["borderBottomWidth"] = "0px";
   style["border" + direction + "Width"] = "1px";
   return style;
 }

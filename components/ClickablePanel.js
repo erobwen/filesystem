@@ -12,7 +12,7 @@ export class ClickablePanel extends React.Component {
     this.setCallbackAndMouseover(me.props);
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(nextProps, nextState) {
     const { mouseOverBackgroundColor, callback, callbackKey } = nextProps;
     const aNewCallback = typeof(callbackKey) !== "undefined" ? (callbackKey !== this.props.callbackKey) : (callback !== this.props.callback) 
     if (mouseOverBackgroundColor !== this.props.mouseOverBackgroundColor || aNewCallback) {    
@@ -49,8 +49,10 @@ export class ClickablePanel extends React.Component {
 
     me.rippleAndCallback = function(event) {
       event.stopPropagation();
+      const clickedTargetBounds = me.myDiv.current.getBoundingClientRect()
+
       if (me.inAnimation) {
-        callback(); 
+        callback(clickedTargetBounds); 
         return;
       }
       me.inAnimation = true;  
@@ -111,7 +113,7 @@ export class ClickablePanel extends React.Component {
         me.inAnimation = false;
       }
 
-      callback(); 
+      callback(clickedTargetBounds); 
     }
 
     if (callback) {    

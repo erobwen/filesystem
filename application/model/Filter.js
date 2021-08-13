@@ -17,7 +17,6 @@ export function createCategoryFilter(category) {
     },
 
     categorizeToInclude(design) {
-      log(design)
       design.categorize(filter.category);
     },
 

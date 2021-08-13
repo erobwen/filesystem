@@ -1,6 +1,6 @@
 import { action, autorun, makeObservable, observable, reaction, runInAction } from "mobx";
 import { log, loge, logg } from "../../components/utility/Debug";
-import categoryFolderImage from '../../assets/folder_category.svg';
+import categoryFolderImage from '../../assets/folder_filter.svg';
 import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createUnionFilter } from "./Filter";
 
@@ -42,6 +42,7 @@ let nextFolderId = 1;
 
 export class Folder {
   constructor(name, image, category, rule, children) {
+    this.id = nextFolderId++;
 
     this.name = name; 
     this.image = image; 

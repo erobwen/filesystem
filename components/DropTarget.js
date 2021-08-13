@@ -11,7 +11,6 @@ export class DropTarget extends React.Component {
 
   componentDidMount() {
     const me = this;
-    log(this.myDiv.current);
     const panel = this.myDiv.current;
     const mouseOverBackgroundColor = transparentBlue(0.1)
     let counter = 0;
@@ -46,7 +45,7 @@ export class DropTarget extends React.Component {
     panel.addEventListener("dragleave", me.removeMouseoverColor);
   }
 
-  componentWillUpdate(nextProps, nextState) {}
+  componentDidUpdate(nextProps, nextState) {}
 
   componentWillUnmount() {
     this.clearEventListeners();

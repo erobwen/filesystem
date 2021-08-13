@@ -49,8 +49,6 @@ export const CategoriesView = observer(function({style, selection}) {
     });
   }
 
-  log(categoryInfos);
-
   const children = Object.values(categoryInfos).map(categoryInfo => 
     <CategoryInfoView 
       key={categoryInfo.category.id} 
