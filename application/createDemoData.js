@@ -27,6 +27,7 @@ import lockImage from "../assets/lock.svg"
 import allDesignsImage from "../assets/all_designs.svg"
 import vaultImage from "../assets/vault.svg"
 import implyImage from "../assets/imply.svg"
+import { log } from "../components/utility/Debug";
 
 
 export const AllDesigns = createCategory("AllDesigns");
@@ -67,6 +68,7 @@ export const demoFolder = folder("Quick access",
   folder({image: trashCanImage, category: RecycleBin})
 );
 demoFolder.setupFilters();
+log(demoFolder);
 
 export const demoDesigns = createStore();
 demoDesigns.items.push(new Design("Striped Boat", boat1, [Boat]));

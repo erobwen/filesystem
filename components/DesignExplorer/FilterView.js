@@ -18,12 +18,16 @@ function IconButton({image, onClick}) {
 }
 
 export function FilterView({style, filter, selectedFolder}) {
-  return (
-    <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
-      <Icon size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
-      <Text style={{lineHeight: iconSize}}>{filter.toString()}</Text>
-      <Flexer/>
-      <IconButton image={icons.unsorted} onClick={() => {}}/>
-    </Row>
-  )
+  // if (filter.isNullFilter) {
+  //   return null;
+  // } else {
+    return (
+      <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
+        <Icon size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
+        <Text style={{lineHeight: iconSize}}>{filter.toString()}</Text>
+        <Flexer/>
+        <IconButton image={icons.unsorted} onClick={() => {}}/>
+      </Row>
+    )  
+  // }
 }

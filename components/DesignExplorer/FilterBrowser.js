@@ -103,17 +103,21 @@ export function FilterBrowser({style, bounds, setFilter, folder, selection}) {
 }
 
 export function RootFolderView({style, folder, selection, selectFolder, selectedFolder}) {
-  return <Column 
-    style={style} 
-    children={folder.children.map(child => 
-      <FolderView 
-        indentation={panelPadding}
-        key={child.id}
-        style={{paddingBottom:10}} 
-        folder={child} 
-        selection={selection}
-        selectFolder={selectFolder}
-        selectedFolder={selectedFolder}/>)}/>;
+  return (
+    <ClickablePanel callback={() => {selectFolder(folder)}}>
+      <Column 
+        style={style} 
+        children={folder.children.map(child => 
+          <FolderView 
+            indentation={panelPadding}
+            key={child.id}
+            style={{paddingBottom:10}} 
+            folder={child} 
+            selection={selection}
+            selectFolder={selectFolder}
+            selectedFolder={selectedFolder}/>)}/>
+    </ClickablePanel>
+  );
 }
 
 export function FolderView({style, indentation, folder, selectedFolder, selectFolder, selection}) {

@@ -53,6 +53,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     const {filter} = this.state; 
 
     function setFilter(filter) {
+      log(filter);
       me.selection.clear();
       me.setState({filter: filter});
       me.filteredStore.filter = filter; 

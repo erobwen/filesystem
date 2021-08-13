@@ -2,7 +2,7 @@ import { action, autorun, makeObservable, observable, reaction, runInAction } fr
 import { log, loge, logg } from "../../components/utility/Debug";
 import categoryFolderImage from '../../assets/folder_filter.svg';
 import folderImage from '../../assets/folder_outline.svg';
-import { createCategoryFilter, createIntersectionFilter, createUnionFilter } from "./Filter";
+import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter } from "./Filter";
 
 
 export function folder(input, ...children) {
@@ -60,8 +60,8 @@ export class Folder {
       image: observable,
       category: observable,
       rule: observable,
-      parent: observable,
-      filter: observable,
+      // parent: observable,
+      // filter: observable,
     });    
   }
 
@@ -76,19 +76,27 @@ export class Folder {
   }
 
   setupFilters(parentFilter) {
-    let bottomUpFilter = false; 
+    let bottomUpFilter = false;
+    let nullFilter = true;  
     if (parentFilter && this.category) {
+      if (parentFilter.isNullFilter) throw new Error("Fuck!");
       this.filter = createIntersectionFilter(parentFilter, createCategoryFilter(this.category));
     } else if (parentFilter) {
       this.filter = parentFilter
     } else if (this.category) {
       this.filter = createCategoryFilter(this.category);
-    } else {
+    } else if (this.parent) {
       bottomUpFilter = true;
+    } else {
+      nullFilter = true; 
     }
+
     this.children.forEach(child => child.setupFilters(this.filter));
+    
     if (bottomUpFilter) {
       this.filter = createUnionFilter(this.children.map(child => child.filter));
-    } 
+    } else if (nullFilter) {
+      // this.filter = createNullFilter();
+    }
   }
 }

@@ -4,6 +4,23 @@ import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { AllDesigns } from "../createDemoData";
 
+export function createNullFilter() {
+  const filter = {
+    isNullFilter: true,
+    
+    includes: function(design) {
+      return false; 
+    },
+
+    categorizeToInclude(design) {},
+
+    toString: function() {
+      return "Null Filter";
+    }
+  }
+  return filter;
+}
+
 export function createCategoryFilter(category) {
   const filter = {
     category,
