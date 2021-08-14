@@ -14,7 +14,7 @@ import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
 import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
-import { Popover } from '../Popover';
+import { ModalDialog, Popover } from '../Popover';
 import { icons } from '../Icons';
 
 function MenuItem({image, text, onClick}) {
@@ -28,11 +28,22 @@ function MenuItem({image, text, onClick}) {
   ); 
 }
 
+function LargeMenuItem({image, text, onClick}) {
+  return (
+    <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} callback={onClick}>
+      <Row>
+        <Icon size={iconSize*1.5} style={{marginRight: "0.5em"}} image={image}/>
+        <Text style={{lineHeight: text.length < 20 ? iconSize*1.5 : 20}}>{text}</Text>
+      </Row>
+    </ClickablePanel>
+  ); 
+}
+
 function AddFolderPopover({open, close, boundingClientRect}) {
   let panelPadding = 5;
   let spacerSize = 5;
   let width = 200 + 2*panelPadding;
-  let height = 3*iconSize + 2*panelPadding + 2*spacerSize;
+  let height = 2*iconSize + 2*panelPadding + spacerSize;
   const bounds = {
     top: boundingClientRect.top - height,
     left: boundingClientRect.left - panelPadding,
@@ -44,9 +55,27 @@ function AddFolderPopover({open, close, boundingClientRect}) {
       <Column style={{padding: panelPadding}}>
         <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {}}/>
         <Spacer size={5}/>
-        <MenuItem key="unsorted" text="Unsorted Folder" image={icons.unsorted} onClick={() => {}}/>
-        <Spacer size={5}/>
         <MenuItem key="collection" text="Collection Folder" image={icons.folderDashed} onClick={() => {}}/>
+      </Column>
+    )
+  }}/>
+}
+
+function RemoveFolderPopover({open, selectedFolder, close, boundingClientRect}) {
+  // let panelPadding = 5;
+  let spacerSize = 15;
+  // let width = 200 + 2*panelPadding;
+  // let height = 2*iconSize + 2*panelPadding + spacerSize;
+
+  return <ModalDialog open={open} close={close} render={({style}) => {
+    log(style);
+    return (
+      <Column style={{...panelPaddingStyle, width: 300, ...style}}>
+        <Text style={{fontSize: 16}}>Remove Folder "{selectedFolder.name}"</Text>
+        <Spacer size={spacerSize}/>
+        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {}}/>
+        <Spacer size={spacerSize}/>
+        <LargeMenuItem key="collection" text="Remove folder and place its contents in the trash can." image={icons.designsInTrash} onClick={() => {}}/>
       </Column>
     )
   }}/>
@@ -55,12 +84,19 @@ function AddFolderPopover({open, close, boundingClientRect}) {
 
 export function FilterBrowser({style, bounds, selectFolder, selectedFolder, folder, selection}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
+  const [removeFolderPopoverOpen, setRemoveFolderPopoverOpen] = useState(false);
   const [clickBoundingClientRect, setClickBoundingClientRect] = useState(false);
 
   function openAddFolder(boundingClientRect) {
     setClickBoundingClientRect(boundingClientRect);
     setAddFolderPopoverOpen(true);
   }
+
+  function openRemoveFolder(boundingClientRect) {
+    setClickBoundingClientRect(boundingClientRect);
+    setRemoveFolderPopoverOpen(true);
+  }
+
   // logg("Filter Browser");
   // log(selectedFolder.name);
   // log(folder.name);
@@ -94,6 +130,7 @@ export function FilterBrowser({style, bounds, selectFolder, selectedFolder, fold
         </Column>
       </ZStack>
       <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect}/>
+      <RemoveFolderPopover selectedFolder={selectedFolder} open={removeFolderPopoverOpen} close={() => {setRemoveFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect}/>
     </Wrapper>
   );
 }

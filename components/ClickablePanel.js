@@ -48,7 +48,7 @@ export class ClickablePanel extends React.Component {
 
   setCallbackAndMouseover({callback, mouseOverBackgroundColor, onMouseIn, onMouseOut}) {
     const me = this; 
-    const {ripple = true, backgroundOnClick } = me.props; 
+    const {ripple = false, backgroundOnClick } = me.props; 
     const panel = this.myDiv.current;
 
     me.rippleAndCallback = function(event) {

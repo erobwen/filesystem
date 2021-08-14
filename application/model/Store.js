@@ -17,6 +17,7 @@ export function createFilterStore(filter) {
   let store = createStore();
   store.filter = filter;
   store.initialize = function(filter, source) {
+    store.filter = filter; 
     store.reactionDisposer = reaction(
       () => {
         let result = [];

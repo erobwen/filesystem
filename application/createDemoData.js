@@ -30,7 +30,7 @@ import implyImage from "../assets/imply.svg"
 import { log } from "../components/utility/Debug";
 
 
-export const AllDesigns = createCategory("AllDesigns");
+export const AllDesigns = createCategory("All Designs");
 
 const Dog = createCategory("Dog");
 const Cat = createCategory("Cat");
@@ -44,8 +44,8 @@ const Finished = createCategory("Finished");
 const Vault = createCategory("Vault");
 
 const Favorite = createCategory("Favorite");
-const MyEpic2 = createCategory("MyEpic2");
-const RecycleBin = createCategory("RecycleBin");
+const MyEpic2 = createCategory("My Epic 2");
+const RecycleBin = createCategory("Recycle Bin");
 
 
 const categories = createStore();

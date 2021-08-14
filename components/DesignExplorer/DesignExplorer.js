@@ -39,9 +39,8 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   }
   
   componentDidMount() {
-    this.filteredStore.initialize(null, this.vault.designs);
+    this.filteredStore.initialize(this.state.filter, this.vault.designs);
     this.deltaStore.initialize(this.filteredStore);
-    
   }
   
   componentWillUnmount() {}

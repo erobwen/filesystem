@@ -3,6 +3,7 @@ import removeFolder from "../assets/remove_folder.svg"
 
 import allDesigns from "../assets/all_designs.svg"
 import unsorted from "../assets/unsorted.svg"
+import unsortedAndSorted from "../assets/unsorted_and_sorted.svg"
 import cross from "../assets/cross.svg"
 
 import folder from "../assets/folder.svg"
@@ -18,6 +19,7 @@ import heart from "../assets/heart.svg"
 
 import sewingMachine from "../assets/sewing_machine.svg"
 import trashCan from "../assets/trash_can.svg"
+import designsInTrash from "../assets/designs_in_trash.svg"
 import lock from "../assets/lock.svg"
 import vault from "../assets/vault.svg"
 
@@ -29,6 +31,7 @@ export const icons = {
   removeFolder,
   allDesigns,
   unsorted,
+  unsortedAndSorted,
   cross,
   folder,
   folderDashed,
@@ -39,7 +42,8 @@ export const icons = {
   folderCategoryOutline,
   heart,
   sewingMachine,
-  trashCan, 
+  trashCan,
+  designsInTrash,
   lock,
   vault,
   imply,

@@ -5,9 +5,38 @@ import folderImage from '../../assets/folder.svg';
 import { AllDesigns } from "../createDemoData";
 
 export function createDifferenceFilter(baseFilter, negatives) {
+
+  function simplifyNegative(negative) {
+    if (baseFilter.isAllIntersections() && negative.isAllIntersections()) {
+      const intersectionMap = baseFilter.intersectionMap({});
+      const negativeIntersectionMap = negative.intersectionMap({});
+      for (let id in negativeIntersectionMap) {
+        if (intersectionMap[id]) {
+          delete negativeIntersectionMap[id];
+        }
+      }
+
+      return createIntersectionFilter(Object.values(negativeIntersectionMap));
+    }
+
+    return negative;
+  }
+
+  negatives = negatives.map(negative => simplifyNegative(negative));
+
   const filter = {
-    baseFilter, 
+    baseFilter,  
     negatives, 
+
+    isDifferenceFilter: true,
+
+    intersectionMap: function(map) {
+      throw new Error("Does not apply!");
+    },
+
+    isAllIntersections: function() {
+      return false;
+    },
    
     includes: function(design) {
       const andNotReducer = (accumulator, currentValue) => accumulator && !currentValue;
@@ -26,6 +55,15 @@ export function createDifferenceFilter(baseFilter, negatives) {
 export function createCategoryFilter(category) {
   const filter = {
     category,
+
+    intersectionMap: function(map) {
+      map[category.id] = category;
+      return map;
+    },
+
+    isAllIntersections: function() {
+      return true;
+    },
 
     includes: function(design) {
       if (filter.category === AllDesigns) {
@@ -47,9 +85,29 @@ export function createCategoryFilter(category) {
 }
 
 export function createIntersectionFilter(first, second) {
+  if (first instanceof Array) {
+    const categories = first; 
+    const firstCategory = categories.shift();
+    log(categories.length);
+    if (categories.length === 0) {
+      return createCategoryFilter(firstCategory);
+    } else {
+      return createIntersectionFilter(createCategoryFilter(firstCategory), createIntersectionFilter(categories))
+    }
+  }
   const filter = {
     first, 
     second, 
+
+    intersectionMap: function(map) {
+      first.intersectionMap(map);
+      second.intersectionMap(map);
+      return map;
+    },
+
+    isAllIntersections: function() {
+      return first.isAllIntersections() && second.isAllIntersections();
+    },
 
     includes: function(design) {
       return filter.first.includes(design) && filter.second.includes(design);
@@ -70,6 +128,15 @@ export function createIntersectionFilter(first, second) {
 export function createUnionFilter(filters) {
   const filter = {
     filters,
+
+    intersectionMap: function(map) {
+      throw new Error("Does not apply!");
+    },
+
+    isAllIntersections: function() {
+      return false; 
+    },
+
     includes: function(design) {
       for (let childFilter of filter.filters) {
         if (childFilter.includes(design)) {
