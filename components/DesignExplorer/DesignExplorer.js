@@ -65,9 +65,18 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       setFilter(folder.filter, folder);
     }
 
+    function removeSelectedFolder() {
+      if (selectedFolder.parent) {
+        let parent = selectedFolder.parent;
+        parent.children.remove(selectedFolder);
+        selectFolder(parent)
+      }
+    }
+
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} selectFolder={selectFolder} selectedFolder={selectedFolder} folder={this.vault.folder} selection={this.selection}/>
+        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
+          selectFolder={selectFolder} selectedFolder={selectedFolder} removeSelectedFolder={removeSelectedFolder} folder={this.vault.folder} selection={this.selection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
           <FilterView key={"filter"} style={flexAutoStyle} filter={filter} setFilter={setFilter} selectedFolder={selectedFolder}/>
           <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>

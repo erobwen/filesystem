@@ -35,7 +35,7 @@ export class Popover extends React.Component {
         top:0, 
         left: 0, 
         display: open ? "initial" : "none"}}
-        onClick={() => close()}>
+        onClick={() => {loge("close on Popover background"); close()}}>
         <div style={{
           position:"fixed", 
           top:bounds.top, 
@@ -63,7 +63,7 @@ export function ModalDialog({open, close, render}) {
       top:0, 
       left: 0, 
       display: open ? "initial" : "none"}}
-      onClick={() => close()}>
+      onClick={() => {loge("close on Modal background"); close()}}>
       <CenterMiddle style={fitStyle}>
         {render({style: panelStyle})}
       </CenterMiddle>

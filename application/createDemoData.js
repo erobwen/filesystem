@@ -52,7 +52,7 @@ const categories = createStore();
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
 export const demoFolder = folder("Quick access",
-  folder({image: allDesignsImage, category: AllDesigns, name: "All Designs"},
+  folder({image: allDesignsImage, category: AllDesigns, name: "All Designs", irremovable: true},
     folder(Cat, 
       folder(Ribbon)),
     folder(Dog, 
@@ -62,10 +62,10 @@ export const demoFolder = folder("Quick access",
   // folder("Design Stages", 
   //   folder({image: implyImage, category: Draft}), 
   //   folder({image: implyImage, category: Finished})), 
-  folder({image: vaultImage, category: Vault}),
-  folder({image: heartImage, category: Favorite}, folder({image: implyImage, category: Cat})),
-  folder({image: sewingMachineImage, category: MyEpic2}),
-  folder({image: trashCanImage, category: RecycleBin})
+  folder({image: vaultImage, category: Vault, irremovable: true}),
+  folder({image: heartImage, category: Favorite, irremovable: true}, folder({image: implyImage, category: Cat})),
+  folder({image: sewingMachineImage, category: MyEpic2, irremovable: true}),
+  folder({image: trashCanImage, category: RecycleBin, irremovable: true})
 );
 demoFolder.setupFilters();
 

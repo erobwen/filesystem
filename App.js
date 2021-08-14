@@ -20,7 +20,7 @@ export default function App() {
   return (
     <ScreenAnalyzer style={fitStyle} render={({style, bounds}) => 
       <ModalDialogWrapper style={style} bounds={bounds} render={({style, bounds}) => 
-        <MaxSizePadder style={style} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
+        <MaxSizePadder style={bounds} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
           <Column style={style}>
             <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
             <StatusBar style={flexAutoStyle}/>

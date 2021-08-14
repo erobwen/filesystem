@@ -9,6 +9,7 @@ export function folder(input, ...children) {
   let name; 
   let image;
   let category;
+  let irremovable;
 
   if (typeof(input) == "string") {
     name = input;
@@ -31,19 +32,24 @@ export function folder(input, ...children) {
       if (input.name) {
         name = input.name;
       }
+
+      if (input.irremovable) {
+        irremovable = input.irremovable; 
+      }
     }
   }
 
-  return new Folder(name, image, category, null, children);
+  return new Folder(name, image, category, null, irremovable, children);
 }
 
 
 let nextFolderId = 1;
 
 export class Folder {
-  constructor(name, image, category, rule, children) {
+  constructor(name, image, category, rule, irremovable, children) {
     this.id = nextFolderId++;
 
+    this.irremovable = irremovable; 
     this.name = name; 
     this.image = image; 
     this.category = category;
@@ -51,7 +57,7 @@ export class Folder {
     
     this.parent = null;
     this.children = observable(children);
-    children.forEach(child => child.parent = folder);
+    children.forEach(child => child.parent = this);
 
     this.filter = null;
 

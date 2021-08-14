@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
-import { Column, fitStyle, flexAutoStyle, Flexer, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
+import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
@@ -39,7 +39,34 @@ function LargeMenuItem({image, text, onClick}) {
   ); 
 }
 
-function AddFolderPopover({open, close, boundingClientRect}) {
+function AddCategoryFolderDialog({open, close, selectedFolder}) {
+  return <ModalDialog open={open} close={close} render={({style}) => {
+    const [categoryName, setCategoryName] = useState("");
+    let spacerSize = 5;
+    return (
+      <div onClick={(event) => {loge("click on column"); event.preventDefault();event.stopPropagation();}}style={{...columnStyle,...panelPaddingStyle, width: 300, ...style}}>
+        <Text style={{fontSize: 16}}>Add Folder</Text>
+        <Spacer size={spacerSize}/>
+        <Row><Text>Category name: </Text><TextInput style={{height: iconSize}} onChangeText={setCategoryName} value={categoryName}/></Row>
+        <CategoryNamePopover open={true}/>
+      </div>
+    )
+  }}/>
+}
+
+function CategoryNamePopover() {
+  return <Popover open={open} close={close} bounds={{top: 100, left: 100, width: 100, height: 100}} render={({style, bounds}) => {
+    return (
+      <Column style={{padding: panelPadding}}>
+        <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter}/>
+        <Spacer size={5}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.folderDashed}/>
+      </Column>
+    )
+  }}/>
+}
+
+function AddFolderPopover({open, close, boundingClientRect, openAddCategoryFolderDialog}) {
   let panelPadding = 5;
   let spacerSize = 5;
   let width = 200 + 2*panelPadding;
@@ -53,15 +80,15 @@ function AddFolderPopover({open, close, boundingClientRect}) {
   return <Popover open={open} close={close} bounds={bounds} render={({style, bounds}) => {
     return (
       <Column style={{padding: panelPadding}}>
-        <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {}}/>
+        <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
         <Spacer size={5}/>
-        <MenuItem key="collection" text="Collection Folder" image={icons.folderDashed} onClick={() => {}}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.folderDashed} onClick={() => {close(); openAddFolderGroupDialog()}}/>
       </Column>
     )
   }}/>
 }
 
-function RemoveFolderPopover({open, selectedFolder, close, boundingClientRect}) {
+function RemoveFolderPopover({open, removeSelectedFolder, selectedFolder, close, boundingClientRect}) {
   // let panelPadding = 5;
   let spacerSize = 15;
   // let width = 200 + 2*panelPadding;
@@ -72,7 +99,7 @@ function RemoveFolderPopover({open, selectedFolder, close, boundingClientRect}) 
       <Column style={{...panelPaddingStyle, width: 300, ...style}}>
         <Text style={{fontSize: 16}}>Remove Folder "{selectedFolder.name}"</Text>
         <Spacer size={spacerSize}/>
-        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {}}/>
+        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {removeSelectedFolder()}}/>
         <Spacer size={spacerSize}/>
         <LargeMenuItem key="collection" text="Remove folder and place its contents in the trash can." image={icons.designsInTrash} onClick={() => {}}/>
       </Column>
@@ -81,9 +108,10 @@ function RemoveFolderPopover({open, selectedFolder, close, boundingClientRect}) 
 }
 
 
-export function FilterBrowser({style, bounds, selectFolder, selectedFolder, folder, selection}) {
+export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder, selectedFolder, folder, selection}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [removeFolderPopoverOpen, setRemoveFolderPopoverOpen] = useState(false);
+  const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
   const [clickBoundingClientRect, setClickBoundingClientRect] = useState(false);
 
   function openAddFolder(boundingClientRect) {
@@ -94,6 +122,10 @@ export function FilterBrowser({style, bounds, selectFolder, selectedFolder, fold
   function openRemoveFolder(boundingClientRect) {
     setClickBoundingClientRect(boundingClientRect);
     setRemoveFolderPopoverOpen(true);
+  }
+
+  function openAddCategoryFolderDialog() {
+    setAddCategoryFolderDialogOpen(true);
   }
 
   return (
@@ -117,16 +149,20 @@ export function FilterBrowser({style, bounds, selectFolder, selectedFolder, fold
                 openAddFolder(boundingClientRect);}}>
                 <Icon image={addFolderImage}/>
               </ClickablePanel>
-              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)}  style={{paddingLeft: "0.5em"}} callback={(boundingClientRect) => {
-                openRemoveFolder(boundingClientRect);}}>
-                <Icon image={removeFolderImage}/>
+              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
+                callback={selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
+                <Icon style={{opacity: (selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
               </ClickablePanel>
             </Row>
           </Row>
         </Column>
       </ZStack>
-      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect}/>
-      <RemoveFolderPopover selectedFolder={selectedFolder} open={removeFolderPopoverOpen} close={() => {setRemoveFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect}/>
+      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} 
+        openAddCategoryFolderDialog={openAddCategoryFolderDialog}/>
+      <RemoveFolderPopover open={removeFolderPopoverOpen} close={() => {setRemoveFolderPopoverOpen(false)}} selectedFolder={selectedFolder} 
+        removeSelectedFolder={removeSelectedFolder} boundingClientRect={clickBoundingClientRect}/>
+      <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}}
+        selectedFolder={selectedFolder}/>
     </Wrapper>
   );
 }
