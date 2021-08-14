@@ -1,4 +1,5 @@
 import React from 'react';
+import { log, loge } from './utility/Debug';
 
 export class ClickablePanel extends React.Component {
   constructor(props) {
@@ -12,12 +13,15 @@ export class ClickablePanel extends React.Component {
     this.setCallbackAndMouseover(me.props);
   }
 
-  componentDidUpdate(nextProps, nextState) {
-    const { mouseOverBackgroundColor, callback, callbackKey } = nextProps;
-    const aNewCallback = typeof(callbackKey) !== "undefined" ? (callbackKey !== this.props.callbackKey) : (callback !== this.props.callback) 
-    if (mouseOverBackgroundColor !== this.props.mouseOverBackgroundColor || aNewCallback) {    
+  componentDidUpdate(prevProps, prevState) {
+    const { mouseOverBackgroundColor, callback, callbackKey } = this.props;
+    if (callbackKey) {
+      log("component with a callback key updates!" + callbackKey);
+    }
+    const aNewCallback = typeof(callbackKey) !== "undefined" ? (callbackKey !== prevProps.callbackKey) : (callback !== prevProps.callback) 
+    if (mouseOverBackgroundColor !== prevProps.mouseOverBackgroundColor || aNewCallback) {    
       this.clearEventListeners();
-      this.setCallbackAndMouseover(nextProps);
+      this.setCallbackAndMouseover(this.props);
     }
   }
 

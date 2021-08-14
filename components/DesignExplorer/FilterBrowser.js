@@ -53,13 +53,7 @@ function AddFolderPopover({open, close, boundingClientRect}) {
 }
 
 
-export function FilterBrowser({style, bounds, setFilter, folder, selection}) {
-  const [selectedFolder, setSelectedFolder] = useState(folder.children[0]);
-  function selectFolder(folder) {
-    setSelectedFolder(folder);
-    setFilter(folder.filter);
-  }
-
+export function FilterBrowser({style, bounds, selectFolder, selectedFolder, folder, selection}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [clickBoundingClientRect, setClickBoundingClientRect] = useState(false);
 
@@ -67,7 +61,9 @@ export function FilterBrowser({style, bounds, setFilter, folder, selection}) {
     setClickBoundingClientRect(boundingClientRect);
     setAddFolderPopoverOpen(true);
   }
-
+  // logg("Filter Browser");
+  // log(selectedFolder.name);
+  // log(folder.name);
   return (
     <Wrapper style={style}>
       <ZStack style={{...fitStyle, ...panelBorderRightStyle}}>
@@ -103,6 +99,8 @@ export function FilterBrowser({style, bounds, setFilter, folder, selection}) {
 }
 
 export function RootFolderView({style, folder, selection, selectFolder, selectedFolder}) {
+  // log(folder.name + folder === selectedFolder);
+  // log(folder.name + ", " + selectedFolder.name);
   return (
     <ClickablePanel callback={() => {selectFolder(folder)}}>
       <Column 
@@ -121,6 +119,7 @@ export function RootFolderView({style, folder, selection, selectFolder, selected
 }
 
 export function FolderView({style, indentation, folder, selectedFolder, selectFolder, selection}) {
+  // log(folder.name + folder === selectedFolder);
   if (typeof(indentation) === "undefined") indentation = 0;
   
   const [ showArrow, setShowArrow ] = useState(false);

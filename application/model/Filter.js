@@ -4,18 +4,20 @@ import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { AllDesigns } from "../createDemoData";
 
-export function createNullFilter() {
+export function createDifferenceFilter(baseFilter, negatives) {
   const filter = {
-    isNullFilter: true,
-    
+    baseFilter, 
+    negatives, 
+   
     includes: function(design) {
-      return false; 
+      const andNotReducer = (accumulator, currentValue) => accumulator && !currentValue;
+      return filter.baseFilter.includes(design) && filter.negatives.map(filter => filter.includes(design)).reduce(andNotReducer, true);
     },
 
     categorizeToInclude(design) {},
 
     toString: function() {
-      return "Null Filter";
+      return filter.baseFilter.toString() + filter.negatives.map(filter => (" - " + filter.toString())).join("");
     }
   }
   return filter;

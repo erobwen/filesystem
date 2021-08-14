@@ -77,9 +77,8 @@ export class Folder {
 
   setupFilters(parentFilter) {
     let bottomUpFilter = false;
-    let nullFilter = true;  
+    let nullFilter = false;  
     if (parentFilter && this.category) {
-      if (parentFilter.isNullFilter) throw new Error("Fuck!");
       this.filter = createIntersectionFilter(parentFilter, createCategoryFilter(this.category));
     } else if (parentFilter) {
       this.filter = parentFilter
@@ -96,7 +95,7 @@ export class Folder {
     if (bottomUpFilter) {
       this.filter = createUnionFilter(this.children.map(child => child.filter));
     } else if (nullFilter) {
-      // this.filter = createNullFilter();
+      this.filter = null; 
     }
   }
 }

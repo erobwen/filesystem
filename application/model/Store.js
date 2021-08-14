@@ -21,7 +21,7 @@ export function createFilterStore(filter) {
       () => {
         let result = [];
         source.items.forEach(item => { 
-          if (!store.filter || store.filter.includes(item)) {
+          if (store.filter && store.filter.includes(item)) {
             result.push(item);
           }
         })

@@ -23,7 +23,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     super(props);
     this.state = { 
       filter: createCategoryFilter(AllDesigns),
-      folder: props.vault.folder
+      selectedFolder: props.vault.folder.children[0]
     };
     this.vault = props.vault;
     this.filteredStore = createFilterStore();
@@ -50,26 +50,30 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   render() {
     const me = this; 
     const {style, bounds, vault } = this.props;
-    const {filter} = this.state; 
+    const {filter, selectedFolder} = this.state; 
 
-    function setFilter(filter) {
-      log(filter);
+    function setFilter(filter, selectedFolder) {
+      loge("set filter");
+      // log(filter.toString());
+      const newState = {filter: filter}
+      if (selectedFolder) newState.selectedFolder = selectedFolder;
       me.selection.clear();
-      me.setState({filter: filter});
       me.filteredStore.filter = filter; 
       me.deltaStore.reInitialize();
+      me.setState(newState);
       // me.deltaStore.resetDelta();
     }
-
-    function setSelectedFolder(folder) {
-      this.setState({folder: folder});
+    
+    function selectFolder(folder) {
+      loge("selectFolder");
+      setFilter(folder.filter, folder);
     }
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} setFilter={setFilter} folder={this.vault.folder} selection={this.selection}/>
+        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} selectFolder={selectFolder} selectedFolder={selectedFolder} folder={this.vault.folder} selection={this.selection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
-          <FilterView key={"filter"} style={flexAutoStyle} filter={filter}/>
+          <FilterView key={"filter"} style={flexAutoStyle} filter={filter} setFilter={setFilter} selectedFolder={selectedFolder}/>
           <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
         </Column>
         <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} selection={this.selection}/>
