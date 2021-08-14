@@ -55,6 +55,7 @@ export function createDifferenceFilter(baseFilter, negatives) {
 export function createCategoryFilter(category) {
   const filter = {
     category,
+    isCategoryFilter: true,
 
     intersectionMap: function(map) {
       map[category.id] = category;
@@ -118,7 +119,11 @@ export function createIntersectionFilter(first, second) {
     },
 
     toString: function() {
-      return first.toString() + " / " + second.toString();
+      if (first.isCategoryFilter && first.category === AllDesigns) {
+        return second.toString();
+      } else {
+        return first.toString() + " & " + second.toString();
+      }
     }
   };
   return filter; 
