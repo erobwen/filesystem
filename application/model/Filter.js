@@ -88,7 +88,6 @@ export function createIntersectionFilter(first, second) {
   if (first instanceof Array) {
     const categories = first; 
     const firstCategory = categories.shift();
-    log(categories.length);
     if (categories.length === 0) {
       return createCategoryFilter(firstCategory);
     } else {

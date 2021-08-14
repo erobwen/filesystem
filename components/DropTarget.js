@@ -20,7 +20,6 @@ export class DropTarget extends React.Component {
       counter++;
       if (counter === 1) {
         if (onDragEnter) onDragEnter();
-        loge("add")
         if (mouseOverBackgroundColor) {
           // panel.style["transition"] = "background-color 0.15s";
           panel._savedBackgroundColor = panel.style["background-color"];
@@ -34,7 +33,6 @@ export class DropTarget extends React.Component {
       counter--;
       if (counter === 0) {
         if (onDragLeave) onDragLeave();
-        loge("remove")
          if (mouseOverBackgroundColor) {
           panel.style["background-color"] = panel._savedBackgroundColor; //"rgba(0, 0, 0, 0)";
         }

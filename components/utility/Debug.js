@@ -53,6 +53,11 @@ export function logNthTime(count, action) {
 }
 
 
+export function trace(value) {
+  log(value);
+  return value;
+}
+
 export function log(a) {
   if (production || terminateLogging || suspendLogging > 0) return;
   // throw new Error("Find lost logs!"); 
@@ -102,6 +107,7 @@ export function log(a) {
   }
 
   console.log(a);
+  return a;
   // Function.apply(console.log, arguments);
 }
 

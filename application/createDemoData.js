@@ -68,8 +68,6 @@ export const demoFolder = folder("Quick access",
   folder({image: trashCanImage, category: RecycleBin})
 );
 demoFolder.setupFilters();
-log(demoFolder);
-//log(demoFolder.children[0].children[0].filter.toString());
 
 export const demoDesigns = createStore();
 demoDesigns.items.push(new Design("Striped Boat", boat1, [Boat]));

@@ -52,8 +52,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     const {filter, selectedFolder} = this.state; 
 
     function setFilter(filter, selectedFolder) {
-      loge("set filter");
-      // log(filter.toString());
       const newState = {filter: filter}
       if (selectedFolder) newState.selectedFolder = selectedFolder;
       me.selection.clear();
@@ -64,7 +62,6 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     }
     
     function selectFolder(folder) {
-      loge("selectFolder");
       setFilter(folder.filter, folder);
     }
 

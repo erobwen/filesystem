@@ -68,7 +68,6 @@ function RemoveFolderPopover({open, selectedFolder, close, boundingClientRect}) 
   // let height = 2*iconSize + 2*panelPadding + spacerSize;
 
   return <ModalDialog open={open} close={close} render={({style}) => {
-    log(style);
     return (
       <Column style={{...panelPaddingStyle, width: 300, ...style}}>
         <Text style={{fontSize: 16}}>Remove Folder "{selectedFolder.name}"</Text>
@@ -97,9 +96,6 @@ export function FilterBrowser({style, bounds, selectFolder, selectedFolder, fold
     setRemoveFolderPopoverOpen(true);
   }
 
-  // logg("Filter Browser");
-  // log(selectedFolder.name);
-  // log(folder.name);
   return (
     <Wrapper style={style}>
       <ZStack style={{...fitStyle, ...panelBorderRightStyle}}>
@@ -136,8 +132,6 @@ export function FilterBrowser({style, bounds, selectFolder, selectedFolder, fold
 }
 
 export function RootFolderView({style, folder, selection, selectFolder, selectedFolder}) {
-  // log(folder.name + folder === selectedFolder);
-  // log(folder.name + ", " + selectedFolder.name);
   return (
     <ClickablePanel callback={() => {selectFolder(folder)}}>
       <Column 
@@ -156,7 +150,6 @@ export function RootFolderView({style, folder, selection, selectFolder, selected
 }
 
 export function FolderView({style, indentation, folder, selectedFolder, selectFolder, selection}) {
-  // log(folder.name + folder === selectedFolder);
   if (typeof(indentation) === "undefined") indentation = 0;
   
   const [ showArrow, setShowArrow ] = useState(false);

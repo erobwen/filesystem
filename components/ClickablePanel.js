@@ -15,9 +15,6 @@ export class ClickablePanel extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { mouseOverBackgroundColor, callback, callbackKey } = this.props;
-    if (callbackKey) {
-      log("component with a callback key updates!" + callbackKey);
-    }
     const aNewCallback = typeof(callbackKey) !== "undefined" ? (callbackKey !== prevProps.callbackKey) : (callback !== prevProps.callback) 
     if (mouseOverBackgroundColor !== prevProps.mouseOverBackgroundColor || aNewCallback) {    
       this.clearEventListeners();
