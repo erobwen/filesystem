@@ -7,10 +7,11 @@ import folderImage from '../../assets/folder.svg';
 
 let nextId = 1;
 
-export function createCategory(name) {
+export function createCategory(name, image) {
   return observable({
     id: nextId++,
     isCategory: true,
     name,
+    image
   });
 }

@@ -81,6 +81,24 @@ export class Folder {
     }
   }
 
+  addParentCategoryFilters(map) {
+    // Note may only work for filter folders
+    this.filter.addAllIntersectedCategories(map);
+  }
+
+
+  addDirectChildCategoryFilters(map) {
+    this.children.forEach(child => {
+      if (child.category) {
+        map[child.category.id] = child.category;
+      }
+    })
+  }
+
+  addAllIntersectedCategories(map) {
+    this.filter.addAllIntersectedCategories(map);
+  }
+
   setupFilters(parentFilter) {
     let bottomUpFilter = false;
     let nullFilter = false;  

@@ -20,17 +20,10 @@ import dog2 from "../assets/designs/dog2.jpg";
 import dog3 from "../assets/designs/dog3.jpg";
 import dogboat1 from "../assets/designs/dogboat1.jpg";
 import dogboat2 from "../assets/designs/dogboat2.jpg";
-import trashCanImage from "../assets/trash_can.svg"
-import sewingMachineImage from "../assets/sewing_machine.svg"
-import heartImage from "../assets/heart.svg"
-import lockImage from "../assets/lock.svg"
-import allDesignsImage from "../assets/all_designs.svg"
-import vaultImage from "../assets/vault.svg"
-import implyImage from "../assets/imply.svg"
-import { log } from "../components/utility/Debug";
+import { icons } from "../components/Icons";
 
 
-export const AllDesigns = createCategory("All Designs");
+export const AllDesigns = createCategory("All Designs", icons.allDesigns);
 
 const Dog = createCategory("Dog");
 const Cat = createCategory("Cat");
@@ -41,18 +34,18 @@ const Felting = createCategory("Felting");
 
 const Draft = createCategory("Draft");
 const Finished = createCategory("Finished");
-const Vault = createCategory("Vault");
+const Vault = createCategory("Vault", icons.vault);
 
-const Favorite = createCategory("Favorite");
-const MyEpic2 = createCategory("My Epic 2");
-const RecycleBin = createCategory("Recycle Bin");
+const Favorite = createCategory("Favorite", icons.heart);
+const MyEpic2 = createCategory("My Epic 2", icons.sewingMachine);
+const RecycleBin = createCategory("Recycle Bin", icons.trashCan);
 
 
-const categories = createStore();
+export const categories = createStore();
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
 export const demoFolder = folder("Quick access",
-  folder({image: allDesignsImage, category: AllDesigns, name: "All Designs", irremovable: true},
+  folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
     folder(Cat, 
       folder(Ribbon)),
     folder(Dog, 
@@ -62,10 +55,10 @@ export const demoFolder = folder("Quick access",
   // folder("Design Stages", 
   //   folder({image: implyImage, category: Draft}), 
   //   folder({image: implyImage, category: Finished})), 
-  folder({image: vaultImage, category: Vault, irremovable: true}),
-  folder({image: heartImage, category: Favorite, irremovable: true}, folder({image: implyImage, category: Cat})),
-  folder({image: sewingMachineImage, category: MyEpic2, irremovable: true}),
-  folder({image: trashCanImage, category: RecycleBin, irremovable: true})
+  folder({image: icons.vault, category: Vault, irremovable: true}),
+  folder({image: icons.heart, category: Favorite, irremovable: true}, folder({image: icons.imply, category: Cat})),
+  folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),
+  folder({image: icons.trashCan, category: RecycleBin, irremovable: true})
 );
 demoFolder.setupFilters();
 

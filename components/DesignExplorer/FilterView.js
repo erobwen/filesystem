@@ -20,8 +20,11 @@ function IconButton({style, image, iconWidth, onClick, callbackKey}) {
 }
 
 export function FilterView({style, filter, selectedFolder, setFilter}) {
-  const targetFilter = createDifferenceFilter(filter, selectedFolder.children.map(child => child.filter));
-  const noUnsorted = selectedFolder.children.length === 0
+  let targetFilter;
+  const noUnsorted = selectedFolder.children.length === 0 || selectedFolder.filter === null;
+  if (!noUnsorted) {
+    targetFilter = createDifferenceFilter(filter, selectedFolder.children.map(child => child.filter));
+  }
   if (filter === null) {
     return null;
   } else {

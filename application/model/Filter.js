@@ -38,6 +38,10 @@ export function createDifferenceFilter(baseFilter, negatives) {
       return false;
     },
    
+    addAllIntersectedCategories: function(map) {
+      throw new Error("Does not apply");
+    },
+
     includes: function(design) {
       const andNotReducer = (accumulator, currentValue) => accumulator && !currentValue;
       return filter.baseFilter.includes(design) && filter.negatives.map(filter => filter.includes(design)).reduce(andNotReducer, true);
@@ -64,6 +68,10 @@ export function createCategoryFilter(category) {
 
     isAllIntersections: function() {
       return true;
+    },
+
+    addAllIntersectedCategories: function(map) {
+      map[filter.category.id] = filter.category;
     },
 
     includes: function(design) {
@@ -109,6 +117,11 @@ export function createIntersectionFilter(first, second) {
       return first.isAllIntersections() && second.isAllIntersections();
     },
 
+    addAllIntersectedCategories: function(map) {
+      filter.first.addAllIntersectedCategories(map);
+      filter.second.addAllIntersectedCategories(map);
+    },
+
     includes: function(design) {
       return filter.first.includes(design) && filter.second.includes(design);
     }, 
@@ -139,6 +152,10 @@ export function createUnionFilter(filters) {
 
     isAllIntersections: function() {
       return false; 
+    },
+
+    addAllIntersectedCategories: function(map) {
+      throw new Error("Does not apply!");
     },
 
     includes: function(design) {
