@@ -8,6 +8,7 @@ import cross from "../assets/cross.svg"
 
 import folder from "../assets/folder.svg"
 import folderDashed from "../assets/folder_dashed.svg"
+import foldersOutline from "../assets/folders_outline.svg"
 import folderFilter from "../assets/folder_filter.svg"
 import folderFilterBlue from "../assets/folder_filter_blue.svg"
 import folderOutline from "../assets/folder_outline.svg"
@@ -35,6 +36,7 @@ export const icons = {
   cross,
   folder,
   folderDashed,
+  foldersOutline,
   folderFilter, 
   folderFilterBlue,
   folderOutline,
@@ -47,5 +49,5 @@ export const icons = {
   lock,
   vault,
   imply,
-  implyMath
+  implyMath,
 }

@@ -14,10 +14,10 @@ import { DesignView } from './DesignView';
 import { anyKeyDown } from '../KeyStateTracker';
 import { createSelection } from './DesignSelection';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
-import crossIcon from '../../assets/cross.svg';
 import { iconSize, panelBorderTopStyle, panelPaddingStyle, panelStyle } from '../Style';
 import { Icon } from '../Icon';
 import { ClickablePanel } from '../ClickablePanel';
+import { Chip } from '../Widgets';
 
 export const CategoriesView = observer(function({style, selection}) {
   const selectedDesigns = Object.values(selection.items);
@@ -63,17 +63,9 @@ export const CategoriesView = observer(function({style, selection}) {
   )
 })
 
-
 function CategoryInfoView({style, categoryInfo, removeCategory}) {
-  return (
-    <Row style={{...panelStyle, padding:5, marginBottom: 3, marginRight: 3, opacity: categoryInfo.state === "all" ? 1 : 0.4, ...style}}>
-      <Text key={"text"} style={{...flexAutoStyle, marginRight: "0.5em",  overflow:"visible", lineHeight: 15}}>{categoryInfo.category.name}</Text>
-      <ClickablePanel style={flexAutoStyle}
-        callback={() => removeCategory(categoryInfo.category)}>
-        <Middle style={fitStyle} key={"cross"}>
-          <Icon size={10} image={crossIcon}/>
-        </Middle>
-      </ClickablePanel>
-    </Row>
-  );
+  return <Chip 
+    style={{opacity: categoryInfo.state === "all" ? 1 : 0.4,...style}}
+    text={categoryInfo.category.name} 
+    onDelete={() => removeCategory(categoryInfo.category)}/>
 }

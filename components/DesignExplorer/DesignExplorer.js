@@ -73,6 +73,12 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       }
     }
 
+    // const folderSelection = {
+    //   setFilter,
+    //   selectFolder,
+    //   removeSelectedFolder
+    // }
+
     return (
       <Row style={fitStyle} class="Row">
         <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
