@@ -42,3 +42,15 @@ export function Chip({style, text, onDelete}) {
     </Row>
   );
 }
+
+
+export function Button({style, text, onClick, disable}) {
+  return (
+    <ClickablePanel style={{...panelStyle, padding:5, opacity: disable ? 0.3 : 1, backgroundColor: transparentGray(0.05), ...style}} callback={disable ? null : onClick}>
+      <Text style={{whiteSpace: "preserve"}}>{text}</Text>
+      {/* <Middle style={fitStyle} key={"cross"}>
+        <Icon size={10} image={icons.cross}/>
+      </Middle> */}
+    </ClickablePanel>
+  );
+}

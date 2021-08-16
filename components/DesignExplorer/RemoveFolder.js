@@ -31,7 +31,7 @@ export function RemoveFolderDialog({open, removeSelectedFolder, selectedFolder, 
       <Column style={{...panelPaddingStyle, width: 300, ...style}}>
         <Text style={{fontSize: 16}}>Remove Folder "{selectedFolder.name}"</Text>
         <Spacer size={spacerSize}/>
-        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {removeSelectedFolder()}}/>
+        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {removeSelectedFolder(); close();}}/>
         <Spacer size={spacerSize}/>
         <LargeMenuItem key="collection" text="Remove folder and place its contents in the trash can." image={icons.designsInTrash} onClick={() => {}}/>
       </Column>

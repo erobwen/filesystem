@@ -4,6 +4,9 @@ import categoryFolderImage from '../../assets/folder_filter.svg';
 import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter } from "./Filter";
 
+export function createFolder(input) {
+  return folder(input);
+}
 
 export function folder(input, ...children) {
   let name; 
@@ -79,6 +82,12 @@ export class Folder {
     } else {
       return folderImage;
     }
+  }
+
+  addChild(child) {
+    this.children.unshift(child);
+    child.parent = this; 
+    this.setupFilters(this.parent ? this.parent.filter : null);
   }
 
   addParentCategoryFilters(map) {

@@ -16,13 +16,14 @@ import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
 import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
-import { categories } from '../../application/createDemoData';
 import { LargeMenuItem, MenuItem } from '../Widgets';
 import { AddCategoryFolderDialog, AddFolderPopover } from './AddFolder';
 import { RemoveFolderDialog } from './RemoveFolder';
+import { categories, createCategory } from '../../application/model/Category';
+import { createFolder } from '../../application/model/Folder';
+import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
 
-
-export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder, selectedFolder, folder, selection}) {
+export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder, addFilterFolder, selectedFolder, folder, selection}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [RemoveFolderDialogOpen, setRemoveFolderDialogOpen] = useState(false);
   const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
@@ -41,6 +42,7 @@ export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder
   function openAddCategoryFolderDialog() {
     setAddCategoryFolderDialogOpen(true);
   }
+  
 
   return (
     <Wrapper style={style}>
@@ -76,7 +78,9 @@ export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder
       <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} selectedFolder={selectedFolder} 
         removeSelectedFolder={removeSelectedFolder} boundingClientRect={clickBoundingClientRect}/>
       <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}}
-        selectedFolder={selectedFolder}/>
+        selectedFolder={selectedFolder}
+        addFilterFolder={addFilterFolder}
+        />
     </Wrapper>
   );
 }

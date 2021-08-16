@@ -15,6 +15,9 @@ import { anyKeyDown } from '../KeyStateTracker';
 import { createSelection } from './DesignSelection';
 import { CategoriesView } from './CategoriesView';
 import { sidePanelWidth } from '../Style';
+import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
+import { categories, createCategory } from '../../application/model/Category';
+import { createFolder } from '../../application/model/Folder';
 
 export let draggingType = { value: null};
 
@@ -65,6 +68,19 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       setFilter(folder.filter, folder);
     }
 
+    function addFilterFolder(nameOrCategory) {
+      let category;
+      if (typeof(nameOrCategory) === "string") {
+        let name = nameOrCategory;
+        name = capitalizeEveryFirstLetter(name);
+        category = createCategory(name);
+        categories.items.push(category);
+      } else {
+        category = nameOrCategory;
+      }
+      selectedFolder.addChild(createFolder(category));
+    }
+
     function removeSelectedFolder() {
       if (selectedFolder.parent) {
         let parent = selectedFolder.parent;
@@ -82,7 +98,9 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
     return (
       <Row style={fitStyle} class="Row">
         <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
-          selectFolder={selectFolder} selectedFolder={selectedFolder} removeSelectedFolder={removeSelectedFolder} folder={this.vault.folder} selection={this.selection}/>
+          selectFolder={selectFolder} selectedFolder={selectedFolder} 
+          addFilterFolder={addFilterFolder} removeSelectedFolder={removeSelectedFolder} 
+          folder={this.vault.folder} selection={this.selection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
           <FilterView key={"filter"} style={flexAutoStyle} filter={filter} setFilter={setFilter} selectedFolder={selectedFolder}/>
           <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>

@@ -250,3 +250,12 @@ export function objectToKey(object) {
 }
 
 // import { assert, inherits, argumentList, classMixin } from 'components/utility/JavaScriptUtility';
+export function capitalizeEveryFirstLetter(string) {
+  let words = string.split(" ");
+  words = words.map(word => capitalizeFirstLetter(word.toLowerCase()));
+  return words.join(" ");
+}
+
+export function capitalizeFirstLetter (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
