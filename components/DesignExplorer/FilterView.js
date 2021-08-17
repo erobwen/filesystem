@@ -8,7 +8,7 @@ import { Icon } from '../Icon';
 import { icons } from '../Icons';
 import { ClickablePanel } from '../ClickablePanel';
 import { createDifferenceFilter } from '../../application/model/Filter';
-import { log } from '../utility/Debug';
+import { log, loge, logg } from '../utility/Debug';
 import { observer } from 'mobx-react';
 
 
@@ -21,13 +21,14 @@ function IconButton({style, image, iconWidth, onClick, callbackKey}) {
 }
 
 export const FilterView = observer(function({style, folderSelection}) {
-  const filter = folderSelection.filter;
+  loge("FilterView.render");
   const selectedFolder = folderSelection.selectedFolder;
+  const filter = selectedFolder.filter;
+  log(filter);
+  log(selectedFolder);
   let targetFilter;
-  const noUnsorted = selectedFolder.children.length === 0 || selectedFolder.filter === null;
+  const noUnsorted = selectedFolder.children.length === 0 || filter === null;
   if (!noUnsorted) {
-    log(selectedFolder.filter);
-    log(selectedFolder.children.map(child => child.filter))
     if (!folderSelection.filter) throw new Error("Should have a filter!");
     targetFilter = createDifferenceFilter(folderSelection.filter, selectedFolder.children.map(child => child.filter));
   }
@@ -37,7 +38,7 @@ export const FilterView = observer(function({style, folderSelection}) {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
-        <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toString()}</Text>
+        <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toEquationString()}</Text>
         <Flexer/>
         {
           noUnsorted ? 

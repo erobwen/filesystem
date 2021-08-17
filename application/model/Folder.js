@@ -70,8 +70,9 @@ export class Folder {
       image: observable,
       category: observable,
       rule: observable,
+      filter: observable.ref,
+      addChild: action,
       // parent: observable,
-      // filter: observable,
     });    
   }
 
@@ -90,14 +91,24 @@ export class Folder {
   }
 
   addChild(child) {
+    const noIntersectionFilter = (this.filter === null || this.filter.isUnionFilter);
+    
     child.parent = this; 
-    child.setupFilters(this.filter);
+    child.setupFilters(noIntersectionFilter ? null : this.filter);
     this.children.unshift(child);
+    
+    if (child.filter) {
+      if (this.filter === null) {
+        this.filter = createUnionFilter([child.filter]);
+      } else if (this.filter.isUnionFilter) {
+        this.filter.filters.push(child.filter)
+      }  
+    }
   }
 
   addParentCategoryFilters(map) {
     // Note may only work for filter folders
-    this.filter.addAllIntersectedCategories(map);
+    if (this.filter) this.filter.addAllIntersectedCategories(map);
   }
 
 
@@ -110,7 +121,7 @@ export class Folder {
   }
 
   addAllIntersectedCategories(map) {
-    this.filter.addAllIntersectedCategories(map);
+    if (this.filter) this.filter.addAllIntersectedCategories(map);
   }
 
   setupFilters(parentFilter) {

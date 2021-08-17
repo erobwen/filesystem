@@ -1,5 +1,5 @@
 import React from 'react';
-import { log, loge } from './utility/Debug';
+import { log, loge, loggg } from './utility/Debug';
 
 export class ClickablePanel extends React.Component {
   constructor(props) {
@@ -150,6 +150,16 @@ export class ClickablePanel extends React.Component {
         }
       }
       panel.addEventListener("mouseout", me.removeMouseoverColor);
+
+      me.onDoubleClick = function() {
+        loge("onDoubleClick");
+        me.props.onDoubleClick();
+      } 
+
+      if (me.props.onDoubleClick) {
+        loggg("addig event listener")
+        panel.addEventListener("ondblclick", () => {me.onDoubleClick()}, true);
+      }
     }
   }
   

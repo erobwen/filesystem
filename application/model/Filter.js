@@ -51,8 +51,8 @@ export function createDifferenceFilter(baseFilter, negatives) {
 
     categorizeToInclude(design) {},
 
-    toString: function() {
-      return filter.baseFilter.toString() + filter.negatives.map(filter => (" - " + filter.toString())).join("");
+    toEquationString: function() {
+      return filter.baseFilter.toEquationString() + filter.negatives.map(filter => (" - " + filter.toEquationString())).join("");
     }
   }
   return filter;
@@ -88,7 +88,7 @@ export function createCategoryFilter(category) {
       design.categorize(filter.category);
     },
 
-    toString: function() {
+    toEquationString: function() {
       return category.name;
     }
   }
@@ -108,6 +108,7 @@ export function createIntersectionFilter(first, second) {
   const filter = {
     first, 
     second, 
+    isIntersectionFilter: true,
 
     intersectionMap: function(map) {
       first.intersectionMap(map);
@@ -133,11 +134,11 @@ export function createIntersectionFilter(first, second) {
       filter.second.categorizeToInclude(design);
     },
 
-    toString: function() {
+    toEquationString: function() {
       if (first.isCategoryFilter && first.category === AllDesigns) {
-        return second.toString();
+        return second.toEquationString();
       } else {
-        return first.toString() + " & " + second.toString();
+        return first.toEquationString() + " & " + second.toEquationString();
       }
     }
   };
@@ -147,9 +148,11 @@ export function createIntersectionFilter(first, second) {
 export function createUnionFilter(filters) {
   const filter = {
     filters,
+    isUnionFilter: true,
+
 
     intersectionMap: function(map) {
-      throw new Error("Does not apply!");
+      // throw new Error("Does not apply!");
     },
 
     isAllIntersections: function() {
@@ -157,7 +160,7 @@ export function createUnionFilter(filters) {
     },
 
     addAllIntersectedCategories: function(map) {
-      throw new Error("Does not apply!");
+      // throw new Error("Does not apply!");
     },
 
     includes: function(design) {
@@ -175,8 +178,8 @@ export function createUnionFilter(filters) {
       }
     },
 
-    toString: function() {
-      return filter.filters.map(filter => filter.toString()).join(" + ");
+    toEquationString: function() {
+      return filter.filters.map(filter => filter.toEquationString()).join(" + ");
     }
   };
   return filter; 

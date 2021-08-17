@@ -5,7 +5,7 @@ import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
-import { log, loge, logg } from '../utility/Debug';
+import { log, loge, logg, loggg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
 import removeFolderImage from '../../assets/remove_folder.svg'
@@ -114,23 +114,25 @@ export const FolderView = observer(function({style, indentation, folder, folderS
     <Column id="FolderView" style={style}>
       <ClickablePanel key="folder" style={{...fitStyle}} 
         mouseOverBackgroundColor={transparentBlue(0.1)} 
-        callback={() => folderSelection.selectFolder(folder)}>
-        <DropTarget style={{...fitStyle, ...zStackStyle, height: iconSize + 2}} 
+        callback={() => folderSelection.selectFolder(folder)}
+        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); folderSelection.selectFolder(folder); folderSelection.editFolderName = true;}}
+        >
+        <DropTarget style={{...fitStyle, height: iconSize + 2}} 
           onDragEnter={() => setShowArrow(true)}
           onDragLeave={() => setShowArrow(false)}
           onDrop={onDrop}>
-          {/* <Row style={{...zStackElementStyle, ...pointerEventsNoneStyle}}>
+          {/* ...zStackStyle, <Row style={{...zStackElementStyle, ...pointerEventsNoneStyle}}>
             <Flexer/>
             <Icon style={{paddingRight:panelPadding, display: showArrow ? "initial" : "none"}} image={implyImage}/>
           </Row> */}
-          <SelectionBase style={{...zStackElementStyle}} selected={folder === folderSelection.selectedFolder}>
+          <SelectionBase style={fitStyle} selected={folder === folderSelection.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               {
                 (folder === folderSelection.selectedFolder && folderSelection.editFolderName) ?
                 <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {folderSelection.editFolderName = false;}}/> 
                 :
-                <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
+                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {folderSelection.selectFolder(folder); folderSelection.editFolderName = true;}}>{folder.name}</Text>
               }
               <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
             </Row>

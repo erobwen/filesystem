@@ -36,7 +36,7 @@ export function xlog() {
 const actionInfos = {};
 
 export function logNthTime(count, action) {
-  const string = action.toString();
+  const string = action.toEquationString();
   if (typeof(actionInfos[string]) === 'undefined') {
     actionInfos[string] = {
       actionCount: 1,

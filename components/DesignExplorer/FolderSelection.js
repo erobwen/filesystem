@@ -1,6 +1,7 @@
 import { computed, makeObservable, observable } from "mobx";
 import { categories, createCategory } from "../../application/model/Category";
 import { createFolder } from "../../application/model/Folder";
+import { log } from "../utility/Debug";
 import { capitalizeEveryFirstLetter } from "../utility/javaScriptUtility";
 
 export class FolderSelection {
@@ -13,8 +14,8 @@ export class FolderSelection {
     this.selectedFolder = selectedFolder;
     this.filterOverride = null;
     makeObservable(this, {
-      filterOverride: observable,
-      selectedFolder: observable,
+      filterOverride: observable.ref,
+      selectedFolder: observable.ref,
       editFolderName: observable,
       filter: computed,
     });
@@ -50,6 +51,7 @@ export class FolderSelection {
   }
 
   selectFolder(folder) {
+    log(folder.filter);
     this.selectedFolder = folder; 
     this.filterOverride = null;
     this.onFilterChange();
