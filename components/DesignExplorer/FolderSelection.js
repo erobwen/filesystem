@@ -1,4 +1,5 @@
 import { computed, makeObservable, observable } from "mobx";
+import { categories, createCategory } from "../../application/model/Category";
 import { createFolder } from "../../application/model/Folder";
 import { capitalizeEveryFirstLetter } from "../utility/javaScriptUtility";
 

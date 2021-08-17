@@ -90,9 +90,9 @@ export class Folder {
   }
 
   addChild(child) {
-    this.children.unshift(child);
     child.parent = this; 
-    this.setupFilters(this.parent ? this.parent.filter : null);
+    child.setupFilters(this.filter);
+    this.children.unshift(child);
   }
 
   addParentCategoryFilters(map) {

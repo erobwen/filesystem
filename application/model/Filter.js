@@ -7,6 +7,8 @@ import { AllDesigns } from "../createDemoData";
 export function createDifferenceFilter(baseFilter, negatives) {
 
   function simplifyNegative(negative) {
+    const negativeOk = negative.isAllIntersections();
+    const baseOk = baseFilter.isAllIntersections();
     if (baseFilter.isAllIntersections() && negative.isAllIntersections()) {
       const intersectionMap = baseFilter.intersectionMap({});
       const negativeIntersectionMap = negative.intersectionMap({});

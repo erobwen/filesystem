@@ -26,6 +26,8 @@ export const FilterView = observer(function({style, folderSelection}) {
   let targetFilter;
   const noUnsorted = selectedFolder.children.length === 0 || selectedFolder.filter === null;
   if (!noUnsorted) {
+    log(selectedFolder.filter);
+    log(selectedFolder.children.map(child => child.filter))
     if (!folderSelection.filter) throw new Error("Should have a filter!");
     targetFilter = createDifferenceFilter(folderSelection.filter, selectedFolder.children.map(child => child.filter));
   }
