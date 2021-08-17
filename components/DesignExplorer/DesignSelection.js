@@ -3,53 +3,55 @@ import { anyKeyDown } from "../KeyStateTracker";
 import { log, loge } from "../utility/Debug";
 
 
-export function createSelection(deltaStore) {
-  const selection = {
-    add: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      items.forEach(item => selection.items[item.id] = item);
-    }, 
+export class DesignSelection {
+  constructor(deltaStore) {
+    this.items = observable({});;
+    this.deltaStore = deltaStore;
+  }
 
-    set: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      for (let itemId in selection.items) {
-        delete selection.items[itemId];
-      }
-      items.forEach(item => selection.items[item.id] = item);
-    }, 
+  initialize() {}
 
+  add(itemOrItems) {
+    this.deltaStore.resetDelta();
+    let items = itemOrItems;
+    if (!(items instanceof Array)) items = [items];
+    items.forEach(item => this.items[item.id] = item);
+  }
 
-    remove: function(itemOrItems) {
-      deltaStore.resetDelta();
-      let items = itemOrItems;
-      if (!(items instanceof Array)) items = [items];
-      items.forEach(item => delete selection.items[item.id]);
-    },
-  
-    clear: function() {
-      deltaStore.resetDelta();
-      for (let itemId in selection.items) {
-        delete selection.items[itemId];
-      }
-    }, 
+  set(itemOrItems) {
+    this.deltaStore.resetDelta();
+    let items = itemOrItems;
+    if (!(items instanceof Array)) items = [items];
+    for (let itemId in this.items) {
+      delete this.items[itemId];
+    }
+    items.forEach(item => this.items[item.id] = item);
+  }
 
-    click: function(item) {
-      if (anyKeyDown(["ControlLeft", "ControlRight"])) {
-        if (selection.items[item.id]) {
-          selection.remove(item);
-        } else {
-          selection.add(item);
-        }  
+  remove(itemOrItems) {
+    this.deltaStore.resetDelta();
+    let items = itemOrItems;
+    if (!(items instanceof Array)) items = [items];
+    items.forEach(item => delete this.items[item.id]);
+  }
+
+  clear() {
+    this.deltaStore.resetDelta();
+    for (let itemId in this.items) {
+      delete this.items[itemId];
+    }
+  }
+
+  click(item) {
+    if (anyKeyDown(["ControlLeft", "ControlRight"])) {
+      if (this.items[item.id]) {
+        this.remove(item);
       } else {
-        selection.set(item);
-      }
-    },
-  
-    items: observable({})
-  };
-  return selection;
-}
+        this.add(item);
+      }  
+    } else {
+      this.set(item);
+    }
+  }
+} 
+

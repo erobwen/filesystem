@@ -21,25 +21,25 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   render() {
 
 
-    const {deltaDesigns, selection} = this.props;
+    const {deltaDesigns, designSelection} = this.props;
 
     function selectDesign(design) {
-      selection.click(design);
+      designSelection.click(design);
     }
 
     const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
       let result = (//, justifyContent:"space-between"
         <ClickablePanel style={style}
-          callback={() => selection.clear()}>
+          callback={() => designSelection.clear()}>
           <Row style={{...flexAutoStyle, flexWrap: "wrap" }}>
             {deltaDesignsCopy.map(deltaDesign => 
               <DeltaDesignThumbView 
                 key={deltaDesign.item.id} 
                 deltaDesign={deltaDesign}
                 selectDesign={selectDesign}
-                selection={selection}
-                selected={typeof(selection.items[deltaDesign.item.id]) !== "undefined"}/>)}
+                designSelection={designSelection}
+                selected={typeof(designSelection.items[deltaDesign.item.id]) !== "undefined"}/>)}
           </Row>
         </ClickablePanel>
       );
@@ -49,14 +49,14 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 });
 
 
-const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, selection, selectDesign}) {
+const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, designSelection, selectDesign}) {
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  
       <DesignThumbView 
         onDragStart={() => {
-          if (!selection.items[deltaDesign.item.id]) {
-            selection.set(deltaDesign.item);
+          if (!designSelection.items[deltaDesign.item.id]) {
+            designSelection.set(deltaDesign.item);
           }
         }}
         style={{flexAutoStyle, opacity: opacity}} 

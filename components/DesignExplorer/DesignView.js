@@ -11,9 +11,9 @@ import { AllDesigns } from "../../application/createDemoData";
 import allDesignsImage from "../../assets/all_designs.svg"
 
 
-export const DesignView = observer(function({style, selection}) {
+export const DesignView = observer(function({style, designSelection}) {
   let contents;
-  let selectedItems = Object.values(selection.items);
+  let selectedItems = Object.values(designSelection.items);
   if (selectedItems.length === 0) {
     contents = [];
   } else if (selectedItems.length === 1){
@@ -36,7 +36,7 @@ export const DesignView = observer(function({style, selection}) {
   return (
     <Column style={{...panelBorderLeftStyle,  ...style}} >
       <Column key={"design"} style={{...panelPaddingStyle, ...flexAutoStyle}} children={contents}/>
-      <CategoriesView key={"categories"} style={flexGrowAutoStyle} selection={selection}/>
+      <CategoriesView key={"categories"} style={flexGrowAutoStyle} designSelection={designSelection}/>
     </Column>
   );
 });

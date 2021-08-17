@@ -22,8 +22,9 @@ import { RemoveFolderDialog } from './RemoveFolder';
 import { categories, createCategory } from '../../application/model/Category';
 import { createFolder } from '../../application/model/Folder';
 import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
+import { observer } from 'mobx-react';
 
-export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder, addFilterFolder, selectedFolder, folder, selection}) {
+export const FilterBrowser = observer(function({style, bounds, folder, folderSelection}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [RemoveFolderDialogOpen, setRemoveFolderDialogOpen] = useState(false);
   const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
@@ -43,17 +44,14 @@ export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder
     setAddCategoryFolderDialogOpen(true);
   }
   
-
   return (
     <Wrapper style={style}>
       <ZStack style={{...fitStyle, ...panelBorderRightStyle}}>
         <Scroller style={zStackElementStyle}>
           <RootFolderView 
             style={{paddingTop: panelPadding, paddingBottom: 40}} 
-            folder={folder} 
-            selection={selection}
-            selectFolder={selectFolder}
-            selectedFolder={selectedFolder}
+            folder={folder}
+            folderSelection={folderSelection}
             />
         </Scroller>
         <Column style={{...zStackElementStyle, ...pointerEventsNoneStyle}} overflowVisible>
@@ -66,28 +64,23 @@ export function FilterBrowser({style, bounds, selectFolder, removeSelectedFolder
                 <Icon image={addFolderImage}/>
               </ClickablePanel>
               <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
-                callback={selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
-                <Icon style={{opacity: (selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
+                callback={folderSelection.selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
+                <Icon style={{opacity: (folderSelection.selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
               </ClickablePanel>
             </Row>
           </Row>
         </Column>
       </ZStack>
-      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} 
-        openAddCategoryFolderDialog={openAddCategoryFolderDialog}/>
-      <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} selectedFolder={selectedFolder} 
-        removeSelectedFolder={removeSelectedFolder} boundingClientRect={clickBoundingClientRect}/>
-      <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}}
-        selectedFolder={selectedFolder}
-        addFilterFolder={addFilterFolder}
-        />
+      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog}/>
+      <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} boundingClientRect={clickBoundingClientRect} folderSelection={folderSelection}/>
+      <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}} folderSelection={folderSelection}/>
     </Wrapper>
   );
-}
+});
 
-export function RootFolderView({style, folder, selection, selectFolder, selectedFolder}) {
+export function RootFolderView({style, folder, folderSelection}) {
   return (
-    <ClickablePanel callback={() => {selectFolder(folder)}}>
+    <ClickablePanel callback={() => {folderSelection.selectFolder(folder)}}>
       <Column 
         style={style} 
         children={folder.children.map(child => 
@@ -95,22 +88,21 @@ export function RootFolderView({style, folder, selection, selectFolder, selected
             indentation={panelPadding}
             key={child.id}
             style={{paddingBottom:10}} 
-            folder={child} 
-            selection={selection}
-            selectFolder={selectFolder}
-            selectedFolder={selectedFolder}/>)}/>
+            folder={child}
+            folderSelection={folderSelection}/>)}/>
     </ClickablePanel>
   );
 }
 
-export function FolderView({style, indentation, folder, selectedFolder, selectFolder, selection}) {
+export const FolderView = observer(function({style, indentation, folder, folderSelection}) {
+  //selectedFolder, selectFolder, 
   if (typeof(indentation) === "undefined") indentation = 0;
   
   const [ showArrow, setShowArrow ] = useState(false);
 
   function onDrop() {
     if (draggingType.value === "design") {
-      Object.values(selection.items).forEach(design => {
+      Object.values(folderSelection.designSelection.items).forEach(design => {
         folder.filter.categorizeToInclude(design);
       });
       draggingType.value=null;
@@ -122,7 +114,7 @@ export function FolderView({style, indentation, folder, selectedFolder, selectFo
     <Column id="FolderView" style={style}>
       <ClickablePanel key="folder" style={{...fitStyle}} 
         mouseOverBackgroundColor={transparentBlue(0.1)} 
-        callback={() => selectFolder(folder)}>
+        callback={() => folderSelection.selectFolder(folder)}>
         <DropTarget style={{...fitStyle, ...zStackStyle, height: iconSize + 2}} 
           onDragEnter={() => setShowArrow(true)}
           onDragLeave={() => setShowArrow(false)}
@@ -131,7 +123,7 @@ export function FolderView({style, indentation, folder, selectedFolder, selectFo
             <Flexer/>
             <Icon style={{paddingRight:panelPadding, display: showArrow ? "initial" : "none"}} image={implyImage}/>
           </Row> */}
-          <SelectionBase style={{...zStackElementStyle}} selected={folder === selectedFolder}>
+          <SelectionBase style={{...zStackElementStyle}} selected={folder === folderSelection.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
@@ -145,10 +137,8 @@ export function FolderView({style, indentation, folder, selectedFolder, selectFo
           indentation={indentation + Math.floor(iconSize / 2)} 
           key={child.id} 
           folder={child}
-          selectedFolder={selectedFolder}
-          selectFolder={selectFolder}
-          selection={selection}
+          folderSelection={folderSelection}
           />)}/>
     </Column>
   );
-}
+});

@@ -45,15 +45,15 @@ function normalize(name) {
   return name.toLowerCase().replace(/\s/g, "");
 }
 
-export function AddCategoryFolderDialog({open, close, selectedFolder, addFilterFolder}) {
+export function AddCategoryFolderDialog({open, close, folderSelection}) {
+  const [categoryName, setCategoryName] = useState("");
   return <ModalDialog open={open} close={close} render={({style}) => {
-    const [categoryName, setCategoryName] = useState("");
     const normalizedCategoryName = normalize(categoryName);
 
     let exactMatch = null; 
     const nonAvailable = {};
-    selectedFolder.addDirectChildCategoryFilters(nonAvailable);
-    selectedFolder.addAllIntersectedCategories(nonAvailable);
+    folderSelection.selectedFolder.addDirectChildCategoryFilters(nonAvailable);
+    folderSelection.selectedFolder.addAllIntersectedCategories(nonAvailable);
     const availableCategories = []
     categories.items.forEach(category => {
       let name = normalize(category.name);
@@ -78,14 +78,14 @@ export function AddCategoryFolderDialog({open, close, selectedFolder, addFilterF
             <TextInput style={{height: iconSize, lineHeight: iconSize}} onChangeText={setCategoryName} value={categoryName} autoFocus/>
           </Middle>
           <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
-            onClick={() => { addFilterFolder(categoryName); close()}} 
+            onClick={() => { folderSelection.addFilterFolder(categoryName); close()}} 
             disable={(exactMatch !== null) || categoryName.length === 0}/>
         </Row>
         <Spacer size={spacerSize}/>
         <Text style={{fontSize: 16}}>Select a category</Text>
         <Spacer size={spacerSize}/>
         <CategorySelector availableCategories={availableCategories} selectCategory={(category) => {
-          addFilterFolder(category); close()
+          folderSelection.addFilterFolder(category); close()
         }}/>
         {/* <CategoryNamePopover open={true}/> */}
       </div>

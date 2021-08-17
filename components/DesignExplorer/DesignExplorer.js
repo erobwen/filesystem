@@ -11,108 +11,49 @@ import { FilterView } from './FilterView';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { AllDesigns } from '../../application/createDemoData';
 import { DesignView } from './DesignView';
-import { anyKeyDown } from '../KeyStateTracker';
-import { createSelection } from './DesignSelection';
-import { CategoriesView } from './CategoriesView';
+import { DesignSelection } from './DesignSelection';
 import { sidePanelWidth } from '../Style';
-import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
-import { categories, createCategory } from '../../application/model/Category';
-import { createFolder } from '../../application/model/Folder';
+import { FolderSelection } from './FolderSelection';
 
 export let draggingType = { value: null};
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      filter: createCategoryFilter(AllDesigns),
-      selectedFolder: props.vault.folder.children[0]
-    };
-    this.vault = props.vault;
     this.filteredStore = createFilterStore();
     this.deltaStore = createDeltaStore();
+    this.designSelection = new DesignSelection(this.deltaStore);
 
-    this.selection = createSelection(this.deltaStore);
-    // this.selection.add(this.vault.designs.items[0]);
-    // this.selection.add(this.vault.designs.items[1]);
-    // setTimeout(() => {
-    //   this.vault.designs.items.pop();
-    //   this.vault.designs.items.shift();
-    // },5000);
+    const selectedFolder = props.vault.folder.children[0]
+    this.folderSelection = new FolderSelection(selectedFolder, this.filteredStore, this.deltaStore, this.designSelection);
   }
   
   componentDidMount() {
-    this.filteredStore.initialize(this.state.filter, this.vault.designs);
-    this.deltaStore.initialize(this.filteredStore);
+    this.folderSelection.initialize(this.props.vault.designs)
   }
   
   componentWillUnmount() {}
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
-    const me = this; 
-    const {style, bounds, vault } = this.props;
-    const {filter, selectedFolder} = this.state; 
-
-    function setFilter(filter, selectedFolder) {
-      const newState = {filter: filter}
-      if (selectedFolder) newState.selectedFolder = selectedFolder;
-      me.selection.clear();
-      me.filteredStore.filter = filter; 
-      me.deltaStore.reInitialize();
-      me.setState(newState);
-      // me.deltaStore.resetDelta();
-    }
-    
-    function selectFolder(folder) {
-      setFilter(folder.filter, folder);
-    }
-
-    function addFilterFolder(nameOrCategory) {
-      let category;
-      if (typeof(nameOrCategory) === "string") {
-        let name = nameOrCategory;
-        name = capitalizeEveryFirstLetter(name);
-        category = createCategory(name);
-        categories.items.push(category);
-      } else {
-        category = nameOrCategory;
-      }
-      selectedFolder.addChild(createFolder(category));
-    }
-
-    function removeSelectedFolder() {
-      if (selectedFolder.parent) {
-        let parent = selectedFolder.parent;
-        parent.children.remove(selectedFolder);
-        selectFolder(parent)
-      }
-    }
-
-    // const folderSelection = {
-    //   setFilter,
-    //   selectFolder,
-    //   removeSelectedFolder
-    // }
+    const { vault } = this.props;
 
     return (
       <Row style={fitStyle} class="Row">
         <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
-          selectFolder={selectFolder} selectedFolder={selectedFolder} 
-          addFilterFolder={addFilterFolder} removeSelectedFolder={removeSelectedFolder} 
-          folder={this.vault.folder} selection={this.selection}/>
+          folder={vault.folder}
+          folderSelection={this.folderSelection}
+          designSelection={this.designSelection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
-          <FilterView key={"filter"} style={flexAutoStyle} filter={filter} setFilter={setFilter} selectedFolder={selectedFolder}/>
-          <DesignsView key={"designs"} style={flexGrowShrinkStyle} selection={this.selection} deltaDesigns={this.deltaStore.items}/>
+          <FilterView key={"filter"} style={flexAutoStyle} folderSelection={this.folderSelection}/>
+          <DesignsView key={"designs"} style={flexGrowShrinkStyle} designSelection={this.designSelection} deltaDesigns={this.deltaStore.items}/>
         </Column>
-        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} selection={this.selection}/>
+        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} designSelection={this.designSelection}/>
       </Row>
     );
    }
 });
  
-
-
 
 export function Placeholder({style, name}) {
   const placeholderStyle = {

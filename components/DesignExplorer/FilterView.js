@@ -9,6 +9,7 @@ import { icons } from '../Icons';
 import { ClickablePanel } from '../ClickablePanel';
 import { createDifferenceFilter } from '../../application/model/Filter';
 import { log } from '../utility/Debug';
+import { observer } from 'mobx-react';
 
 
 function IconButton({style, image, iconWidth, onClick, callbackKey}) {
@@ -19,11 +20,14 @@ function IconButton({style, image, iconWidth, onClick, callbackKey}) {
   );
 }
 
-export function FilterView({style, filter, selectedFolder, setFilter}) {
+export const FilterView = observer(function({style, folderSelection}) {
+  const filter = folderSelection.filter;
+  const selectedFolder = folderSelection.selectedFolder;
   let targetFilter;
   const noUnsorted = selectedFolder.children.length === 0 || selectedFolder.filter === null;
   if (!noUnsorted) {
-    targetFilter = createDifferenceFilter(filter, selectedFolder.children.map(child => child.filter));
+    if (!folderSelection.filter) throw new Error("Should have a filter!");
+    targetFilter = createDifferenceFilter(folderSelection.filter, selectedFolder.children.map(child => child.filter));
   }
   if (filter === null) {
     return null;
@@ -31,18 +35,18 @@ export function FilterView({style, filter, selectedFolder, setFilter}) {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
-        <Text key="bar" style={{lineHeight: iconSize}}>{filter.toString()}</Text>
+        <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toString()}</Text>
         <Flexer/>
         {
           noUnsorted ? 
           null 
           :
           <Row>
-            <IconButton key="unsorted" style={{display: !filter.isDifferenceFilter ? "inherit" : "none"}} image={icons.unsorted} onClick={() => {setFilter(targetFilter)}}/>
-            <IconButton key="unsorted_and_sorted" style={{display: filter.isDifferenceFilter ? "inherit" : "none"}} iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} onClick={() => {setFilter(selectedFolder.filter)}}/>
+            <IconButton key="unsorted" style={{display: !filter.isDifferenceFilter ? "inherit" : "none"}} image={icons.unsorted} onClick={() => {folderSelection.overrideFilter(targetFilter)}}/>
+            <IconButton key="unsorted_and_sorted" style={{display: filter.isDifferenceFilter ? "inherit" : "none"}} iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} onClick={() => {folderSelection.resetFilterOverride()}}/>
           </Row>
         }
       </Row>
     )  
   }
-}
+});

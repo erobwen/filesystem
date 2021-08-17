@@ -19,8 +19,8 @@ import { Icon } from '../Icon';
 import { ClickablePanel } from '../ClickablePanel';
 import { Chip } from '../Widgets';
 
-export const CategoriesView = observer(function({style, selection}) {
-  const selectedDesigns = Object.values(selection.items);
+export const CategoriesView = observer(function({style, designSelection}) {
+  const selectedDesigns = Object.values(designSelection.items);
 
   const categoryInfos = {}
   selectedDesigns.forEach(design => {

@@ -3,12 +3,13 @@ import { CenterMiddle, Column, fitStyle, flexAutoStyle, Flexer, Middle, pointerE
 import { iconSize, panelBorderRightStyle, panelPadding, panelStyle, SelectionBase, sidePanelWidth, transparentBlue, transparentGray } from './Style';
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 import { log, loge, trace } from './utility/Debug';
+import { observer } from 'mobx-react';
 
 export let modalLayer = 1;
 
 
 
-export class Popover extends React.Component {
+export const Popover = observer(class Popover extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -53,10 +54,10 @@ export class Popover extends React.Component {
   
     return <Portal hostName={"ModalLayer" + modalLayer}>{popover}</Portal>
   }
-}
+});
 
 
-export class ModalPopover extends React.Component {
+export const ModalPopover = observer(class ModalPopover extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -100,10 +101,10 @@ export class ModalPopover extends React.Component {
   
     return <Portal hostName={"ModalLayer" + modalLayer}>{popover}</Portal>
   }
-}
+});
 
 
-export function ModalDialog({open, close, render}) {
+export const ModalDialog = observer(function({open, close, render}) {
   if (!open) return null;
   const popover = (
     <div style={{
@@ -121,5 +122,5 @@ export function ModalDialog({open, close, render}) {
     </div>);
 
   return <Portal hostName={"ModalLayer" + modalLayer}>{popover}</Portal>
-}
+});
 

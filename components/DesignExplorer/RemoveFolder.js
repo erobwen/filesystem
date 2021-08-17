@@ -18,23 +18,24 @@ import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
 import { categories } from '../../application/createDemoData';
 import { LargeMenuItem, MenuItem } from '../Widgets';
+import { observer } from 'mobx-react';
 
 
-export function RemoveFolderDialog({open, removeSelectedFolder, selectedFolder, close, boundingClientRect}) {
+export const RemoveFolderDialog = observer(function({open, close, boundingClientRect, folderSelection}) {
   // let panelPadding = 5;
   let spacerSize = 15;
   // let width = 200 + 2*panelPadding;
   // let height = 2*iconSize + 2*panelPadding + spacerSize;
-
+  const selectedFolder = folderSelection.selectedFolder;
   return <ModalDialog open={open} close={close} render={({style}) => {
     return (
       <Column style={{...panelPaddingStyle, width: 300, ...style}}>
         <Text style={{fontSize: 16}}>Remove Folder "{selectedFolder.name}"</Text>
         <Spacer size={spacerSize}/>
-        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {removeSelectedFolder(); close();}}/>
+        <LargeMenuItem key="filter" text="Just remove folder." image={icons.removeFolder} onClick={() => {folderSelection.removeSelectedFolder(); close();}}/>
         <Spacer size={spacerSize}/>
         <LargeMenuItem key="collection" text="Remove folder and place its contents in the trash can." image={icons.designsInTrash} onClick={() => {}}/>
       </Column>
     )
   }}/>
-}
+});
