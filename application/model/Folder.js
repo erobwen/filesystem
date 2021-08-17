@@ -72,6 +72,7 @@ export class Folder {
       rule: observable,
       filter: observable.ref,
       addChild: action,
+      removeChild: action,
       // parent: observable,
     });    
   }
@@ -103,6 +104,14 @@ export class Folder {
       } else if (this.filter.isUnionFilter) {
         this.filter.filters.push(child.filter)
       }  
+    }
+  }
+
+  removeChild(child) {
+    this.children.remove(child);
+
+    if (this.filter && this.filter.isUnionFilter) {
+      this.filter.filters.remove(child.filter);
     }
   }
 

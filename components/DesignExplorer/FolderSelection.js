@@ -80,7 +80,7 @@ export class FolderSelection {
   removeSelectedFolder() {
     if (this.selectedFolder && this.selectedFolder.parent) {
       let parent = this.selectedFolder.parent;
-      parent.children.remove(this.selectedFolder);
+      parent.removeChild(this.selectedFolder);
       this.selectFolder(parent)
     }
   }
