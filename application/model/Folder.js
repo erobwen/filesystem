@@ -1,8 +1,9 @@
 import { action, autorun, makeObservable, observable, reaction, runInAction } from "mobx";
 import { log, loge, logg } from "../../components/utility/Debug";
-import categoryFolderImage from '../../assets/folder_filter.svg';
+// import categoryFolderImage from '../../assets/folder_filter.svg';
 import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter } from "./Filter";
+import { icons } from "../../components/Icons";
 
 export function createFolder(input) {
   return folder(input);
@@ -78,9 +79,13 @@ export class Folder {
     if (this.image) {
       return this.image;
     } else if (this.category) {
-      return categoryFolderImage;
+      // return icons.folderCategoryOutline;
+      return icons.folderFilter;
+      // return icons.tag;
+      // return icons.tagFlat;
+      return icons.filter;
     } else {
-      return folderImage;
+      return icons.foldersOutline;
     }
   }
 

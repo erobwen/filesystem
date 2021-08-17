@@ -34,7 +34,7 @@ const Felting = createCategory("Felting");
 
 const Draft = createCategory("Draft");
 const Finished = createCategory("Finished");
-const Vault = createCategory("Vault", icons.vault);
+const Vault = createCategory("Safe", icons.vault);
 
 const Favorite = createCategory("Favorite", icons.heart);
 const MyEpic2 = createCategory("My Epic 2", icons.sewingMachine);

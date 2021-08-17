@@ -16,7 +16,7 @@
    viewBox="0 0 36.334 36.334"
    style="enable-background:new 0 0 36.334 36.334;"
    xml:space="preserve"
-   sodipodi:docname="filter.svg"
+   sodipodi:docname="filter_blue.svg"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
    id="metadata913"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -86,14 +86,14 @@
    inkscape:snap-midpoints="true"
    inkscape:snap-to-guides="false"
    inkscape:snap-grids="false"
-   showguides="true"
+   showguides="false"
    inkscape:document-rotation="0" />
 <g
    id="g876">
 	
 <path
-   style="fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:1.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-   d="M 2.271714,4.4728333 H 34.753853 L 22.905023,17.901097 22.700733,32.568894 H 14.529125 V 18.107686 Z"
+   style="fill:#6c94ff;fill-opacity:1;stroke:none;stroke-width:0.92220472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="M 3.5836581,6.0873735 H 33.27222 L 22.44243,18.345475 22.255709,31.735094 h -7.46882 V 18.534062 Z"
    id="path1801"
    sodipodi:nodetypes="ccccccc" /></g>
 <g
