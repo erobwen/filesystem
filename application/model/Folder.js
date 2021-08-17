@@ -10,7 +10,7 @@ export function createFolder(input) {
 }
 
 export function folder(input, ...children) {
-  let name; 
+  let name = ""; 
   let image;
   let category;
   let irremovable;

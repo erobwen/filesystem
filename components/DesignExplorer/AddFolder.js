@@ -19,7 +19,7 @@ import { icons } from '../Icons';
 import { Button, LargeMenuItem, MenuItem } from '../Widgets';
 import { categories } from '../../application/model/Category';
 
-export function AddFolderPopover({open, close, boundingClientRect, openAddCategoryFolderDialog}) {
+export function AddFolderPopover({open, close, boundingClientRect, folderSelection, openAddCategoryFolderDialog}) {
   let panelPadding = 5;
   let spacerSize = 5;
   let width = 200 + 2*panelPadding;
@@ -35,7 +35,7 @@ export function AddFolderPopover({open, close, boundingClientRect, openAddCatego
       <Column style={{padding: panelPadding}}>
         <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
         <Spacer size={5}/>
-        <MenuItem key="collection" text="Folder Group" image={icons.foldersOutline} onClick={() => {close(); openAddFolderGroupDialog()}}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.foldersOutline} onClick={() => {close(); folderSelection.createNewFolderGroup()}}/>
       </Column>
     )
   }}/>

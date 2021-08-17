@@ -71,7 +71,7 @@ export const FilterBrowser = observer(function({style, bounds, folder, folderSel
           </Row>
         </Column>
       </ZStack>
-      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog}/>
+      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog} folderSelection={folderSelection}/>
       <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} boundingClientRect={clickBoundingClientRect} folderSelection={folderSelection}/>
       <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}} folderSelection={folderSelection}/>
     </Wrapper>
@@ -126,7 +126,12 @@ export const FolderView = observer(function({style, indentation, folder, folderS
           <SelectionBase style={{...zStackElementStyle}} selected={folder === folderSelection.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
-              <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
+              {
+                (folder === folderSelection.selectedFolder && folderSelection.editFolderName) ?
+                <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {folderSelection.editFolderName = false;}}/> 
+                :
+                <Text style={{lineHeight: iconSize}}>{folder.name}</Text>
+              }
               <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
             </Row>
           </SelectionBase>

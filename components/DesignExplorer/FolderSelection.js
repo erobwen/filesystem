@@ -8,12 +8,14 @@ export class FolderSelection {
     this.filteredStore = filteredStore;
     this.deltaStore = deltaStore;
     this.designSelection = designSelection;
+    this.editFolderName = false;
     
     this.selectedFolder = selectedFolder;
     this.filterOverride = null;
     makeObservable(this, {
       filterOverride: observable,
       selectedFolder: observable,
+      editFolderName: observable,
       filter: computed,
     });
   }
@@ -49,6 +51,7 @@ export class FolderSelection {
 
   selectFolder(folder) {
     this.selectedFolder = folder; 
+    this.filterOverride = null;
     this.onFilterChange();
   }
 
@@ -63,6 +66,13 @@ export class FolderSelection {
       category = nameOrCategory;
     }
     this.selectedFolder.addChild(createFolder(category));
+  }
+
+  createNewFolderGroup() {
+    const newFolder = createFolder()
+    this.selectedFolder.addChild(newFolder);
+    this.selectFolder(newFolder);
+    this.editFolderName = true; 
   }
 
   removeSelectedFolder() {
