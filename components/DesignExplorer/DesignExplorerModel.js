@@ -54,17 +54,17 @@ export class DesignExplorerModel {
   }
 
   get unsortedFilter() {
-    if (this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
-      return createDifferenceFilter(this.filter, this.selectedFolder.getChildUnion());
+    if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
+      return createDifferenceFilter(this.filter, this.selectedFolder.getSimplifiedChildUnion());
     } else {
       return null;
     }
   }
 
   get sortedFilter() {
-    if (this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
+    if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
       log("Union sorted filter!");
-      return this.selectedFolder.getChildUnionFilter();
+      return this.selectedFolder.getSimplifiedChildUnionFilter();
     } else {
       // log("No filter!");
       return null;
@@ -72,11 +72,7 @@ export class DesignExplorerModel {
   }
 
   get filter() {
-    if (this.filterOverride) {
-      return this.filterOverride;
-    } else {
-      return this.selectedFolder ? this.selectedFolder.filter : null;
-    }
+    return this.selectedFolder ? this.selectedFolder.filter : null;
   }
   
   onFilterChange() {

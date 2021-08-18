@@ -4,9 +4,26 @@ import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { AllDesigns } from "../createDemoData";
 
-function simplifyUnion(baseFilter, unionFilterList) {
-
+export function simplifyUnion(baseFilter, unionFilterList) {
+  function simplifyFilter(filter) {
+    const baseOk = baseFilter.isAllIntersections();
+    const filterOk = filter.isAllIntersections();
+    if (baseFilter.isAllIntersections() && filter.isAllIntersections()) {
+      const intersectionMap = baseFilter.intersectionMap({});
+      const filterIntersectionMap = filter.intersectionMap({});
+      for (let id in filterIntersectionMap) {
+        if (intersectionMap[id]) {
+          delete filterIntersectionMap[id];
+        }
+      }
+      return createIntersectionFilter(Object.values(filterIntersectionMap))
+    }
+    throw new Error("Could not simplify!")
+  }
+      
+  return unionFilterList.map(filter => simplifyFilter(filter));
 }
+ 
 
 
 export function createDifferenceFilter(baseFilter, negatives) {

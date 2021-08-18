@@ -8,8 +8,6 @@ import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panel
 import { log, loge, logg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
-import removeFolderImage from '../../assets/remove_folder.svg'
-import addFolderImage from '../../assets/add_folder.svg'
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
 import { DropTarget } from '../DropTarget';
@@ -33,9 +31,9 @@ export function AddFolderPopover({open, close, boundingClientRect, explorerModel
   return <ModalPopover open={open} close={close} bounds={bounds} render={({style, bounds}) => {
     return (
       <Column style={{padding: panelPadding}}>
-        <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
+        <MenuItem key="filter" text="Filter Folder" image={icons.object} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
         <Spacer size={5}/>
-        <MenuItem key="collection" text="Folder Group" image={icons.foldersOutline} onClick={() => {close(); explorerModel.createNewFolderGroup()}}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.objectGroup} onClick={() => {close(); explorerModel.createNewFolderGroup()}}/>
       </Column>
     )
   }}/>
@@ -73,7 +71,7 @@ export function AddCategoryFolderDialog({open, close, explorerModel}) {
         <Text style={{fontSize: 16}}>Add Filter Folder</Text>
         <Spacer size={spacerSize}/>
         <Row style={{flexAutoStyle}} overflowVisible>
-          <Icon style={{marginRight: "0.5em"}} image={icons.folderFilter}/>
+          <Icon style={{marginRight: "0.5em"}} image={icons.object}/>
           <Middle style={flexGrowShrinkAutoStyle}>
             <TextInput style={{height: iconSize, lineHeight: iconSize}} onChangeText={setCategoryName} value={categoryName} autoFocus/>
           </Middle>
@@ -101,7 +99,7 @@ export function CategorySelector({selectCategory, availableCategories}) {
       <Column children={availableCategories.map(category =>  
           <MenuItem
             key={category.id}
-            image={category.image ? category.image : icons.folderFilter}
+            image={category.image ? category.image : icons.object}
             text={category.name}
             onClick={() => {selectCategory(category)}}/>
       )}/>

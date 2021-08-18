@@ -7,7 +7,6 @@ import folderImage from '../../assets/folder_outline.svg';
 import { Icon } from '../Icon';
 import { icons } from '../Icons';
 import { ClickablePanel } from '../ClickablePanel';
-import { createDifferenceFilter } from '../../application/model/Filter';
 import { log, loge, logg } from '../utility/Debug';
 import { observer } from 'mobx-react';
 

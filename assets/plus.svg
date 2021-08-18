@@ -16,11 +16,11 @@
    viewBox="0 0 36.334 36.334"
    style="enable-background:new 0 0 36.334 36.334;"
    xml:space="preserve"
-   sodipodi:docname="tag_flat.svg"
+   sodipodi:docname="plus.svg"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
    id="metadata913"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
    id="defs911"><inkscape:path-effect
      effect="fillet_chamfer"
      id="path-effect920"
@@ -68,7 +68,7 @@
    showgrid="false"
    inkscape:zoom="8.7806469"
    inkscape:cx="45.662225"
-   inkscape:cy="24.721576"
+   inkscape:cy="20.62165"
    inkscape:window-x="1912"
    inkscape:window-y="2"
    inkscape:window-maximized="1"
@@ -80,12 +80,14 @@
    inkscape:document-rotation="0" />
 <g
    id="g876">
-	<path
-   id="path874"
-   style="fill:#e2e2e2;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-   d="m 32.666101,17.66503 c 0.505258,0.575737 0.47668,1.549396 -0.06107,2.08093 l -5.789723,5.680243 c -0.7093,0.697144 -1.599134,1.07842 -2.517654,1.078745 L 4.8955704,26.500406 C 4.1114739,26.50034 3.4757021,25.740501 3.4756249,24.803401 l -0.00198,-12.274072 c -3.439e-4,-0.925421 0.6199095,-1.68016 1.3941041,-1.696379 0.00843,-8.1e-5 0.016897,-1.31e-4 0.025289,3e-6 l 19.4020771,0.0046 c 0.918079,-4.68e-4 1.807992,0.379668 2.518003,1.07559 l 5.791561,5.682915 c 0.02119,0.02209 0.04166,0.04516 0.06144,0.06905 z"
-   sodipodi:nodetypes="cccccccccccccc" />
-</g>
+	
+<path
+   style="fill:none;stroke:#000000;stroke-width:5.513;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="M 18.37878,1.6049134 18.551517,34.769726"
+   id="path1042" /><path
+   style="fill:none;stroke:#000000;stroke-width:5.513;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="M 2.2570139,18.360054 34.673283,18.014586"
+   id="path1044" /></g>
 <g
    id="g878">
 </g>

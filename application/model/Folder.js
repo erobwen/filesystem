@@ -2,7 +2,7 @@ import { action, autorun, makeObservable, observable, reaction, runInAction } fr
 import { log, loge, logg } from "../../components/utility/Debug";
 // import categoryFolderImage from '../../assets/folder_filter.svg';
 import folderImage from '../../assets/folder_outline.svg';
-import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter } from "./Filter";
+import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter, simplifyUnion } from "./Filter";
 import { icons } from "../../components/Icons";
 
 export function createFolder(input) {
@@ -198,6 +198,17 @@ export class Folder {
     const result = [];
     this.children.forEach(child => child.addUnionFilter(result))
     return result; 
+  }
+
+  getSimplifiedChildUnion() {
+    let result = [];
+    this.children.forEach(child => child.addUnionFilter(result));
+    result = simplifyUnion(this.filter, result);
+    return result; 
+  }
+
+  getSimplifiedChildUnionFilter() {
+    return createUnionFilter(this.getSimplifiedChildUnion());
   }
 
   addUnionFilter(result) {

@@ -1,7 +1,7 @@
 import { createStore } from "./model/Store";
 import { Design } from "./model/Design";
 import { categories, createCategory } from "./model/Category";
-import { folder } from "./model/Folder";
+import { createFolder, folder } from "./model/Folder";
 
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
@@ -43,6 +43,11 @@ const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, c
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
 export const demoFolder = folder("Quick access",
+  folder({image: icons.heart, category: Favorite, irremovable: true}),
+  folder({category: Vault, irremovable: true}),
+  folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}, folder({image: icons.imply, category: Cat})),
+  folder({image: icons.trashCan, category: RecycleBin, irremovable: true}),
+
   folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
 
     folder("Things", 
@@ -53,16 +58,20 @@ export const demoFolder = folder("Quick access",
       folder(Boat)),
     folder("Techniques", 
       folder(Ribbon),
-      folder(Felting))),
+      folder(Felting)))
 
     // folder(Cat, folder(Dog)),
     // folder(Dog)),
 
-  folder({category: Vault, irremovable: true}),
-  folder({image: icons.heart, category: Favorite, irremovable: true}, folder({image: icons.imply, category: Cat})),
-  folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),
-  folder({image: icons.trashCan, category: RecycleBin, irremovable: true})
+
 );
+
+export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlat, category: null, irremovable: true});
+categories.items.forEach(category => {
+  categoriesFolder.addChild(createFolder({image: icons.tagFlat, category: category, irremovable: true}))
+});
+// demoFolder.addChild(categoriesFolder);
+
 demoFolder.setupFilters();
 
 export const demoDesigns = createStore();

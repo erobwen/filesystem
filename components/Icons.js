@@ -20,6 +20,7 @@ import object from "../assets/object.svg"
 import objectGroup from "../assets/object_group.svg"
 import tag from "../assets/tag.svg"
 import tagFlat from "../assets/tag_flat.svg"
+import tagsFlat from "../assets/tags_flat.svg"
 import filterBlue from "../assets/filter_blue.svg"
 import filter from "../assets/filter.svg"
 import filterPad from "../assets/filter_pad.svg"
@@ -30,6 +31,9 @@ import trashCan from "../assets/trash_can.svg"
 import designsInTrash from "../assets/designs_in_trash.svg"
 import lock from "../assets/lock.svg"
 import vault from "../assets/vault.svg"
+
+import plus from  "../assets/plus.svg"
+import remove from  "../assets/remove.svg"
 
 import imply from "../assets/imply.svg"
 import implyMath from "../assets/imply_math.svg"
@@ -54,6 +58,7 @@ export const icons = {
   objectGroup,
   tag,
   tagFlat,
+  tagsFlat, 
   filterBlue,
   filter,
   filterPad,
@@ -63,6 +68,8 @@ export const icons = {
   designsInTrash,
   lock,
   vault,
+  plus, 
+  remove,
   imply,
   implyMath,
 }

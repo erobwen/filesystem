@@ -4,12 +4,11 @@ import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, pointerEventsAuto
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
+import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg, loggg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
 import removeFolderImage from '../../assets/remove_folder.svg'
-import addFolderImage from '../../assets/add_folder.svg'
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
 import { DropTarget } from '../DropTarget';
@@ -23,6 +22,7 @@ import { categories, createCategory } from '../../application/model/Category';
 import { createFolder } from '../../application/model/Folder';
 import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
 import { observer } from 'mobx-react';
+import { categoriesFolder } from '../../application/createDemoData';
 
 export const FilterBrowser = observer(function({style, bounds, folder, explorerModel}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
@@ -49,10 +49,14 @@ export const FilterBrowser = observer(function({style, bounds, folder, explorerM
       <ZStack style={{...fitStyle, ...panelBorderRightStyle}}>
         <Scroller style={zStackElementStyle}>
           <RootFolderView 
-            style={{paddingTop: panelPadding, paddingBottom: 40}} 
+            style={{paddingTop: panelPadding, ...panelBorderBottomStyle}} 
             folder={folder}
             explorerModel={explorerModel}
             />
+          <FolderView style={{paddingTop: panelPadding, paddingBottom: panelPadding}}
+            indentation={panelPadding}
+            folder={categoriesFolder} 
+            explorerModel={explorerModel}/>
         </Scroller>
         <Column style={{...zStackElementStyle, ...pointerEventsNoneStyle}} overflowVisible>
           <Flexer/>
@@ -61,11 +65,11 @@ export const FilterBrowser = observer(function({style, bounds, folder, explorerM
             <Row style={pointerEventsAutoStyle}>
               <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)}  callback={(boundingClientRect) => {
                 openAddFolder(boundingClientRect);}}>
-                <Icon image={addFolderImage}/>
+                <Icon image={icons.plus}/>
               </ClickablePanel>
               <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
                 callback={explorerModel.selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
-                <Icon style={{opacity: (explorerModel.selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
+                <Icon style={{opacity: (explorerModel.selectedFolder.irremovable ? 0.3 : 1)}} image={icons.remove}/>
               </ClickablePanel>
             </Row>
           </Row>
