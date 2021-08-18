@@ -20,6 +20,7 @@ import object from "../assets/object.svg"
 import objectGroup from "../assets/object_group.svg"
 import tag from "../assets/tag.svg"
 import tagFlat from "../assets/tag_flat.svg"
+import filterBlue from "../assets/filter_blue.svg"
 import filter from "../assets/filter.svg"
 import filterPad from "../assets/filter_pad.svg"
 import heart from "../assets/heart.svg"
@@ -53,6 +54,7 @@ export const icons = {
   objectGroup,
   tag,
   tagFlat,
+  filterBlue,
   filter,
   filterPad,
   heart,

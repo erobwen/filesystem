@@ -4,6 +4,11 @@ import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { AllDesigns } from "../createDemoData";
 
+function simplifyUnion(baseFilter, unionFilterList) {
+
+}
+
+
 export function createDifferenceFilter(baseFilter, negatives) {
 
   function simplifyNegative(negative) {

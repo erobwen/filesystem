@@ -80,6 +80,26 @@ export class Folder {
     });    
   }
 
+  isCategoryFolder() {
+    return this.category !== null;
+  }
+
+  isTransparentFolder() {
+    return this.category === null 
+      && this.parent 
+      && this.filter === this.parent.filter;
+  }
+
+  isUnionFolder() {
+    return this.category === null  
+      && this.filter.isUnionFilter;
+  }
+
+  isNullFolder() {
+    return this.filter === null;
+  }
+
+
   getImage() {
     if (this.image) {
       return this.image;
@@ -87,14 +107,15 @@ export class Folder {
       // return icons.folderCategoryOutline;
       return icons.object;
       return icons.filterPad;
-      return icons.bullet;
       return icons.folderFilter;
       // return icons.tag;
       // return icons.tagFlat;
-      return icons.filter;
+        return icons.filter;
     } else {
+      // return icons.bullet;
       return icons.objectGroup;
-      return icons.foldersOutline;
+      // return icons.foldersOutline;
+      return icons.folderDashed;
     }
   }
 
@@ -164,6 +185,26 @@ export class Folder {
       this.filter = createUnionFilter(this.children.map(child => child.filter));
     } else if (nullFilter) {
       this.filter = null; 
+    }
+  }
+
+  getChildUnionFilter() {
+    const result = [];
+    this.children.forEach(child => child.addUnionFilter(result))
+    return createUnionFilter(result);
+  }
+
+  getChildUnion() {
+    const result = [];
+    this.children.forEach(child => child.addUnionFilter(result))
+    return result; 
+  }
+
+  addUnionFilter(result) {
+    if (this.isUnionFolder() || this.isCategoryFolder()) {
+      result.push(this.filter);
+    } else if (this.isTransparentFolder()) {
+      this.children.forEach(child => child.addUnionFilter(result))
     }
   }
 }

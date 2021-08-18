@@ -55,7 +55,7 @@ export class DesignExplorerModel {
 
   get unsortedFilter() {
     if (this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
-      return createDifferenceFilter(this.filter, this.selectedFolder.children.map(child => child.filter));
+      return createDifferenceFilter(this.filter, this.selectedFolder.getChildUnion());
     } else {
       return null;
     }
@@ -64,7 +64,7 @@ export class DesignExplorerModel {
   get sortedFilter() {
     if (this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
       log("Union sorted filter!");
-      return createUnionFilter(this.selectedFolder.children.map(child => child.filter));
+      return this.selectedFolder.getChildUnionFilter();
     } else {
       // log("No filter!");
       return null;
@@ -101,7 +101,7 @@ export class DesignExplorerModel {
     log(folder.filter);
     this.selectedFolder = folder; 
 
-    if (this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
+    if (!this.filter || this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
       loge("setting display items to all")
       this.displayItems = "all"
     } else {

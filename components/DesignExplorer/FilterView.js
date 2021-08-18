@@ -28,7 +28,7 @@ export const FilterView = observer(function({style, explorerModel}) {
   } else {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
-        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
+        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
         <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text>
         <Flexer/>
         {

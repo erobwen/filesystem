@@ -20,7 +20,7 @@
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
    id="metadata913"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
    id="defs911"><inkscape:path-effect
      effect="simplify"
      id="path-effect1799"
@@ -92,10 +92,10 @@
    id="g876">
 	
 <path
-   style="fill:#6c94ff;fill-opacity:1;stroke:none;stroke-width:0.92220472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-   d="M 3.5836581,6.0873735 H 33.27222 L 22.44243,18.345475 22.255709,31.735094 h -7.46882 V 18.534062 Z"
+   style="fill:#6c94ff;fill-opacity:1;stroke:none;stroke-width:0.922204;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="M 1.9892423,6.8010549 2.008739,2.3594687 34.733251,2.4733555 34.638861,6.8010549 22.812025,20.529361 22.722,30.254565 14.451675,34.810038 V 20.39365 Z"
    id="path1801"
-   sodipodi:nodetypes="ccccccc" /></g>
+   sodipodi:nodetypes="ccccccccc" /></g>
 <g
    id="g878">
 </g>
