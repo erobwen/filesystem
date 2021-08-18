@@ -6,8 +6,10 @@ import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
-import { SelectionBase, transparentBlue } from '../Style';
+import { panelBorderBottomStyle, SelectionBase, transparentBlue } from '../Style';
 import { ClickablePanel } from '../ClickablePanel';
+
+
 
 export const DesignsView = observer(class DesignsView extends React.Component {
   constructor(props) {
@@ -19,35 +21,67 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
+    const {folderSelection} = this.props;
+    const designSelection = folderSelection.designSelection;
 
-
-    const {deltaDesigns, designSelection} = this.props;
-
-    function selectDesign(design) {
-      designSelection.click(design);
+    let contents; 
+    if (folderSelection.displayItems === "splitView") {
+      contents = [
+        <DesignsArea key="unsorted" style={{...panelBorderBottomStyle, ...flexAutoStyle}} 
+          designSelection={designSelection} 
+          deltaStore={folderSelection.unsortedDeltaStore}/>,
+        <DesignsArea key="sorted" style={flexAutoStyle} 
+          designSelection={designSelection} 
+          deltaStore={folderSelection.sortedDeltaStore}/>  
+      ]
+    } else if (folderSelection.displayItems === "all") {
+      contents = [
+        <DesignsArea key="all" style={flexAutoStyle} 
+          designSelection={designSelection} 
+          deltaStore={folderSelection.deltaStore}/>,
+      ]
+    } else if (folderSelection.displayItems === "sorted") {
+      contents = [
+        <DesignsArea key="sorted" style={flexAutoStyle} 
+          designSelection={designSelection} 
+          deltaStore={folderSelection.sortedDeltaStore}/>,
+      ]
+    } else if (folderSelection.displayItems === "unsorted") {
+      contents = [
+        <DesignsArea key="unsorted" style={flexAutoStyle} 
+          designSelection={designSelection} 
+          deltaStore={folderSelection.unsortedDeltaStore}/>,
+      ]
     }
 
-    const deltaDesignsCopy = deltaDesigns.slice();
     return <Scroller render={({style, bounds}) => {
-      let result = (//, justifyContent:"space-between"
-        <ClickablePanel style={style}
-          callback={() => designSelection.clear()}>
-          <Row style={{...flexAutoStyle, flexWrap: "wrap" }}>
-            {deltaDesignsCopy.map(deltaDesign => 
-              <DeltaDesignThumbView 
-                key={deltaDesign.item.id} 
-                deltaDesign={deltaDesign}
-                selectDesign={selectDesign}
-                designSelection={designSelection}
-                selected={typeof(designSelection.items[deltaDesign.item.id]) !== "undefined"}/>)}
-          </Row>
-        </ClickablePanel>
+      let result = (
+        <ClickablePanel style={{...style, padding: 0 }} 
+          callback={() => designSelection.clear()} 
+          children={contents}/>
       );
       return result;
     }}/>
   }
 });
 
+const DesignsArea = observer(function({style, deltaStore, designSelection}) {
+  
+  function selectDesign(design) {
+    designSelection.click(design);
+  }
+  return (
+    <Row style={{...flexAutoStyle, padding: 15, flexWrap: "wrap",...style}}>
+      {deltaStore.items.map(deltaDesign => 
+        <DeltaDesignThumbView 
+          key={deltaDesign.item.id} 
+          deltaDesign={deltaDesign}
+          selectDesign={selectDesign}
+          designSelection={designSelection}
+          selected={typeof(designSelection.items[deltaDesign.item.id]) !== "undefined"}/>)}
+    </Row>
+  );
+});
 
 const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, designSelection, selectDesign}) {
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;

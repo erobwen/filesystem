@@ -34,7 +34,7 @@ const Felting = createCategory("Felting");
 
 const Draft = createCategory("Draft");
 const Finished = createCategory("Finished");
-const Vault = createCategory("Safe", icons.vault);
+const Vault = createCategory("Protected", icons.lock);
 
 const Favorite = createCategory("Favorite", icons.heart);
 const MyEpic2 = createCategory("My Epic 2", icons.sewingMachine);
@@ -44,17 +44,21 @@ const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, c
 
 export const demoFolder = folder("Quick access",
   folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
-    folder("Things", 
-      folder(Cat), 
-      folder(Dog), 
-      folder(Boat)),
-    folder("Techniques", 
-      folder(Ribbon),
-      folder(Felting))),
-  // folder("Design Stages", 
-  //   folder({image: implyImage, category: Draft}), 
-  //   folder({image: implyImage, category: Finished})), 
-  folder({image: icons.vault, category: Vault, irremovable: true}),
+
+    // folder("Things", 
+    //   folder(Cat), 
+    //   folder(Dog, 
+    //     folder(Ribbon),
+    //     folder(Felting)), 
+    //   folder(Boat)),
+    // folder("Techniques", 
+    //   folder(Ribbon),
+    //   folder(Felting))),
+
+    folder(Cat, folder(Dog)),
+    folder(Dog)),
+
+  folder({category: Vault, irremovable: true}),
   folder({image: icons.heart, category: Favorite, irremovable: true}, folder({image: icons.imply, category: Cat})),
   folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),
   folder({image: icons.trashCan, category: RecycleBin, irremovable: true})

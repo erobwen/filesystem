@@ -21,17 +21,8 @@ function IconButton({style, image, iconWidth, onClick, callbackKey}) {
 }
 
 export const FilterView = observer(function({style, folderSelection}) {
-  loge("FilterView.render");
-  const selectedFolder = folderSelection.selectedFolder;
-  const filter = selectedFolder.filter;
-  log(filter);
-  log(selectedFolder);
-  let targetFilter;
-  const noUnsorted = selectedFolder.children.length === 0 || filter === null;
-  if (!noUnsorted) {
-    if (!folderSelection.filter) throw new Error("Should have a filter!");
-    targetFilter = createDifferenceFilter(folderSelection.filter, selectedFolder.children.map(child => child.filter));
-  }
+  const filter = folderSelection.filter;
+  log(folderSelection.displayItems)
   if (filter === null) {
     return null;
   } else {
@@ -41,12 +32,16 @@ export const FilterView = observer(function({style, folderSelection}) {
         <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toEquationString()}</Text>
         <Flexer/>
         {
-          noUnsorted ? 
+          ["sorted", "splitView"].contains(folderSelection.displayItems) ? 
           null 
           :
           <Row>
-            <IconButton key="unsorted" style={{display: !filter.isDifferenceFilter ? "inherit" : "none"}} image={icons.unsorted} onClick={() => {folderSelection.overrideFilter(targetFilter)}}/>
-            <IconButton key="unsorted_and_sorted" style={{display: filter.isDifferenceFilter ? "inherit" : "none"}} iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} onClick={() => {folderSelection.resetFilterOverride()}}/>
+            <IconButton key="unsorted" style={{display: (folderSelection.displayItems === "all") ? "inherit" : "none"}} 
+              image={icons.unsorted} 
+              onClick={() => {folderSelection.displayItems = "unsorted"}}/>
+            <IconButton key="unsorted_and_sorted" style={{display: (folderSelection.displayItems === "unsorted") ? "inherit" : "none"}} 
+              iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} 
+              onClick={() => {folderSelection.displayItems = "all"}}/>
           </Row>
         }
       </Row>

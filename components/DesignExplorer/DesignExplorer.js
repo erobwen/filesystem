@@ -20,12 +20,9 @@ export let draggingType = { value: null};
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.filteredStore = createFilterStore();
-    this.deltaStore = createDeltaStore();
-    this.designSelection = new DesignSelection(this.deltaStore);
-
-    const selectedFolder = props.vault.folder.children[0]
-    this.folderSelection = new FolderSelection(selectedFolder, this.filteredStore, this.deltaStore, this.designSelection);
+    this.folderSelection = new FolderSelection({
+      selectedFolder: props.vault.folder.children[0]
+    });
   }
   
   componentDidMount() {
@@ -42,13 +39,12 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       <Row style={fitStyle} class="Row">
         <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
           folder={vault.folder}
-          folderSelection={this.folderSelection}
-          designSelection={this.designSelection}/>
+          folderSelection={this.folderSelection}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
           <FilterView key={"filter"} style={flexAutoStyle} folderSelection={this.folderSelection}/>
-          <DesignsView key={"designs"} style={flexGrowShrinkStyle} designSelection={this.designSelection} deltaDesigns={this.deltaStore.items}/>
+          <DesignsView key={"designs"} style={flexGrowShrinkStyle} folderSelection={this.folderSelection}/>
         </Column>
-        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} designSelection={this.designSelection}/>
+        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} designSelection={this.folderSelection.designSelection}/>
       </Row>
     );
    }

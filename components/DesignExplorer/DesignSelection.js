@@ -4,22 +4,22 @@ import { log, loge } from "../utility/Debug";
 
 
 export class DesignSelection {
-  constructor(deltaStore) {
+  constructor(folderSelection) {
     this.items = observable({});;
-    this.deltaStore = deltaStore;
+    this.folderSelection = folderSelection;
   }
 
   initialize() {}
 
   add(itemOrItems) {
-    this.deltaStore.resetDelta();
+    this.folderSelection.onDesignSelectionChange();
     let items = itemOrItems;
     if (!(items instanceof Array)) items = [items];
     items.forEach(item => this.items[item.id] = item);
   }
 
   set(itemOrItems) {
-    this.deltaStore.resetDelta();
+    this.folderSelection.onDesignSelectionChange();
     let items = itemOrItems;
     if (!(items instanceof Array)) items = [items];
     for (let itemId in this.items) {
@@ -29,14 +29,14 @@ export class DesignSelection {
   }
 
   remove(itemOrItems) {
-    this.deltaStore.resetDelta();
+    this.folderSelection.onDesignSelectionChange();
     let items = itemOrItems;
     if (!(items instanceof Array)) items = [items];
     items.forEach(item => delete this.items[item.id]);
   }
 
   clear() {
-    this.deltaStore.resetDelta();
+    this.folderSelection.onDesignSelectionChange();
     for (let itemId in this.items) {
       delete this.items[itemId];
     }

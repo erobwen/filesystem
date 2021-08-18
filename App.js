@@ -10,10 +10,14 @@ import { javaScriptUtility } from './components/utility/javaScriptUtility';
 import { initializeKeyTracker } from './components/KeyStateTracker';
 import { log, logg, loggg } from './components/utility/Debug';
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
+import { observable } from 'mobx';
 
 javaScriptUtility.install();
 initializeKeyTracker();
-
+export const featureSwitches = observable({
+  splitPanelUnsorted: true,
+});
+global.features = featureSwitches;
 
 export default function App() {
   loggg()

@@ -27,6 +27,9 @@ export function folder(input, ...children) {
       if (input.category) {
         category = input.category;
         name = category.name;
+        if (input.category.image) {
+          image = input.category.image;
+        }
       }
     
       if (input.image) {
@@ -93,17 +96,20 @@ export class Folder {
 
   addChild(child) {
     const noIntersectionFilter = (this.filter === null || this.filter.isUnionFilter);
+    const trueRoot = this.parent === null;
     
     child.parent = this; 
     child.setupFilters(noIntersectionFilter ? null : this.filter);
     this.children.unshift(child);
     
     if (child.filter) {
-      if (this.filter === null) {
-        this.filter = createUnionFilter([child.filter]);
-      } else if (this.filter.isUnionFilter) {
-        this.filter.filters.push(child.filter)
-      }  
+      if (!trueRoot) {
+        if (this.filter === null) {
+          this.filter = createUnionFilter([child.filter]);
+        } else if (this.filter.isUnionFilter) {
+          this.filter.filters.push(child.filter)
+        }  
+      }
     }
   }
 
