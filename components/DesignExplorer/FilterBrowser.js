@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
-import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
+import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, Middle, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
@@ -15,7 +15,7 @@ import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
 import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
-import { LargeMenuItem, MenuItem } from '../Widgets';
+import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { AddCategoryFolderDialog, AddFolderPopover } from './AddFolder';
 import { RemoveFolderDialog } from './RemoveFolder';
 import { categories, createCategory } from '../../application/model/Category';
@@ -131,6 +131,10 @@ export const FolderView = observer(function({style, indentation, folder, explore
           </Row> */}
           <SelectionBase style={fitStyle} selected={folder === explorerModel.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
+              <Middle style={{width: 10, marginRight: "0.3em"}}>
+                <IconButton style={{display: !folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=true;log("closed")}} image={icons.chevronRight}/>
+                <IconButton style={{display: folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=false;log("open")}} image={icons.chevronDown}/>
+              </Middle>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               {
                 (folder === explorerModel.selectedFolder && explorerModel.editFolderName) ?
@@ -143,7 +147,7 @@ export const FolderView = observer(function({style, indentation, folder, explore
           </SelectionBase>
         </DropTarget>
       </ClickablePanel>
-      <Column key="children" style={flexAutoStyle} children={folder.children.map(child => 
+      <Column style={{display: folder.open ? "inherit" : "none", ...flexAutoStyle}} key="children" children={folder.children.map(child => 
         <FolderView 
           indentation={indentation + Math.floor(iconSize / 2)} 
           key={child.id} 

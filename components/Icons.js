@@ -37,6 +37,10 @@ import remove from  "../assets/remove.svg"
 
 import imply from "../assets/imply.svg"
 import implyMath from "../assets/imply_math.svg"
+import chevronRight from "../assets/chevron_right.svg"
+import chevronLeft from "../assets/chevron_left.svg"
+import chevronUp from "../assets/chevron_up.svg"
+import chevronDown from "../assets/chevron_down.svg"
 
 export const icons = {
   addFolder,
@@ -72,4 +76,8 @@ export const icons = {
   remove,
   imply,
   implyMath,
+  chevronRight,
+  chevronLeft,
+  chevronUp,
+  chevronDown
 }

@@ -43,6 +43,13 @@ export function Chip({style, text, onDelete}) {
   );
 }
 
+export function IconButton({style, image, onClick, disable, size}) {
+  return (
+    <ClickablePanel style={{opacity: disable ? 0.3 : 1, ...style}} callback={disable ? null : onClick}>
+      <Icon size={size} image={image}/>
+    </ClickablePanel>
+  );
+}
 
 export function Button({style, text, onClick, disable}) {
   return (

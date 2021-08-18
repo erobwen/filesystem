@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Capa_1"
+   x="0px"
+   y="0px"
+   width="36.334px"
+   height="36.334px"
+   viewBox="0 0 36.334 36.334"
+   style="enable-background:new 0 0 36.334 36.334;"
+   xml:space="preserve"
+   sodipodi:docname="chevron_down.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
+   id="metadata913"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs911"><inkscape:perspective
+     sodipodi:type="inkscape:persp3d"
+     inkscape:vp_x="0.22777365 : 22.174847 : 1"
+     inkscape:vp_y="0 : 1000 : 0"
+     inkscape:vp_z="36.055077 : 22.705405 : 1"
+     inkscape:persp3d-origin="18.167 : 12.111333 : 1"
+     id="perspective866" /><inkscape:path-effect
+     effect="fillet_chamfer"
+     id="path-effect920"
+     is_visible="true"
+     lpeversion="1"
+     satellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,1.0898405,0,1 @ F,0,1,1,0,1.0898405,0,1 @ F,0,0,1,0,0,0,1"
+     unit="px"
+     method="auto"
+     mode="F"
+     radius="0"
+     chamfer_steps="1"
+     flexible="false"
+     use_knot_distance="true"
+     apply_no_radius="true"
+     apply_with_radius="true"
+     only_selected="false"
+     hide_knots="false" /><inkscape:path-effect
+     effect="fillet_chamfer"
+     id="path-effect918"
+     is_visible="true"
+     lpeversion="1"
+     satellites_param="F,0,1,1,0,0.84767892,0,1 @ F,0,0,1,0,0.84767892,0,1 @ F,0,1,1,0,0.84767892,0,1 @ F,0,1,1,0,0.84767892,0,1 @ F,0,1,1,0,0.84767892,0,1"
+     unit="px"
+     method="auto"
+     mode="F"
+     radius="0"
+     chamfer_steps="1"
+     flexible="false"
+     use_knot_distance="true"
+     apply_no_radius="true"
+     apply_with_radius="true"
+     only_selected="false"
+     hide_knots="false" /></defs><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1017"
+   id="namedview909"
+   showgrid="false"
+   inkscape:zoom="11.279712"
+   inkscape:cx="30.68736"
+   inkscape:cy="32.34207"
+   inkscape:window-x="1912"
+   inkscape:window-y="2"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g876"
+   inkscape:snap-midpoints="true"
+   inkscape:snap-to-guides="false"
+   inkscape:snap-grids="false"
+   showguides="false"
+   inkscape:document-rotation="0" />
+<g
+   id="g876">
+	
+<path
+   style="fill:none;stroke:#000000;stroke-width:6.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="M 33.151733,11.408134 18.249425,27.008568 3.3471173,11.408134"
+   id="path4288"
+   sodipodi:nodetypes="ccc" /></g>
+<g
+   id="g878">
+</g>
+<g
+   id="g880">
+</g>
+<g
+   id="g882">
+</g>
+<g
+   id="g884">
+</g>
+<g
+   id="g886">
+</g>
+<g
+   id="g888">
+</g>
+<g
+   id="g890">
+</g>
+<g
+   id="g892">
+</g>
+<g
+   id="g894">
+</g>
+<g
+   id="g896">
+</g>
+<g
+   id="g898">
+</g>
+<g
+   id="g900">
+</g>
+<g
+   id="g902">
+</g>
+<g
+   id="g904">
+</g>
+<g
+   id="g906">
+</g>
+</svg>

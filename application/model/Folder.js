@@ -61,6 +61,7 @@ export class Folder {
     this.image = image; 
     this.category = category;
     this.rule = rule;
+    this.open = true; 
     
     this.parent = null;
     this.children = observable(children);
@@ -69,6 +70,7 @@ export class Folder {
     this.filter = null;
 
     makeObservable(this, {
+      open: observable,
       name: observable,
       image: observable,
       category: observable,
