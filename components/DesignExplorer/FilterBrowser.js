@@ -24,7 +24,7 @@ import { createFolder } from '../../application/model/Folder';
 import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
 import { observer } from 'mobx-react';
 
-export const FilterBrowser = observer(function({style, bounds, folder, folderSelection}) {
+export const FilterBrowser = observer(function({style, bounds, folder, explorerModel}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [RemoveFolderDialogOpen, setRemoveFolderDialogOpen] = useState(false);
   const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
@@ -51,7 +51,7 @@ export const FilterBrowser = observer(function({style, bounds, folder, folderSel
           <RootFolderView 
             style={{paddingTop: panelPadding, paddingBottom: 40}} 
             folder={folder}
-            folderSelection={folderSelection}
+            explorerModel={explorerModel}
             />
         </Scroller>
         <Column style={{...zStackElementStyle, ...pointerEventsNoneStyle}} overflowVisible>
@@ -64,23 +64,23 @@ export const FilterBrowser = observer(function({style, bounds, folder, folderSel
                 <Icon image={addFolderImage}/>
               </ClickablePanel>
               <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
-                callback={folderSelection.selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
-                <Icon style={{opacity: (folderSelection.selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
+                callback={explorerModel.selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
+                <Icon style={{opacity: (explorerModel.selectedFolder.irremovable ? 0.3 : 1)}} image={removeFolderImage}/>
               </ClickablePanel>
             </Row>
           </Row>
         </Column>
       </ZStack>
-      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog} folderSelection={folderSelection}/>
-      <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} boundingClientRect={clickBoundingClientRect} folderSelection={folderSelection}/>
-      <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}} folderSelection={folderSelection}/>
+      <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog} explorerModel={explorerModel}/>
+      <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} boundingClientRect={clickBoundingClientRect} explorerModel={explorerModel}/>
+      <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}} explorerModel={explorerModel}/>
     </Wrapper>
   );
 });
 
-export function RootFolderView({style, folder, folderSelection}) {
+export function RootFolderView({style, folder, explorerModel}) {
   return (
-    <ClickablePanel callback={() => {folderSelection.selectFolder(folder)}}>
+    <ClickablePanel callback={() => {explorerModel.selectFolder(folder)}}>
       <Column 
         style={style} 
         children={folder.children.map(child => 
@@ -89,12 +89,12 @@ export function RootFolderView({style, folder, folderSelection}) {
             key={child.id}
             style={{paddingBottom:10}} 
             folder={child}
-            folderSelection={folderSelection}/>)}/>
+            explorerModel={explorerModel}/>)}/>
     </ClickablePanel>
   );
 }
 
-export const FolderView = observer(function({style, indentation, folder, folderSelection}) {
+export const FolderView = observer(function({style, indentation, folder, explorerModel}) {
   //selectedFolder, selectFolder, 
   if (typeof(indentation) === "undefined") indentation = 0;
   
@@ -102,7 +102,7 @@ export const FolderView = observer(function({style, indentation, folder, folderS
 
   function onDrop() {
     if (draggingType.value === "design") {
-      Object.values(folderSelection.designSelection.items).forEach(design => {
+      Object.values(explorerModel.designSelection.items).forEach(design => {
         folder.filter.categorizeToInclude(design);
       });
       draggingType.value=null;
@@ -114,8 +114,8 @@ export const FolderView = observer(function({style, indentation, folder, folderS
     <Column id="FolderView" style={style}>
       <ClickablePanel key="folder" style={{...fitStyle}} 
         mouseOverBackgroundColor={transparentBlue(0.1)} 
-        callback={() => folderSelection.selectFolder(folder)}
-        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); folderSelection.selectFolder(folder); folderSelection.editFolderName = true;}}
+        callback={() => explorerModel.selectFolder(folder)}
+        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}
         >
         <DropTarget style={{...fitStyle, height: iconSize + 2}} 
           onDragEnter={() => setShowArrow(true)}
@@ -125,14 +125,14 @@ export const FolderView = observer(function({style, indentation, folder, folderS
             <Flexer/>
             <Icon style={{paddingRight:panelPadding, display: showArrow ? "initial" : "none"}} image={implyImage}/>
           </Row> */}
-          <SelectionBase style={fitStyle} selected={folder === folderSelection.selectedFolder}>
+          <SelectionBase style={fitStyle} selected={folder === explorerModel.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               {
-                (folder === folderSelection.selectedFolder && folderSelection.editFolderName) ?
-                <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {folderSelection.editFolderName = false;}}/> 
+                (folder === explorerModel.selectedFolder && explorerModel.editFolderName) ?
+                <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {explorerModel.editFolderName = false;}}/> 
                 :
-                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {folderSelection.selectFolder(folder); folderSelection.editFolderName = true;}}>{folder.name}</Text>
+                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}>{folder.name}</Text>
               }
               <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
             </Row>
@@ -144,7 +144,7 @@ export const FolderView = observer(function({style, indentation, folder, folderS
           indentation={indentation + Math.floor(iconSize / 2)} 
           key={child.id} 
           folder={child}
-          folderSelection={folderSelection}
+          explorerModel={explorerModel}
           />)}/>
     </Column>
   );

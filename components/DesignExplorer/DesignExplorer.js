@@ -13,20 +13,20 @@ import { AllDesigns } from '../../application/createDemoData';
 import { DesignView } from './DesignView';
 import { DesignSelection } from './DesignSelection';
 import { sidePanelWidth } from '../Style';
-import { FolderSelection } from './FolderSelection';
+import { DesignExplorerModel } from './DesignExplorerModel';
 
 export let draggingType = { value: null};
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.folderSelection = new FolderSelection({
+    this.explorerModel = new DesignExplorerModel({
       selectedFolder: props.vault.folder.children[0]
     });
   }
   
   componentDidMount() {
-    this.folderSelection.initialize(this.props.vault.designs)
+    this.explorerModel.initialize(this.props.vault.designs)
   }
   
   componentWillUnmount() {}
@@ -39,12 +39,12 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
       <Row style={fitStyle} class="Row">
         <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
           folder={vault.folder}
-          folderSelection={this.folderSelection}/>
+          explorerModel={this.explorerModel}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>
-          <FilterView key={"filter"} style={flexAutoStyle} folderSelection={this.folderSelection}/>
-          <DesignsView key={"designs"} style={flexGrowShrinkStyle} folderSelection={this.folderSelection}/>
+          <FilterView key={"filter"} style={flexAutoStyle} explorerModel={this.explorerModel}/>
+          <DesignsView key={"designs"} style={flexGrowShrinkStyle} explorerModel={this.explorerModel}/>
         </Column>
-        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} designSelection={this.folderSelection.designSelection}/>
+        <DesignView key={"right"} style={flexAutoWidthStyle(sidePanelWidth)} designSelection={this.explorerModel.designSelection}/>
       </Row>
     );
    }

@@ -19,7 +19,7 @@ import { icons } from '../Icons';
 import { Button, LargeMenuItem, MenuItem } from '../Widgets';
 import { categories } from '../../application/model/Category';
 
-export function AddFolderPopover({open, close, boundingClientRect, folderSelection, openAddCategoryFolderDialog}) {
+export function AddFolderPopover({open, close, boundingClientRect, explorerModel, openAddCategoryFolderDialog}) {
   let panelPadding = 5;
   let spacerSize = 5;
   let width = 200 + 2*panelPadding;
@@ -35,7 +35,7 @@ export function AddFolderPopover({open, close, boundingClientRect, folderSelecti
       <Column style={{padding: panelPadding}}>
         <MenuItem key="filter" text="Filter Folder" image={icons.folderFilter} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
         <Spacer size={5}/>
-        <MenuItem key="collection" text="Folder Group" image={icons.foldersOutline} onClick={() => {close(); folderSelection.createNewFolderGroup()}}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.foldersOutline} onClick={() => {close(); explorerModel.createNewFolderGroup()}}/>
       </Column>
     )
   }}/>
@@ -45,15 +45,15 @@ function normalize(name) {
   return name.toLowerCase().replace(/\s/g, "");
 }
 
-export function AddCategoryFolderDialog({open, close, folderSelection}) {
+export function AddCategoryFolderDialog({open, close, explorerModel}) {
   const [categoryName, setCategoryName] = useState("");
   return <ModalDialog open={open} close={close} render={({style}) => {
     const normalizedCategoryName = normalize(categoryName);
 
     let exactMatch = null; 
     const nonAvailable = {};
-    folderSelection.selectedFolder.addDirectChildCategoryFilters(nonAvailable);
-    folderSelection.selectedFolder.addAllIntersectedCategories(nonAvailable);
+    explorerModel.selectedFolder.addDirectChildCategoryFilters(nonAvailable);
+    explorerModel.selectedFolder.addAllIntersectedCategories(nonAvailable);
     const availableCategories = []
     categories.items.forEach(category => {
       let name = normalize(category.name);
@@ -78,14 +78,14 @@ export function AddCategoryFolderDialog({open, close, folderSelection}) {
             <TextInput style={{height: iconSize, lineHeight: iconSize}} onChangeText={setCategoryName} value={categoryName} autoFocus/>
           </Middle>
           <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
-            onClick={() => { folderSelection.addFilterFolder(categoryName); close()}} 
+            onClick={() => { explorerModel.addFilterFolder(categoryName); close()}} 
             disable={(exactMatch !== null) || categoryName.length === 0}/>
         </Row>
         <Spacer size={spacerSize}/>
         <Text style={{fontSize: 16}}>Select a category</Text>
         <Spacer size={spacerSize}/>
         <CategorySelector availableCategories={availableCategories} selectCategory={(category) => {
-          folderSelection.addFilterFolder(category); close()
+          explorerModel.addFilterFolder(category); close()
         }}/>
         {/* <CategoryNamePopover open={true}/> */}
       </div>

@@ -20,28 +20,28 @@ function IconButton({style, image, iconWidth, onClick, callbackKey}) {
   );
 }
 
-export const FilterView = observer(function({style, folderSelection}) {
-  const filter = folderSelection.filter;
-  log(folderSelection.displayItems)
+export const FilterView = observer(function({style, explorerModel}) {
+  const filter = explorerModel.filter;
+  log(explorerModel.displayItems)
   if (filter === null) {
     return null;
   } else {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.folderFilterBlue}/>
-        <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toEquationString()}</Text>
+        <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text>
         <Flexer/>
         {
-          folderSelection.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(folderSelection.displayItems) ? 
+          explorerModel.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(explorerModel.displayItems) ? 
           null 
           :
           <Row>
-            <IconButton key="unsorted" style={{display: (folderSelection.displayItems === "all") ? "inherit" : "none"}} 
+            <IconButton key="unsorted" style={{display: (explorerModel.displayItems === "all") ? "inherit" : "none"}} 
               image={icons.unsorted} 
-              onClick={() => {folderSelection.displayItems = "unsorted"}}/>
-            <IconButton key="unsorted_and_sorted" style={{display: (folderSelection.displayItems === "unsorted") ? "inherit" : "none"}} 
+              onClick={() => {explorerModel.displayItems = "unsorted"}}/>
+            <IconButton key="unsorted_and_sorted" style={{display: (explorerModel.displayItems === "unsorted") ? "inherit" : "none"}} 
               iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} 
-              onClick={() => {folderSelection.displayItems = "all"}}/>
+              onClick={() => {explorerModel.displayItems = "all"}}/>
           </Row>
         }
       </Row>

@@ -9,7 +9,7 @@ import { log, loge } from "../utility/Debug";
 import { capitalizeEveryFirstLetter } from "../utility/javaScriptUtility";
 import { DesignSelection } from "./DesignSelection";
 
-export class FolderSelection {
+export class DesignExplorerModel {
   constructor({selectedFolder, designSelection}) {  
     this.designSelection = designSelection;
     this.selectedFolder = selectedFolder;

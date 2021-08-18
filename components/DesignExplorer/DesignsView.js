@@ -21,50 +21,50 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   componentDidUpdate(nextProps, nextState) {}
 
   render() {
-    const {folderSelection} = this.props;
-    const designSelection = folderSelection.designSelection;
+    const {explorerModel} = this.props;
+    const designSelection = explorerModel.designSelection;
 
     let contents; 
-    if (folderSelection.displayItems === "splitView") {
+    if (explorerModel.displayItems === "splitView") {
       let sortedTitle = "";
-      if (folderSelection.sortedDeltaStore.source && folderSelection.sortedDeltaStore.source.filter) {
-        sortedTitle = folderSelection.sortedDeltaStore.source.filter.toEquationString();
+      if (explorerModel.sortedDeltaStore.source && explorerModel.sortedDeltaStore.source.filter) {
+        sortedTitle = explorerModel.sortedDeltaStore.source.filter.toEquationString();
       }
       contents = [];
-      if (folderSelection.unsortedDeltaStore.items.length > 0) {
+      if (explorerModel.unsortedDeltaStore.items.length > 0) {
         contents.push(
           <DesignsArea key="unsorted" style={{...panelBorderBottomStyle, ...flexAutoStyle}} 
             title="Unsorted"
             designSelection={designSelection} 
-            deltaStore={folderSelection.unsortedDeltaStore}/>)
+            deltaStore={explorerModel.unsortedDeltaStore}/>)
       }
-      if (folderSelection.sortedDeltaStore.items.length > 0) {
+      if (explorerModel.sortedDeltaStore.items.length > 0) {
         contents.push(
           <DesignsArea key="sorted" style={flexAutoStyle}
             title={sortedTitle} 
             designSelection={designSelection} 
-            deltaStore={folderSelection.sortedDeltaStore}/>);
+            deltaStore={explorerModel.sortedDeltaStore}/>);
       }
-    } else if (folderSelection.displayItems === "all") {
+    } else if (explorerModel.displayItems === "all") {
       contents = [
         <DesignsArea key="all" style={flexAutoStyle} 
           title={null}
           designSelection={designSelection} 
-          deltaStore={folderSelection.deltaStore}/>,
+          deltaStore={explorerModel.deltaStore}/>,
       ]
-    } else if (folderSelection.displayItems === "sorted") {
+    } else if (explorerModel.displayItems === "sorted") {
       contents = [
         <DesignsArea key="sorted" style={flexAutoStyle}
           title={null}
           designSelection={designSelection} 
-          deltaStore={folderSelection.sortedDeltaStore}/>,
+          deltaStore={explorerModel.sortedDeltaStore}/>,
       ]
-    } else if (folderSelection.displayItems === "unsorted") {
+    } else if (explorerModel.displayItems === "unsorted") {
       contents = [
         <DesignsArea key="unsorted" style={flexAutoStyle} 
           title={null}
           designSelection={designSelection} 
-          deltaStore={folderSelection.unsortedDeltaStore}/>,
+          deltaStore={explorerModel.unsortedDeltaStore}/>,
       ]
     }
 
