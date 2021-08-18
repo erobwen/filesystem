@@ -32,7 +32,7 @@ export const FilterView = observer(function({style, folderSelection}) {
         <Text key="bar" style={{lineHeight: iconSize}}>{folderSelection.filter.toEquationString()}</Text>
         <Flexer/>
         {
-          ["sorted", "splitView"].contains(folderSelection.displayItems) ? 
+          folderSelection.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(folderSelection.displayItems) ? 
           null 
           :
           <Row>

@@ -85,11 +85,15 @@ export class Folder {
       return this.image;
     } else if (this.category) {
       // return icons.folderCategoryOutline;
+      return icons.object;
+      return icons.filterPad;
+      return icons.bullet;
       return icons.folderFilter;
       // return icons.tag;
       // return icons.tagFlat;
       return icons.filter;
     } else {
+      return icons.objectGroup;
       return icons.foldersOutline;
     }
   }

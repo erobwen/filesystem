@@ -2,6 +2,7 @@ import { log, logg, loggg } from './utility/Debug.js';
 import { observer } from "mobx-react";
 import { autorun, observable } from "mobx";
 
+
 export const appState = observable({
   mobileStyle: null,
   dimensions: null,

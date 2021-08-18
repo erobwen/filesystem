@@ -4,7 +4,8 @@ import { createDifferenceFilter, createUnionFilter } from "../../application/mod
 import { createFolder } from "../../application/model/Folder";
 import { createDeltaStore, createFilterStore } from "../../application/model/Store";
 import { featureSwitches } from "../../config";
-import { log } from "../utility/Debug";
+import { appState } from "../AppState";
+import { log, loge } from "../utility/Debug";
 import { capitalizeEveryFirstLetter } from "../utility/javaScriptUtility";
 import { DesignSelection } from "./DesignSelection";
 
@@ -25,10 +26,12 @@ export class FolderSelection {
     this.designSelection = new DesignSelection(this);
 
     this.editFolderName = false;    
-    
+    log(featureSwitches.splitPanelUnsorted)
+    log(appState)
+    log(featureSwitches)
     // Valid values: "all" | "unsorted" | "splitView" | "sorted"(only for union) 
     this.displayItems = featureSwitches.splitPanelUnsorted ? "splitView" : "all"; 
-    
+    log(this.displayItems)
     makeObservable(this, {
       displayItems: observable.ref,
       editFolderName: observable,
@@ -63,7 +66,7 @@ export class FolderSelection {
       log("Union sorted filter!");
       return createUnionFilter(this.selectedFolder.children.map(child => child.filter));
     } else {
-      log("No filter!");
+      // log("No filter!");
       return null;
     }
   }
@@ -84,7 +87,7 @@ export class FolderSelection {
     this.unsortedFilteredStore.filter = this.unsortedFilter;
     this.unsortedDeltaStore.reInitialize();
 
-    this.sortedFilteredStore.filter = this.unsortedFilter;
+    this.sortedFilteredStore.filter = this.sortedFilter;
     this.sortedDeltaStore.reInitialize();
   }
 
@@ -98,7 +101,8 @@ export class FolderSelection {
     log(folder.filter);
     this.selectedFolder = folder; 
 
-    if (this.filter.isUnionFilter) {
+    if (this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
+      loge("setting display items to all")
       this.displayItems = "all"
     } else {
       this.displayItems = (featureSwitches.splitPanelUnsorted) ? "splitView" : "all"

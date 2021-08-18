@@ -1,3 +1,5 @@
+import { observable } from "mobx";
+
 /**
  * Production settings (./mybuild)
  *
@@ -9,7 +11,11 @@ export let production = true;
 // A benefit of putting your variables within featureSwitches is that your 
 // system still builds with an outdated config.js file. It just means that 
 // all new switches will be off by default. 
-export const featureSwitches = {};
+export const featureSwitches = observable({
+  splitPanelUnsorted: true,
+});
+// featureSwitches.splitPanelUnsorted = true;
+global.features = featureSwitches;
 
 /**
  * Development settings. (./mystart) 

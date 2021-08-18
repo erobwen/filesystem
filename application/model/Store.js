@@ -77,6 +77,7 @@ export function createDeltaStore() {
 
   store.initialize = function(source) {
     runInAction(() => {
+      store.source = source; 
       store.originalMap = {};
       store.items.length = 0;
       source.items.map(item => {

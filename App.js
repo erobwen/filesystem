@@ -14,10 +14,7 @@ import { observable } from 'mobx';
 
 javaScriptUtility.install();
 initializeKeyTracker();
-export const featureSwitches = observable({
-  splitPanelUnsorted: true,
-});
-global.features = featureSwitches;
+
 
 export default function App() {
   loggg()

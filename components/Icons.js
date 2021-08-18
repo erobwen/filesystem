@@ -15,9 +15,13 @@ import folderOutline from "../assets/folder_outline.svg"
 import folderCategory from "../assets/folder_category.svg"
 import folderCategoryOutline from "../assets/folder_category_outline.svg"
 
+import bullet from "../assets/bullet.svg"
+import object from "../assets/object.svg"
+import objectGroup from "../assets/object_group.svg"
 import tag from "../assets/tag.svg"
 import tagFlat from "../assets/tag_flat.svg"
 import filter from "../assets/filter.svg"
+import filterPad from "../assets/filter_pad.svg"
 import heart from "../assets/heart.svg"
 
 import sewingMachine from "../assets/sewing_machine.svg"
@@ -44,9 +48,13 @@ export const icons = {
   folderOutline,
   folderCategory,
   folderCategoryOutline,
+  bullet,
+  object,
+  objectGroup,
   tag,
   tagFlat,
   filter,
+  filterPad,
   heart,
   sewingMachine,
   trashCan,

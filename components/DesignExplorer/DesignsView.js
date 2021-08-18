@@ -6,7 +6,7 @@ import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
 import { draggingType } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
-import { panelBorderBottomStyle, SelectionBase, transparentBlue } from '../Style';
+import { panelBorderBottomStyle, panelPadding, SelectionBase, transparentBlue, transparentGray } from '../Style';
 import { ClickablePanel } from '../ClickablePanel';
 
 
@@ -26,29 +26,43 @@ export const DesignsView = observer(class DesignsView extends React.Component {
 
     let contents; 
     if (folderSelection.displayItems === "splitView") {
-      contents = [
-        <DesignsArea key="unsorted" style={{...panelBorderBottomStyle, ...flexAutoStyle}} 
-          designSelection={designSelection} 
-          deltaStore={folderSelection.unsortedDeltaStore}/>,
-        <DesignsArea key="sorted" style={flexAutoStyle} 
-          designSelection={designSelection} 
-          deltaStore={folderSelection.sortedDeltaStore}/>  
-      ]
+      let sortedTitle = "";
+      if (folderSelection.sortedDeltaStore.source && folderSelection.sortedDeltaStore.source.filter) {
+        sortedTitle = folderSelection.sortedDeltaStore.source.filter.toEquationString();
+      }
+      contents = [];
+      if (folderSelection.unsortedDeltaStore.items.length > 0) {
+        contents.push(
+          <DesignsArea key="unsorted" style={{...panelBorderBottomStyle, ...flexAutoStyle}} 
+            title="Unsorted"
+            designSelection={designSelection} 
+            deltaStore={folderSelection.unsortedDeltaStore}/>)
+      }
+      if (folderSelection.sortedDeltaStore.items.length > 0) {
+        contents.push(
+          <DesignsArea key="sorted" style={flexAutoStyle}
+            title={sortedTitle} 
+            designSelection={designSelection} 
+            deltaStore={folderSelection.sortedDeltaStore}/>);
+      }
     } else if (folderSelection.displayItems === "all") {
       contents = [
         <DesignsArea key="all" style={flexAutoStyle} 
+          title={null}
           designSelection={designSelection} 
           deltaStore={folderSelection.deltaStore}/>,
       ]
     } else if (folderSelection.displayItems === "sorted") {
       contents = [
-        <DesignsArea key="sorted" style={flexAutoStyle} 
+        <DesignsArea key="sorted" style={flexAutoStyle}
+          title={null}
           designSelection={designSelection} 
           deltaStore={folderSelection.sortedDeltaStore}/>,
       ]
     } else if (folderSelection.displayItems === "unsorted") {
       contents = [
         <DesignsArea key="unsorted" style={flexAutoStyle} 
+          title={null}
           designSelection={designSelection} 
           deltaStore={folderSelection.unsortedDeltaStore}/>,
       ]
@@ -65,13 +79,14 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   }
 });
 
-const DesignsArea = observer(function({style, deltaStore, designSelection}) {
+const DesignsArea = observer(function({style, title, deltaStore, designSelection}) {
   
   function selectDesign(design) {
     designSelection.click(design);
   }
   return (
     <Row style={{...flexAutoStyle, padding: 15, flexWrap: "wrap",...style}}>
+      {title ? <Text style={{position: "absolute", top:0, left: 0, padding: 5, fontSize: 14, color: transparentGray(0.5)}}>{title}</Text> : null}
       {deltaStore.items.map(deltaDesign => 
         <DeltaDesignThumbView 
           key={deltaDesign.item.id} 
