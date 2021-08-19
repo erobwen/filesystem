@@ -37,7 +37,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
 
     return (
       <Row style={fitStyle} class="Row">
-        <FilterBrowser key={"left"} style={flexAutoWidthStyle(sidePanelWidth)} 
+        <FilterBrowser key={"left"} maxWidth={sidePanelWidth} 
           folder={vault.folder}
           explorerModel={this.explorerModel}/>
         <Column style={flexGrowShrinkStyle} key={"center"} style={flexGrowShrinkStyle}>

@@ -1,34 +1,27 @@
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
-import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, Middle, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
+import { Column, columnStyle, fitStyle, flexAutoStyle, flexAutoWidthStyle, Flexer, flexGrowShrinkAutoStyle, flexGrowShrinkStyle, Middle, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg, loggg } from '../utility/Debug';
-import { draggingType } from './DesignExplorer';
-import implyImage from '../../assets/imply.svg'
-import removeFolderImage from '../../assets/remove_folder.svg'
-import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 
-import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
-import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
 import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { AddCategoryFolderDialog, AddFolderPopover } from './AddFolder';
 import { RemoveFolderDialog } from './RemoveFolder';
-import { categories, createCategory } from '../../application/model/Category';
-import { createFolder } from '../../application/model/Folder';
-import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
 import { observer } from 'mobx-react';
 import { categoriesFolder } from '../../application/createDemoData';
+import { FolderView, RootFolderView } from './FolderView';
 
-export const FilterBrowser = observer(function({style, bounds, folder, explorerModel}) {
+export const FilterBrowser = observer(function({style, bounds, maxWidth, folder, explorerModel}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
   const [RemoveFolderDialogOpen, setRemoveFolderDialogOpen] = useState(false);
   const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
   const [clickBoundingClientRect, setClickBoundingClientRect] = useState(false);
+  const [open, setOpen] = useState(true);
 
   function openAddFolder(boundingClientRect) {
     setClickBoundingClientRect(boundingClientRect);
@@ -44,9 +37,33 @@ export const FilterBrowser = observer(function({style, bounds, folder, explorerM
     setAddCategoryFolderDialogOpen(true);
   }
   
+  if (!open) {
+    return (
+      <Column style={flexAutoWidthStyle(56)}>
+        <Column style={{...panelBorderRightStyle}}>
+          <Row style={{height: 56,...panelBorderBottomStyle}}>
+            <Flexer/>
+            <Middle>
+              <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} image={icons.chevronRight} onClick={() => setOpen(true)}/>
+            </Middle>
+          </Row>
+        </Column>
+        <Column style={{...flexGrowShrinkAutoStyle, ...panelBorderRightStyle}}/>
+      </Column>
+    );
+  }
+
   return (
-    <Wrapper style={style}>
-      <ZStack style={{...fitStyle, ...panelBorderRightStyle}}>
+    <Column style={flexAutoWidthStyle(maxWidth)}>
+      <Column style={{...panelBorderRightStyle}}>
+        <Row style={{height: 56,...panelBorderBottomStyle}}>
+          <Flexer/>
+          <Middle>
+            <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} image={icons.chevronLeft} onClick={() => setOpen(false)}/>
+          </Middle>
+        </Row>
+      </Column>
+      <ZStack style={{...flexGrowShrinkStyle, ...panelBorderRightStyle}}>
         <Scroller style={zStackElementStyle}>
           <RootFolderView 
             style={{paddingTop: panelPadding, ...panelBorderBottomStyle}} 
@@ -78,82 +95,6 @@ export const FilterBrowser = observer(function({style, bounds, folder, explorerM
       <AddFolderPopover open={addFolderPopoverOpen} close={() => {setAddFolderPopoverOpen(false)}} boundingClientRect={clickBoundingClientRect} openAddCategoryFolderDialog={openAddCategoryFolderDialog} explorerModel={explorerModel}/>
       <RemoveFolderDialog open={RemoveFolderDialogOpen} close={() => {setRemoveFolderDialogOpen(false)}} boundingClientRect={clickBoundingClientRect} explorerModel={explorerModel}/>
       <AddCategoryFolderDialog open={addCategoryFolderDialogOpen} close={() => {setAddCategoryFolderDialogOpen(false)}} explorerModel={explorerModel}/>
-    </Wrapper>
-  );
-});
-
-export function RootFolderView({style, folder, explorerModel}) {
-  return (
-    <ClickablePanel callback={() => {explorerModel.selectFolder(folder)}}>
-      <Column 
-        style={style} 
-        children={folder.children.map(child => 
-          <FolderView 
-            indentation={panelPadding - 12}
-            key={child.id}
-            style={{paddingBottom:10}} 
-            folder={child}
-            explorerModel={explorerModel}/>)}/>
-    </ClickablePanel>
-  );
-}
-
-export const FolderView = observer(function({style, indentation, folder, explorerModel}) {
-  //selectedFolder, selectFolder, 
-  if (typeof(indentation) === "undefined") indentation = 0;
-  
-  const [ showArrow, setShowArrow ] = useState(false);
-
-  function onDrop() {
-    if (draggingType.value === "design") {
-      Object.values(explorerModel.designSelection.items).forEach(design => {
-        folder.filter.categorizeToInclude(design);
-      });
-      draggingType.value=null;
-    }
-  }
-
-  const folderImage = folder.getImage();
-  return (
-    <Column id="FolderView" style={style}>
-      <ClickablePanel key="folder" style={{...fitStyle}} 
-        mouseOverBackgroundColor={transparentBlue(0.1)} 
-        callback={() => explorerModel.selectFolder(folder)}
-        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}
-        >
-        <DropTarget style={{...fitStyle, height: iconSize + 2}} 
-          onDragEnter={() => setShowArrow(true)}
-          onDragLeave={() => setShowArrow(false)}
-          onDrop={onDrop}>
-          {/* ...zStackStyle, <Row style={{...zStackElementStyle, ...pointerEventsNoneStyle}}>
-            <Flexer/>
-            <Icon style={{paddingRight:panelPadding, display: showArrow ? "initial" : "none"}} image={implyImage}/>
-          </Row> */}
-          <SelectionBase style={fitStyle} selected={folder === explorerModel.selectedFolder}>
-            <Row style={{...fitStyle, paddingLeft:indentation}}>
-              <Middle style={{width: 10, marginRight: 2}}>
-                <IconButton style={{display: !folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=true;log("closed")}} image={icons.chevronRight}/>
-                <IconButton style={{display: folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=false;log("open")}} image={icons.chevronDown}/>
-              </Middle>
-              <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
-              {
-                (folder === explorerModel.selectedFolder && explorerModel.editFolderName) ?
-                <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {explorerModel.editFolderName = false;}}/> 
-                :
-                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}>{folder.name}</Text>
-              }
-              <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
-            </Row>
-          </SelectionBase>
-        </DropTarget>
-      </ClickablePanel>
-      <Column style={{display: folder.open ? "inherit" : "none", ...flexAutoStyle}} key="children" children={folder.children.map(child => 
-        <FolderView 
-          indentation={indentation + Math.floor(iconSize / 2)} 
-          key={child.id} 
-          folder={child}
-          explorerModel={explorerModel}
-          />)}/>
     </Column>
   );
 });
