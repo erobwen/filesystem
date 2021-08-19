@@ -9,14 +9,14 @@ export function simplifyUnion(baseFilter, unionFilterList) {
     const baseOk = baseFilter.isAllIntersections();
     const filterOk = filter.isAllIntersections();
     if (baseFilter.isAllIntersections() && filter.isAllIntersections()) {
-      const intersectionMap = baseFilter.intersectionMap({});
-      const filterIntersectionMap = filter.intersectionMap({});
-      for (let id in filterIntersectionMap) {
-        if (intersectionMap[id]) {
-          delete filterIntersectionMap[id];
+      const baseMap = baseFilter.addAllIntersectedCategories({});
+      const filterMap = filter.addAllIntersectedCategories({});
+      for (let id in filterMap) {
+        if (baseMap[id]) {
+          delete filterMap[id];
         }
       }
-      const categories = Object.values(filterIntersectionMap);
+      const categories = Object.values(filterMap);
       return createIntersectionFilter(categories.map(category => createCategoryFilter(category)));
     }
     throw new Error("Could not simplify!")
@@ -31,10 +31,6 @@ export function createDifferenceFilter(baseFilter, negatives) {
 
     baseFilter,  
     negatives, 
-
-    intersectionMap: function(map) {
-      throw new Error("Does not apply!");
-    },
 
     isAllIntersections: function() {
       return false;
@@ -63,17 +59,13 @@ export function createCategoryFilter(category) {
     isCategoryFilter: true,
     category,
 
-    intersectionMap: function(map) {
-      map[category.id] = category;
-      return map;
-    },
-
     isAllIntersections: function() {
       return true;
     },
 
     addAllIntersectedCategories: function(map) {
       map[filter.category.id] = filter.category;
+      return map;
     },
 
     includes: function(design) {
@@ -100,11 +92,6 @@ export function createIntersectionFilter(filters) {
     isIntersectionFilter: true,
     filters, 
 
-    intersectionMap: function(map) {
-      filters.forEach(filter => filter.intersectionMap(map));
-      return map;
-    },
-
     isAllIntersections: function() {
       for (let child of filter.filters) {
         if (!child.isAllIntersections()) {
@@ -115,7 +102,7 @@ export function createIntersectionFilter(filters) {
     },
 
     addAllIntersectedCategories: function(map) {
-      filters.forEach(filter => filter.intersectionMap(map));
+      filters.forEach(filter => filter.addAllIntersectedCategories(map));
       return map;
     },
 
@@ -157,10 +144,6 @@ export function createUnionFilter(filters) {
   const filter = {
     filters,
     isUnionFilter: true,
-
-    intersectionMap: function(map) {
-      // throw new Error("Does not apply!");
-    },
 
     isAllIntersections: function() {
       return false; 
