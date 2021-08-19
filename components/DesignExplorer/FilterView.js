@@ -31,16 +31,18 @@ export const FilterView = observer(function({style, explorerModel}) {
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
         {explorerModel.filter.filters.map(filter => {
-          if (explorerModel.filter.filters.length > 1 && filter.category === AllDesigns) return null;
           if (filter.category === AllDesigns) {
+            if (explorerModel.filter.filters.length > 1) return null;
             return (
-              <Chip
+              <Chip 
+                key={filter.category.name}
                 style={flexAutoStyle}
                 text={filter.category.name}/>
             );
           }
           return (
             <Chip
+              key={filter.category.name}
               style={flexAutoStyle}
               text={filter.category.name} 
               onDelete={() => {explorerModel.filter.filters.remove(filter); explorerModel.onUserFilterChange();}}/>

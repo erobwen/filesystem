@@ -117,6 +117,7 @@ export class DesignExplorerModel {
       this.displayItems = "all"
     } else {
       this.filter = this.selectedFolder.filter ? this.selectedFolder.filter.normalized() : null;
+      this.filteredStore.filter = this.filter; 
 
       if (!this.filter || this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
         loge("setting display items to all")

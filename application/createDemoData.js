@@ -96,6 +96,8 @@ demoDesigns.items.push(new Design("Funky dog", dog3, [Dog, Favorite]));
 demoDesigns.items.push(new Design("Sailor dog", dogboat1, [Dog, Boat, Draft]));
 demoDesigns.items.push(new Design("Away", dogboat2, [Dog, Boat]));
 
+global.fancyCat = demoDesigns.items[3];
+global.bestFriends = demoDesigns.items[10];
 
 export const demoVault = {
     designs: demoDesigns,
