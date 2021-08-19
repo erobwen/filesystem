@@ -16,7 +16,8 @@ export function simplifyUnion(baseFilter, unionFilterList) {
           delete filterIntersectionMap[id];
         }
       }
-      return createIntersectionFilter(Object.values(filterIntersectionMap))
+      const categories = Object.values(filterIntersectionMap);
+      return createIntersectionFilter(categories.map(category => createCategoryFilter(category)));
     }
     throw new Error("Could not simplify!")
   }
@@ -26,10 +27,10 @@ export function simplifyUnion(baseFilter, unionFilterList) {
 
 export function createDifferenceFilter(baseFilter, negatives) {
   const filter = {
+    isDifferenceFilter: true,
+
     baseFilter,  
     negatives, 
-
-    isDifferenceFilter: true,
 
     intersectionMap: function(map) {
       throw new Error("Does not apply!");
@@ -59,8 +60,8 @@ export function createDifferenceFilter(baseFilter, negatives) {
 
 export function createCategoryFilter(category) {
   const filter = {
-    category,
     isCategoryFilter: true,
+    category,
 
     intersectionMap: function(map) {
       map[category.id] = category;
@@ -94,51 +95,59 @@ export function createCategoryFilter(category) {
   return filter;
 }
 
-export function createIntersectionFilter(first, second) {
-  if (first instanceof Array) {
-    const categories = first; 
-    const firstCategory = categories.shift();
-    if (categories.length === 0) {
-      return createCategoryFilter(firstCategory);
-    } else {
-      return createIntersectionFilter(createCategoryFilter(firstCategory), createIntersectionFilter(categories))
-    }
-  }
+export function createIntersectionFilter(filters) {
   const filter = {
-    first, 
-    second, 
     isIntersectionFilter: true,
+    filters, 
 
     intersectionMap: function(map) {
-      first.intersectionMap(map);
-      second.intersectionMap(map);
+      filters.forEach(filter => filter.intersectionMap(map));
       return map;
     },
 
     isAllIntersections: function() {
-      return first.isAllIntersections() && second.isAllIntersections();
+      for (let child of filter.filters) {
+        if (!child.isAllIntersections()) {
+          return false;
+        }  
+      }
+      return true;
     },
 
     addAllIntersectedCategories: function(map) {
-      filter.first.addAllIntersectedCategories(map);
-      filter.second.addAllIntersectedCategories(map);
+      filters.forEach(filter => filter.intersectionMap(map));
+      return map;
     },
 
     includes: function(design) {
-      return filter.first.includes(design) && filter.second.includes(design);
+      for (let child of filter.filters) {
+        if (!child.includes(design)) {
+          return false; 
+        }
+      }
+      return true; 
     }, 
     
     categorizeToInclude(design) {
-      filter.first.categorizeToInclude(design);
-      filter.second.categorizeToInclude(design);
+      filter.filters.forEach(filter => filter.categorizeToInclude(design));
     },
 
     toEquationString: function() {
-      if (first.isCategoryFilter && first.category === AllDesigns) {
-        return second.toEquationString();
-      } else {
-        return first.toEquationString() + " & " + second.toEquationString();
-      }
+      // return "Foo"
+      let result = "";
+      let first = true;
+      filter.filters.forEach(child => {
+        if (!(child.isCategoryFilter && child.category === AllDesigns)) {
+          if (first) {
+            first = false; 
+          } else {
+            result += " & ";
+          }
+
+          result += child.toEquationString()
+        }
+      });
+      return result;
     }
   };
   return filter; 
@@ -148,7 +157,6 @@ export function createUnionFilter(filters) {
   const filter = {
     filters,
     isUnionFilter: true,
-
 
     intersectionMap: function(map) {
       // throw new Error("Does not apply!");

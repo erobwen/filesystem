@@ -4,6 +4,7 @@ import { log, loge, logg } from "../../components/utility/Debug";
 import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter, simplifyUnion } from "./Filter";
 import { icons } from "../../components/Icons";
+import { featureSwitches } from "../../config";
 
 export function createFolder(input) {
   return folder(input);
@@ -134,9 +135,9 @@ export class Folder {
     child.setupFilters(noIntersectionFilter ? null : this.filter);
     this.children.unshift(child);
     
-    if (child.filter) {
+    if (child.filter && featureSwitches.unionFolders) {
       if (!trueRoot) {
-        if (this.filter === null) {
+        if (this.filter === null) {   
           this.filter = createUnionFilter([child.filter]);
         } else if (this.filter.isUnionFilter) {
           this.filter.filters.push(child.filter)
@@ -175,7 +176,7 @@ export class Folder {
     let bottomUpFilter = false;
     let nullFilter = false;  
     if (parentFilter && this.category) {
-      this.filter = createIntersectionFilter(parentFilter, createCategoryFilter(this.category));
+      this.filter = createIntersectionFilter([parentFilter, createCategoryFilter(this.category)]);
     } else if (parentFilter) {
       this.filter = parentFilter
     } else if (this.category) {
@@ -189,7 +190,7 @@ export class Folder {
     this.children.forEach(child => child.setupFilters(this.filter));
     
     if (bottomUpFilter) {
-      this.filter = createUnionFilter(this.children.map(child => child.filter));
+      this.filter = featureSwitches.unionFolders ? createUnionFilter(this.children.map(child => child.filter)) : null;
     } else if (nullFilter) {
       this.filter = null; 
     }

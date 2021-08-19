@@ -13,6 +13,7 @@ export let production = true;
 // all new switches will be off by default. 
 export const featureSwitches = observable({
   splitPanelUnsorted: true,
+  unionFolders: false,
 });
 // featureSwitches.splitPanelUnsorted = true;
 global.features = featureSwitches;

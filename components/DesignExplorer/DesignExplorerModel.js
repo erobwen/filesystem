@@ -1,6 +1,6 @@
 import { computed, makeObservable, observable } from "mobx";
 import { categories, createCategory } from "../../application/model/Category";
-import { createDifferenceFilter, createUnionFilter } from "../../application/model/Filter";
+import { createDifferenceFilter } from "../../application/model/Filter";
 import { createFolder } from "../../application/model/Folder";
 import { createDeltaStore, createFilterStore } from "../../application/model/Store";
 import { featureSwitches } from "../../config";
