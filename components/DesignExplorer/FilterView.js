@@ -27,10 +27,10 @@ export const FilterView = observer(function({style, explorerModel}) {
   } else {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
-        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
+        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>{[
         <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text>
-        <Flexer/>
-        {
+        ]}<Flexer/>
+        {/* {
           explorerModel.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(explorerModel.displayItems) ? 
           null 
           :
@@ -42,7 +42,7 @@ export const FilterView = observer(function({style, explorerModel}) {
               iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} 
               onClick={() => {explorerModel.displayItems = "all"}}/>
           </Row>
-        }
+        } */}
       </Row>
     )  
   }

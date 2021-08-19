@@ -15,6 +15,7 @@ import { RemoveFolderDialog } from './RemoveFolder';
 import { observer } from 'mobx-react';
 import { categoriesFolder } from '../../application/createDemoData';
 import { FolderView, RootFolderView } from './FolderView';
+import { Design } from '../../application/model/Design';
 
 export const FilterBrowser = observer(function({style, bounds, maxWidth, folder, explorerModel}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);
@@ -44,7 +45,9 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
           <Row style={{height: 56,...panelBorderBottomStyle}}>
             <Flexer/>
             <Middle>
-              <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} image={icons.chevronRight} onClick={() => setOpen(true)}/>
+              <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} 
+                image={icons.chevronRight} 
+                onClick={() => setOpen(true)}/>
             </Middle>
           </Row>
         </Column>
@@ -59,7 +62,9 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
         <Row style={{height: 56,...panelBorderBottomStyle}}>
           <Flexer/>
           <Middle>
-            <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} image={icons.chevronLeft} onClick={() => setOpen(false)}/>
+            <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} 
+              image={icons.chevronLeft} 
+              onClick={() => {setOpen(false); explorerModel.selectFolder(null)}}/>
           </Middle>
         </Row>
       </Column>
@@ -85,8 +90,8 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
                 <Icon image={icons.plus}/>
               </ClickablePanel>
               <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
-                callback={explorerModel.selectedFolder.irremovable ? null : ((boundingClientRect) => openRemoveFolder(boundingClientRect))}>
-                <Icon style={{opacity: (explorerModel.selectedFolder.irremovable ? 0.3 : 1)}} image={icons.remove}/>
+                callback={explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable ? ((boundingClientRect) => openRemoveFolder(boundingClientRect)) : null}>
+                <Icon style={{opacity: (explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable ? 1 : 0.3)}} image={icons.remove}/>
               </ClickablePanel>
             </Row>
           </Row>

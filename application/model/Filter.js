@@ -40,6 +40,10 @@ export function createDifferenceFilter(baseFilter, negatives) {
       throw new Error("Does not apply");
     },
 
+    addAllIntersectedFilters: function(list) {
+      throw new Error("Does not apply");
+    },
+
     includes: function(design) {
       const andNotReducer = (accumulator, currentValue) => accumulator && !currentValue;
       return filter.baseFilter.includes(design) && filter.negatives.map(filter => filter.includes(design)).reduce(andNotReducer, true);
@@ -63,9 +67,19 @@ export function createCategoryFilter(category) {
       return true;
     },
 
+    normalized() {
+      const children = [filter];
+      return createIntersectionFilter(children);
+    },
+
     addAllIntersectedCategories: function(map) {
       map[filter.category.id] = filter.category;
       return map;
+    },
+
+    addAllIntersectedFilters: function(list) {
+      list.push(this);
+      return list;
     },
 
     includes: function(design) {
@@ -90,7 +104,7 @@ export function createCategoryFilter(category) {
 export function createIntersectionFilter(filters) {
   const filter = {
     isIntersectionFilter: true,
-    filters, 
+    filters: observable(filters), 
 
     isAllIntersections: function() {
       for (let child of filter.filters) {
@@ -101,9 +115,20 @@ export function createIntersectionFilter(filters) {
       return true;
     },
 
+    normalized() {
+      const children = [];
+      filter.addAllIntersectedFilters(children);
+      return createIntersectionFilter(children);
+    },
+
     addAllIntersectedCategories: function(map) {
       filters.forEach(filter => filter.addAllIntersectedCategories(map));
       return map;
+    },
+
+    addAllIntersectedFilters: function(list) {
+      filters.forEach(filter => filter.addAllIntersectedFilters(list));
+      return list;
     },
 
     includes: function(design) {
@@ -153,6 +178,10 @@ export function createUnionFilter(filters) {
       // throw new Error("Does not apply!");
     },
 
+    addAllIntersectedFilters: function(list) {
+      // throw new Error("Does not apply!");
+    },
+
     includes: function(design) {
       for (let childFilter of filter.filters) {
         if (childFilter.includes(design)) {
@@ -174,4 +203,3 @@ export function createUnionFilter(filters) {
   };
   return filter; 
 }
-

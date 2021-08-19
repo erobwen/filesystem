@@ -21,7 +21,7 @@ export const DesignExplorer = observer(class DesignExplorer extends React.Compon
   constructor(props) {
     super(props);
     this.explorerModel = new DesignExplorerModel({
-      selectedFolder: props.vault.folder.children[0]
+      selectedFolder: props.vault.folder.children[5]
     });
   }
   

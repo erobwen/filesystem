@@ -25,6 +25,8 @@ export class DesignExplorerModel {
 
     this.designSelection = new DesignSelection(this);
 
+    this.filter = selectedFolder.filter.normalized();
+
     this.editFolderName = false;    
     log(featureSwitches.splitPanelUnsorted)
     log(appState)
@@ -36,7 +38,7 @@ export class DesignExplorerModel {
       displayItems: observable.ref,
       editFolderName: observable,
       selectedFolder: observable.ref,
-      filter: computed,
+      filter: observable.ref,
       unsortedFilter: computed, 
       sortedFilter: computed,
       sortedSimplifiedFilter: computed 
@@ -81,10 +83,6 @@ export class DesignExplorerModel {
       return null;
     }
   }
-
-  get filter() {
-    return this.selectedFolder ? this.selectedFolder.filter : null;
-  }
   
   onFilterChange() {
     this.designSelection.clear();
@@ -105,15 +103,20 @@ export class DesignExplorerModel {
   }
   
   selectFolder(folder) {
-    log(folder.filter);
     this.selectedFolder = folder; 
-
-    if (!this.filter || this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
-      loge("setting display items to all")
+    if (this.selectedFolder === null) {
       this.displayItems = "all"
     } else {
-      this.displayItems = (featureSwitches.splitPanelUnsorted) ? "splitView" : "all"
+      this.filter = this.selectedFolder.filter ? this.selectedFolder.filter.normalized() : null;
+
+      if (!this.filter || this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
+        loge("setting display items to all")
+        this.displayItems = "all"
+      } else {
+        this.displayItems = (featureSwitches.splitPanelUnsorted) ? "splitView" : "all"
+      }  
     }
+
 
     this.onFilterChange();
   }
