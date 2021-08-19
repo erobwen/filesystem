@@ -22,7 +22,7 @@ function normalize(name) {
   return name.toLowerCase().replace(/\s/g, "");
 }
 
-export function SelectCategoryDialog({open, close, explorerModel, nonAvailable, onSelect}) {
+export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, nonAvailable}) {
   const [categoryName, setCategoryName] = useState("");
   return <ModalDialog open={open} close={close} render={({style}) => {
     const normalizedCategoryName = normalize(categoryName);
@@ -30,6 +30,7 @@ export function SelectCategoryDialog({open, close, explorerModel, nonAvailable, 
     let exactMatch = null;
     const availableCategories = []
     categories.items.forEach(category => {
+      if (typeof(category.name) === "undefined") return;
       let name = normalize(category.name);
       if (name.startsWith(normalizedCategoryName)
           && !nonAvailable[category.id] && category.canBeFilter) {      
@@ -44,16 +45,21 @@ export function SelectCategoryDialog({open, close, explorerModel, nonAvailable, 
     return (
       <div style={{...columnStyle,...panelPaddingStyle, width: 500, height: 400, ...style}} 
         onClick={(event) => {loge("click on column"); event.preventDefault();event.stopPropagation();}}>
-        <Text style={{fontSize: 16}}>Add Filter Folder</Text>
+        <Text style={{fontSize: 16}}>Category name</Text>
         <Spacer size={spacerSize}/>
         <Row style={{flexAutoStyle}} overflowVisible>
           <Icon style={{marginRight: "0.5em"}} image={icons.object}/>
           <Middle style={flexGrowShrinkAutoStyle}>
             <TextInput style={{height: iconSize, lineHeight: iconSize}} onChangeText={setCategoryName} value={categoryName} autoFocus/>
           </Middle>
-          <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
-            onClick={() => onSelect(categoryName)} 
-            disable={(exactMatch !== null) || categoryName.length === 0}/>
+          {
+            allowCreate ? 
+            <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
+              onClick={() => onSelect(categoryName)} 
+              disable={(exactMatch !== null) || categoryName.length === 0}/>
+            :
+            null
+          }
         </Row>
         <Spacer size={spacerSize}/>
         <Text style={{fontSize: 16}}>Select a category</Text>

@@ -42,8 +42,9 @@ export function AddFolderPopover({open, close, boundingClientRect, explorerModel
 
 
 export function AddCategoryFolderDialog({open, close, explorerModel}) {
+  if (!open) return null;
   const nonAvailable = {};
-  explorerModel.selectedFolder.addDirectChildCategoryFilters(nonAvailable);
+  explorerModel.selectedFolder.addDirectChildFilterCategories(nonAvailable);
   explorerModel.selectedFolder.addAllIntersectedCategories(nonAvailable);
   function onSelect(categoryOrCategoryName) {
     explorerModel.addFilterFolder(categoryOrCategoryName); close();

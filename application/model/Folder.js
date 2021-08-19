@@ -160,7 +160,7 @@ export class Folder {
   }
 
 
-  addDirectChildCategoryFilters(map) {
+  addDirectChildFilterCategories(map) {
     this.children.forEach(child => {
       if (child.category) {
         map[child.category.id] = child.category;

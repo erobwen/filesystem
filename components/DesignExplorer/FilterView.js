@@ -12,18 +12,16 @@ import { observer } from 'mobx-react';
 import { Chip, IconButton } from '../Widgets';
 import { AllDesigns } from '../../application/createDemoData';
 import { ModalDialog } from '../Popover';
-
-function AddFilterDialog({open}) {
-  return (
-    <ModalDialog open={open}></ModalDialog>
-
-  );
-}
+import { SelectCategoryDialog } from './SelectCategoryDialog';
+import { createCategoryFilter } from '../../application/model/Filter';
 
 export const FilterView = observer(function({style, explorerModel}) {
   const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);
 
   const filter = explorerModel.filter;
+
+  const nonAvailable = {};
+  filter.filters.forEach(filter => {nonAvailable[filter.category.id] = filter.category});
   log(explorerModel.displayItems)
   if (filter === null) {
     return null;
@@ -55,7 +53,11 @@ export const FilterView = observer(function({style, explorerModel}) {
             setAddFilterDialogOpen(true);
           }}/>
         </Middle>
-        <AddFilterDialog open={addFilterDialogOpen}/>
+        <SelectCategoryDialog open={addFilterDialogOpen} close={() => setAddFilterDialogOpen(false)} 
+          allowCreate={false}
+          nonAvailable={nonAvailable}
+          onSelect={(category) => {filter.filters.push(createCategoryFilter(category)); setAddFilterDialogOpen(false); explorerModel.onUserFilterChange()}}
+        />
         {/* <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text> */}
         <Flexer/>
         {/* {
