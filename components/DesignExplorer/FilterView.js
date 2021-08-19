@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flexer, Row } from '../Layout';
+import { flexAutoStyle, Flexer, Row } from '../Layout';
 import { iconSize, panelBorderBottomStyle, panelPaddingStyle, transparentBlue } from '../Style';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
@@ -9,6 +9,8 @@ import { icons } from '../Icons';
 import { ClickablePanel } from '../ClickablePanel';
 import { log, loge, logg } from '../utility/Debug';
 import { observer } from 'mobx-react';
+import { Chip } from '../Widgets';
+import { AllDesigns } from '../../application/createDemoData';
 
 
 function IconButton({style, image, iconWidth, onClick, callbackKey}) {
@@ -27,9 +29,25 @@ export const FilterView = observer(function({style, explorerModel}) {
   } else {
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
-        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>{[
-        <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text>
-        ]}<Flexer/>
+        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
+        {explorerModel.filter.filters.map(filter => {
+          if (explorerModel.filter.filters.length > 1 && filter.category === AllDesigns) return null;
+          if (filter.category === AllDesigns) {
+            return (
+              <Chip
+                style={flexAutoStyle}
+                text={filter.category.name}/>
+            );
+          }
+          return (
+            <Chip
+              style={flexAutoStyle}
+              text={filter.category.name} 
+              onDelete={() => {explorerModel.filter.filters.remove(filter); explorerModel.onUserFilterChange();}}/>
+          );
+        })}
+        {/* <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text> */}
+        <Flexer/>
         {/* {
           explorerModel.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(explorerModel.displayItems) ? 
           null 

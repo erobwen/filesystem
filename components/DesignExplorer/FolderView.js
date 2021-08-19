@@ -16,7 +16,7 @@ import { observer } from 'mobx-react';
 
 export function RootFolderView({style, folder, explorerModel}) {
   return (
-    <ClickablePanel callback={() => {explorerModel.selectFolder(folder)}}>
+    <ClickablePanel callback={() => {explorerModel.userSelectFolder(folder)}}>
       <Column 
         style={style} 
         children={folder.children.map(child => 
@@ -31,7 +31,7 @@ export function RootFolderView({style, folder, explorerModel}) {
 }
 
 export const FolderView = observer(function({style, indentation, folder, explorerModel}) {
-  //selectedFolder, selectFolder, 
+  //selectedFolder, userSelectFolder, 
   if (typeof(indentation) === "undefined") indentation = 0;
   
   const [ showArrow, setShowArrow ] = useState(false);
@@ -50,8 +50,8 @@ export const FolderView = observer(function({style, indentation, folder, explore
     <Column id="FolderView" style={style}>
       <ClickablePanel key="folder" style={{...fitStyle}} 
         mouseOverBackgroundColor={transparentBlue(0.1)} 
-        callback={() => explorerModel.selectFolder(folder)}
-        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}
+        callback={() => explorerModel.userSelectFolder(folder)}
+        // onDoubleClick={(event) => { loge("in handler");event.preventDefault(); event.stopPropagation(); explorerModel.userSelectFolder(folder); explorerModel.editFolderName = true;}}
         >
         <DropTarget style={{...fitStyle, height: iconSize + 2}} 
           onDragEnter={() => setShowArrow(true)}
@@ -72,7 +72,7 @@ export const FolderView = observer(function({style, indentation, folder, explore
                 (folder === explorerModel.selectedFolder && explorerModel.editFolderName) ?
                 <TextInput onChangeText={text => {folder.name = text}} value={folder.name} autoFocus onBlur={() => {explorerModel.editFolderName = false;}}/> 
                 :
-                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {explorerModel.selectFolder(folder); explorerModel.editFolderName = true;}}>{folder.name}</Text>
+                <Text selectTextOnFocus={false} style={{lineHeight: iconSize}} onLongPress={() => {explorerModel.userSelectFolder(folder); explorerModel.editFolderName = true;}}>{folder.name}</Text>
               }
               <Icon style={{paddingRight:panelPadding, marginLeft: "0.5em" ,display: showArrow ? "initial" : "none"}} image={implyImage}/>
             </Row>

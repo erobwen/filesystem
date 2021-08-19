@@ -84,9 +84,19 @@ export class DesignExplorerModel {
     }
   }
   
+  onDesignSelectionChange() {
+    this.sortedDeltaStore.resetDelta();
+    this.unsortedDeltaStore.resetDelta();
+    this.deltaStore.resetDelta();
+  }
+  
+  onUserFilterChange() {
+    this.selectFolder(null);
+    this.onFilterChange();
+  }
+
   onFilterChange() {
     this.designSelection.clear();
-    this.filteredStore.filter = this.filter; 
     this.deltaStore.reInitialize();
 
     this.unsortedFilteredStore.filter = this.unsortedFilter;
@@ -96,12 +106,11 @@ export class DesignExplorerModel {
     this.sortedDeltaStore.reInitialize();
   }
 
-  onDesignSelectionChange() {
-    this.sortedDeltaStore.resetDelta();
-    this.unsortedDeltaStore.resetDelta();
-    this.deltaStore.resetDelta();
+  userSelectFolder(folder) {
+    this.selectFolder(folder);
+    this.onFilterChange();
   }
-  
+
   selectFolder(folder) {
     this.selectedFolder = folder; 
     if (this.selectedFolder === null) {
@@ -116,9 +125,6 @@ export class DesignExplorerModel {
         this.displayItems = (featureSwitches.splitPanelUnsorted) ? "splitView" : "all"
       }  
     }
-
-
-    this.onFilterChange();
   }
 
   addFilterFolder(nameOrCategory) {
@@ -137,7 +143,7 @@ export class DesignExplorerModel {
   createNewFolderGroup() {
     const newFolder = createFolder()
     this.selectedFolder.addChild(newFolder);
-    this.selectFolder(newFolder);
+    this.userSelectFolder(newFolder);
     this.editFolderName = true; 
   }
 
@@ -145,7 +151,7 @@ export class DesignExplorerModel {
     if (this.selectedFolder && this.selectedFolder.parent) {
       let parent = this.selectedFolder.parent;
       parent.removeChild(this.selectedFolder);
-      this.selectFolder(parent)
+      this.userSelectFolder(parent)
     }
   }
 }

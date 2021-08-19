@@ -64,7 +64,7 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
           <Middle>
             <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} 
               image={icons.chevronLeft} 
-              onClick={() => {setOpen(false); explorerModel.selectFolder(null)}}/>
+              onClick={() => {setOpen(false); explorerModel.userSelectFolder(null)}}/>
           </Middle>
         </Row>
       </Column>
