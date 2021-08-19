@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { flexAutoStyle, Flexer, Middle, Row } from '../Layout';
-import { iconSize, panelBorderBottomStyle, panelPaddingStyle, topPanelHeight, transparentBlue } from '../Style';
+import { iconSize, panelBorderBottomStyle, panelPaddingStyle, topPanelHeight, transparentBlue, transparentLightBlue } from '../Style';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import folderImage from '../../assets/folder_outline.svg';
@@ -35,14 +35,14 @@ export const FilterView = observer(function({style, explorerModel}) {
             return (
               <Chip 
                 key={filter.category.name}
-                style={flexAutoStyle}
+                style={{...flexAutoStyle, backgroundColor: transparentLightBlue(0.1)}}
                 text={filter.category.name}/>
             );
           }
           return (
             <Chip
               key={filter.category.name}
-              style={flexAutoStyle}
+              style={{...flexAutoStyle, backgroundColor: transparentLightBlue(0.1)}}
               text={filter.category.name} 
               onDelete={() => {explorerModel.filter.filters.remove(filter); explorerModel.onUserFilterChange();}}/>
           );

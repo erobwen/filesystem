@@ -39,6 +39,10 @@ export function transparentBlue(opacity) {
   return "rgba(30, 30, 124, " + opacity + ")";
 }
 
+export function transparentLightBlue(opacity) {
+  return "rgba(108, 148, 255, " + opacity + ")";
+}
+
 export function transparentGray(opacity) {
   return "rgba(0, 0, 0, " + opacity + ")";
 }

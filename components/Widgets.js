@@ -29,12 +29,12 @@ export function LargeMenuItem({image, text, onClick}) {
   ); 
 }
 
-export function Chip({style, text, onDelete}) {
+export function Chip({style, text, chipStyle, onDelete}) {
   return (
     <Row style={{...panelStyle, padding:5, marginBottom: 3, marginRight: 3, ...style}}>
       <Text key={"text"} style={{...flexAutoStyle, marginRight: "0.5em",  overflow:"visible", lineHeight: 15}}>{text}</Text>
       { !onDelete ? null : 
-        <ClickablePanel style={flexAutoStyle}
+        <ClickablePanel style={{...flexAutoStyle, ...chipStyle}}
           callback={() => onDelete()}>
           <Middle style={fitStyle} key={"cross"}>
             <Icon size={10} image={icons.cross}/>
