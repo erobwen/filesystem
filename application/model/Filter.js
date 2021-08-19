@@ -23,31 +23,8 @@ export function simplifyUnion(baseFilter, unionFilterList) {
       
   return unionFilterList.map(filter => simplifyFilter(filter));
 }
- 
-
 
 export function createDifferenceFilter(baseFilter, negatives) {
-
-  function simplifyNegative(negative) {
-    const negativeOk = negative.isAllIntersections();
-    const baseOk = baseFilter.isAllIntersections();
-    if (baseFilter.isAllIntersections() && negative.isAllIntersections()) {
-      const intersectionMap = baseFilter.intersectionMap({});
-      const negativeIntersectionMap = negative.intersectionMap({});
-      for (let id in negativeIntersectionMap) {
-        if (intersectionMap[id]) {
-          delete negativeIntersectionMap[id];
-        }
-      }
-
-      return createIntersectionFilter(Object.values(negativeIntersectionMap));
-    }
-
-    return negative;
-  }
-
-  negatives = negatives.map(negative => simplifyNegative(negative));
-
   const filter = {
     baseFilter,  
     negatives, 

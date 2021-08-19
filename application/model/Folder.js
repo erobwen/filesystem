@@ -14,6 +14,7 @@ export function folder(input, ...children) {
   let image;
   let category;
   let irremovable;
+  let open = true;
 
   if (typeof(input) == "string") {
     name = input;
@@ -43,17 +44,21 @@ export function folder(input, ...children) {
       if (input.irremovable) {
         irremovable = input.irremovable; 
       }
+
+      if (typeof(input.open) !== "undefined") {
+        open = input.open;
+      }
     }
   }
 
-  return new Folder(name, image, category, null, irremovable, children);
+  return new Folder(name, image, category, null, irremovable, children, open);
 }
 
 
 let nextFolderId = 1;
 
 export class Folder {
-  constructor(name, image, category, rule, irremovable, children) {
+  constructor(name, image, category, rule, irremovable, children, open) {
     this.id = nextFolderId++;
 
     this.irremovable = irremovable; 
@@ -61,7 +66,7 @@ export class Folder {
     this.image = image; 
     this.category = category;
     this.rule = rule;
-    this.open = true; 
+    this.open = open; 
     
     this.parent = null;
     this.children = observable(children);

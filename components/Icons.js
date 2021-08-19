@@ -24,7 +24,9 @@ import tagsFlat from "../assets/tags_flat.svg"
 import filterBlue from "../assets/filter_blue.svg"
 import filter from "../assets/filter.svg"
 import filterPad from "../assets/filter_pad.svg"
+
 import heart from "../assets/heart.svg"
+import quickAccess from "../assets/quick_access.svg"
 
 import sewingMachine from "../assets/sewing_machine.svg"
 import trashCan from "../assets/trash_can.svg"
@@ -67,6 +69,7 @@ export const icons = {
   filter,
   filterPad,
   heart,
+  quickAccess,
   sewingMachine,
   trashCan,
   designsInTrash,

@@ -43,9 +43,10 @@ const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, c
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
 export const demoFolder = folder("Quick access",
+  folder({image: icons.quickAccess, name:"Quick Access", category: null, irremovable: true}),
   folder({image: icons.heart, category: Favorite, irremovable: true}),
   folder({category: Vault, irremovable: true}),
-  folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}, folder({image: icons.imply, category: Cat})),
+  folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),
   folder({image: icons.trashCan, category: RecycleBin, irremovable: true}),
 
   folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
@@ -62,13 +63,15 @@ export const demoFolder = folder("Quick access",
 
     // folder(Cat, folder(Dog)),
     // folder(Dog)),
-
-
 );
 
-export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlat, category: null, irremovable: true});
+export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlat, category: null, irremovable: true, open: false});
 categories.items.forEach(category => {
-  categoriesFolder.addChild(createFolder({image: icons.tagFlat, category: category, irremovable: true}))
+  const categoryFolder = createFolder({image: icons.tagFlat, category: category, irremovable: true});
+  categoriesFolder.addChild(categoryFolder)
+  if (category === Favorite) {
+    categoryFolder.addChild(folder({image: icons.imply, category: Cat}))
+  }
 });
 // demoFolder.addChild(categoriesFolder);
 

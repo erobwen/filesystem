@@ -54,7 +54,7 @@ export const FilterBrowser = observer(function({style, bounds, folder, explorerM
             explorerModel={explorerModel}
             />
           <FolderView style={{paddingTop: panelPadding, paddingBottom: panelPadding}}
-            indentation={panelPadding}
+            indentation={panelPadding-12}
             folder={categoriesFolder} 
             explorerModel={explorerModel}/>
         </Scroller>
@@ -89,7 +89,7 @@ export function RootFolderView({style, folder, explorerModel}) {
         style={style} 
         children={folder.children.map(child => 
           <FolderView 
-            indentation={panelPadding}
+            indentation={panelPadding - 12}
             key={child.id}
             style={{paddingBottom:10}} 
             folder={child}
@@ -131,7 +131,7 @@ export const FolderView = observer(function({style, indentation, folder, explore
           </Row> */}
           <SelectionBase style={fitStyle} selected={folder === explorerModel.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
-              <Middle style={{width: 10, marginRight: "0.3em"}}>
+              <Middle style={{width: 10, marginRight: 2}}>
                 <IconButton style={{display: !folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=true;log("closed")}} image={icons.chevronRight}/>
                 <IconButton style={{display: folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=false;log("open")}} image={icons.chevronDown}/>
               </Middle>
