@@ -38,7 +38,8 @@ export class DesignExplorerModel {
       selectedFolder: observable.ref,
       filter: computed,
       unsortedFilter: computed, 
-      sortedFilter: computed, 
+      sortedFilter: computed,
+      sortedSimplifiedFilter: computed 
     });
   }
 
@@ -62,6 +63,16 @@ export class DesignExplorerModel {
   }
 
   get sortedFilter() {
+    if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
+      log("Union sorted filter!");
+      return this.selectedFolder.getChildUnionFilter();
+    } else {
+      // log("No filter!");
+      return null;
+    }
+  }
+  
+  get sortedSimplifiedFilter() {
     if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
       log("Union sorted filter!");
       return this.selectedFolder.getSimplifiedChildUnionFilter();

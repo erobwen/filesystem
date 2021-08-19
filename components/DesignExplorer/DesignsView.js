@@ -28,7 +28,9 @@ export const DesignsView = observer(class DesignsView extends React.Component {
     if (explorerModel.displayItems === "splitView") {
       let sortedTitle = "";
       if (explorerModel.sortedDeltaStore.source && explorerModel.sortedDeltaStore.source.filter) {
-        sortedTitle = explorerModel.sortedDeltaStore.source.filter.toEquationString();
+        if (explorerModel.sortedSimplifiedFilter) {
+          sortedTitle = explorerModel.sortedSimplifiedFilter.toEquationString();
+        }
       }
       contents = [];
       if (explorerModel.unsortedDeltaStore.items.length > 0) {
