@@ -46,8 +46,8 @@ export function AddCategoryFolderDialog({open, close, explorerModel}) {
   const nonAvailable = {};
   explorerModel.selectedFolder.addDirectChildFilterCategories(nonAvailable);
   explorerModel.selectedFolder.addAllIntersectedCategories(nonAvailable);
-  function onSelect(categoryOrCategoryName) {
-    explorerModel.addFilterFolder(categoryOrCategoryName); close();
+  function onSelect(category) {
+    explorerModel.addFilterFolder(category); close();
   }
   return (
     <SelectCategoryDialog open={open} close={close} 

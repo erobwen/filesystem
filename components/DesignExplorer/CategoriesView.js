@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { FilterBrowser } from './FilterBrowser';
 import { Column, fitStyle, Row, CenterMiddle, flexAutoStyle, flexGrowShrinkStyle, flexAutoHeightStyle, Middle } from '../Layout';
@@ -17,9 +17,13 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { iconSize, panelBorderTopStyle, panelPaddingStyle, panelStyle } from '../Style';
 import { Icon } from '../Icon';
 import { ClickablePanel } from '../ClickablePanel';
-import { Chip } from '../Widgets';
+import { Chip, IconButton } from '../Widgets';
+import { icons } from '../Icons';
+import { SelectCategoryDialog } from './SelectCategoryDialog';
 
 export const CategoriesView = observer(function({style, designSelection}) {
+  const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);
+
   const selectedDesigns = Object.values(designSelection.items);
 
   const categoryInfos = {}
@@ -43,6 +47,14 @@ export const CategoriesView = observer(function({style, designSelection}) {
     });
   }
 
+  const nonAvailable = {};
+  for (let categoryId in categoryInfos) {
+    const categoryInfo = categoryInfos[categoryId];
+    if (categoryInfo.state === "all") {
+      nonAvailable[categoryInfo.category.id] = categoryInfo.category.id;
+    }
+  }
+
   function removeCategory(category) {
     selectedDesigns.forEach(design => {
       design.uncategorize(category);
@@ -55,6 +67,29 @@ export const CategoriesView = observer(function({style, designSelection}) {
       style={flexAutoStyle}
       removeCategory={removeCategory} 
       categoryInfo={categoryInfo}/>)
+
+  if (selectedDesigns.length > 0) {
+    children.push(
+      <Middle key="add" style={{height: 25, marginLeft: "0.5em"}}>
+        <IconButton style={flexAutoStyle} image={icons.plus} size={15}
+        onClick={() => {
+          setAddFilterDialogOpen(true);
+        }}/>
+      </Middle>
+    )
+    children.push(
+      <SelectCategoryDialog open={addFilterDialogOpen} close={() => setAddFilterDialogOpen(false)} 
+        allowCreate={true}
+        nonAvailable={nonAvailable}
+        onSelect={(category) => {
+          setAddFilterDialogOpen(false);
+          selectedDesigns.forEach(design => {
+            design.categorize(category);
+          });
+        }}
+      />
+    )
+  }
 
   return (
     <Row 

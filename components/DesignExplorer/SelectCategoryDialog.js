@@ -15,7 +15,8 @@ import { Scroller, scrollerContentStyle } from '../Scroller';
 import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
 import { Button, LargeMenuItem, MenuItem } from '../Widgets';
-import { categories } from '../../application/model/Category';
+import { categories, createCategory } from '../../application/model/Category';
+import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
 
 
 function normalize(name) {
@@ -55,7 +56,12 @@ export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, n
           {
             allowCreate ? 
             <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
-              onClick={() => onSelect(categoryName)} 
+              onClick={() => {
+                categoryName = capitalizeEveryFirstLetter(categoryName);
+                category = createCategory(categoryName);
+                categories.items.push(category);
+                onSelect(category)
+              }} 
               disable={(exactMatch !== null) || categoryName.length === 0}/>
             :
             null

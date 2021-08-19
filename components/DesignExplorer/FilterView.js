@@ -20,12 +20,11 @@ export const FilterView = observer(function({style, explorerModel}) {
 
   const filter = explorerModel.filter;
 
-  const nonAvailable = {};
-  filter.filters.forEach(filter => {nonAvailable[filter.category.id] = filter.category});
-  log(explorerModel.displayItems)
   if (filter === null) {
     return null;
   } else {
+    const nonAvailable = {};
+    filter.filters.forEach(filter => {nonAvailable[filter.category.id] = filter.category});
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, height: topPanelHeight, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>

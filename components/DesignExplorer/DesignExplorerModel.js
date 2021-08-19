@@ -128,16 +128,7 @@ export class DesignExplorerModel {
     }
   }
 
-  addFilterFolder(nameOrCategory) {
-    let category;
-    if (typeof(nameOrCategory) === "string") {
-      let name = nameOrCategory;
-      name = capitalizeEveryFirstLetter(name);
-      category = createCategory(name);
-      categories.items.push(category);
-    } else {
-      category = nameOrCategory;
-    }
+  addFilterFolder(category) {
     this.selectedFolder.addChild(createFolder(category));
   }
 
