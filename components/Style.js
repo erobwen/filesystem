@@ -15,7 +15,17 @@ export const panelStyle = {
   boxShadow: paperShadow,
 };
 
+export const roundedCornerStyle = {
+  boxSizing: "border-box",
+  borderWidth: "0px",
+  borderColor: "rgb(200,200,200)",
+  borderRadius: "4px",
+  borderStyle: "solid",
+}
+
 export const sidePanelWidth = 200;
+
+export const topPanelHeight = 61;
 
 export const panelPadding = 15;
 

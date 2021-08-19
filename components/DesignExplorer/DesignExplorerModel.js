@@ -75,7 +75,7 @@ export class DesignExplorerModel {
   }
   
   get sortedSimplifiedFilter() {
-    if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
+    if (this.selectedFolder && this.selectedFolder.filter && !this.selectedFolder.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
       log("Union sorted filter!");
       return this.selectedFolder.getSimplifiedChildUnionFilter();
     } else {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { flexAutoStyle, Flexer, Row } from '../Layout';
-import { iconSize, panelBorderBottomStyle, panelPaddingStyle, transparentBlue } from '../Style';
+import { iconSize, panelBorderBottomStyle, panelPaddingStyle, topPanelHeight, transparentBlue } from '../Style';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import folderImage from '../../assets/folder_outline.svg';
@@ -28,7 +28,7 @@ export const FilterView = observer(function({style, explorerModel}) {
     return null;
   } else {
     return (
-      <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, ...style}}>
+      <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, height: topPanelHeight, ...style}}>
         <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
         {explorerModel.filter.filters.map(filter => {
           if (filter.category === AllDesigns) {

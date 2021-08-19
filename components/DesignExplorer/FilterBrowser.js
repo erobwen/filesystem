@@ -4,7 +4,7 @@ import { Column, columnStyle, fitStyle, flexAutoStyle, flexAutoWidthStyle, Flexe
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
+import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, topPanelHeight, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg, loggg } from '../utility/Debug';
 
 import { Scroller, scrollerContentStyle } from '../Scroller';
@@ -40,12 +40,12 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
   
   if (!open) {
     return (
-      <Column style={flexAutoWidthStyle(56)}>
+      <Column style={flexAutoWidthStyle(topPanelHeight)}>
         <Column style={{...panelBorderRightStyle}}>
-          <Row style={{height: 56,...panelBorderBottomStyle}}>
+          <Row style={{height: topPanelHeight,...panelBorderBottomStyle}}>
             <Flexer/>
             <Middle>
-              <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} 
+              <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (topPanelHeight-15)/2}} size={15} 
                 image={icons.chevronRight} 
                 onClick={() => setOpen(true)}/>
             </Middle>
@@ -59,10 +59,10 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
   return (
     <Column style={flexAutoWidthStyle(maxWidth)}>
       <Column style={{...panelBorderRightStyle}}>
-        <Row style={{height: 56,...panelBorderBottomStyle}}>
+        <Row style={{height: topPanelHeight,...panelBorderBottomStyle}}>
           <Flexer/>
           <Middle>
-            <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (56-15)/2}} size={15} 
+            <IconButton style={{...flexAutoStyle, opacity: 0.5, marginRight: (topPanelHeight-15)/2}} size={15} 
               image={icons.chevronLeft} 
               onClick={() => {setOpen(false); explorerModel.userSelectFolder(null)}}/>
           </Middle>
@@ -84,15 +84,14 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
           <Flexer/>
           <Row style={{padding: panelPadding}}>
             <Flexer/>
-            <Row style={pointerEventsAutoStyle}>
-              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)}  callback={(boundingClientRect) => {
-                openAddFolder(boundingClientRect);}}>
-                <Icon image={icons.plus}/>
-              </ClickablePanel>
-              <ClickablePanel mouseOverBackgroundColor={transparentBlue(0.1)} style={{paddingLeft: "0.5em"}} 
-                callback={explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable ? ((boundingClientRect) => openRemoveFolder(boundingClientRect)) : null}>
-                <Icon style={{opacity: (explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable ? 1 : 0.3)}} image={icons.remove}/>
-              </ClickablePanel>
+            <Row style={{...pointerEventsAutoStyle}}>
+              <IconButton style={{display: "block"}} image={icons.plus} 
+                onClick={(boundingClientRect) => {
+                  openAddFolder(boundingClientRect);
+                }}/>
+              <IconButton style={{display: "block", marginLeft: "0.5em"}} image={icons.remove} 
+                disable={explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable}
+                onClick={(boundingClientRect) => openRemoveFolder(boundingClientRect)}/>
             </Row>
           </Row>
         </Column>

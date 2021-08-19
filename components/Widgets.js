@@ -4,7 +4,7 @@ import { Column, columnStyle, fitStyle, flexAutoStyle, Flexer, Middle, pointerEv
 import { Icon } from './Icon';
 
 import { ClickablePanel } from './ClickablePanel';
-import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from './Style';
+import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, roundedCornerStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from './Style';
 import { icons } from './Icons';
 
 export function MenuItem({image, text, onClick}) {
@@ -47,7 +47,7 @@ export function Chip({style, text, onDelete}) {
 
 export function IconButton({style, image, onClick, disable, size}) {
   return (
-    <ClickablePanel style={{width: size, height: size, opacity: disable ? 0.3 : 1, ...style}} callback={disable ? null : onClick}>
+    <ClickablePanel style={{lineHeight: 0, width: size, height: size, opacity: disable ? 0.3 : 1, ...roundedCornerStyle, ...style}} mouseOverBackgroundColor={transparentBlue(0.1)} callback={disable ? null : onClick}>
       <Icon size={size} image={image}/>
     </ClickablePanel>
   );
