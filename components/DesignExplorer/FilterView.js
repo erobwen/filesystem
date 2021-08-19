@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { flexAutoStyle, Flexer, Row } from '../Layout';
+import { flexAutoStyle, Flexer, Middle, Row } from '../Layout';
 import { iconSize, panelBorderBottomStyle, panelPaddingStyle, topPanelHeight, transparentBlue } from '../Style';
 import { Placeholder } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
@@ -9,19 +9,20 @@ import { icons } from '../Icons';
 import { ClickablePanel } from '../ClickablePanel';
 import { log, loge, logg } from '../utility/Debug';
 import { observer } from 'mobx-react';
-import { Chip } from '../Widgets';
+import { Chip, IconButton } from '../Widgets';
 import { AllDesigns } from '../../application/createDemoData';
+import { ModalDialog } from '../Popover';
 
+function AddFilterDialog({open}) {
+  return (
+    <ModalDialog open={open}></ModalDialog>
 
-function IconButton({style, image, iconWidth, onClick, callbackKey}) {
-  return(
-    <ClickablePanel style={style} mouseOverBackgroundColor={transparentBlue(0.1)} callback={onClick} callbackKey={callbackKey}>
-      <Icon size={iconSize} width={iconWidth} image={image}/>
-    </ClickablePanel>
   );
 }
 
 export const FilterView = observer(function({style, explorerModel}) {
+  const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);
+
   const filter = explorerModel.filter;
   log(explorerModel.displayItems)
   if (filter === null) {
@@ -48,6 +49,13 @@ export const FilterView = observer(function({style, explorerModel}) {
               onDelete={() => {explorerModel.filter.filters.remove(filter); explorerModel.onUserFilterChange();}}/>
           );
         })}
+        <Middle style={{marginLeft: "0.5em"}}>
+          <IconButton style={flexAutoStyle} image={icons.plus} size={15}
+          onClick={() => {
+            setAddFilterDialogOpen(true);
+          }}/>
+        </Middle>
+        <AddFilterDialog open={addFilterDialogOpen}/>
         {/* <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text> */}
         <Flexer/>
         {/* {

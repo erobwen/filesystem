@@ -47,7 +47,13 @@ export function Chip({style, text, onDelete}) {
 
 export function IconButton({style, image, onClick, disable, size}) {
   return (
-    <ClickablePanel style={{lineHeight: 0, width: size, height: size, opacity: disable ? 0.3 : 1, ...roundedCornerStyle, ...style}} mouseOverBackgroundColor={transparentBlue(0.1)} callback={disable ? null : onClick}>
+    <ClickablePanel 
+      style={{lineHeight: 0, width: size, height: size, 
+        opacity: disable ? 0.3 : 1, 
+        ...roundedCornerStyle, 
+        ...style}} 
+      mouseOverBackgroundColor={transparentBlue(0.1)} 
+      callback={disable ? null : onClick}>
       <Icon size={size} image={image}/>
     </ClickablePanel>
   );
