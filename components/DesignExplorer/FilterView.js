@@ -20,14 +20,10 @@ export const FilterView = observer(function({style, explorerModel}) {
   const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);
 
   const filter = explorerModel.filter;
-  logg("Render filter view");
-  log(explorerModel);
-  log(filter.isNormalized);
-  
-  const pinned = isPinned(filter);
   if (filter === null) {
     return null;
   } else {
+    const pinned = isPinned(filter);
     const nonAvailable = {};
     filter.filters.forEach(filter => {nonAvailable[filter.category.id] = filter.category});
     return (
