@@ -143,7 +143,6 @@ export function createIntersectionFilter(filters) {
       children.sortOn(child => child.category.id);
       let result = createIntersectionFilter(children);
       result.isNormalized = true;
-      log(result.isNormalized)
       return result; 
     },
 

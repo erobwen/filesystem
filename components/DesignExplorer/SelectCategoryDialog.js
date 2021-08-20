@@ -8,8 +8,9 @@ import { Scroller, scrollerContentStyle } from '../Scroller';
 import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';
 import { Button, LargeMenuItem, MenuItem } from '../Widgets';
-import { categories, createCategory } from '../../application/model/Category';
+import { createCategory } from '../../application/model/Category';
 import { capitalizeEveryFirstLetter } from '../utility/javaScriptUtility';
+import { categories } from '../../application/model/Vault';
 
 
 function normalize(name) {

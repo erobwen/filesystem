@@ -5,7 +5,6 @@ import folderImage from '../../assets/folder.svg';
 import { createStore } from "./Store";
 // import { AllDesigns } from "../createDemoData";
 
-export const categories = createStore();
 
 let nextId = 1;
 export function createCategory(name, image) {

@@ -5,24 +5,18 @@ import { ScreenAnalyzer } from './components/ScreenAnalyzer';
 import { CenterMiddle, Column, fitStyle, flexAutoStyle, flexGrowShrinkStyle } from './components/Layout';
 import { DesignExplorer } from './components/DesignExplorer/DesignExplorer';
 import { panelStyle } from './components/Style';
-import { demoVault } from './application/createDemoData';
 import { javaScriptUtility } from './components/utility/javaScriptUtility';
 import { initializeKeyTracker } from './components/KeyStateTracker';
 import { log, logg, loggg } from './components/utility/Debug';
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
-import { observable } from 'mobx';
+import { configure } from "mobx"
+import { vault } from './application/model/Vault';
 
 javaScriptUtility.install();
 initializeKeyTracker();
 
-import { configure } from "mobx"
-
 configure({
-    enforceActions: "never",
-    // computedRequiresReaction: true,
-    // reactionRequiresObservable: true,
-    // observableRequiresReaction: true,
-    // disableErrorBoundaries: true
+    enforceActions: "never"
 })
 
 export default function App() {
@@ -32,7 +26,7 @@ export default function App() {
       <ModalDialogWrapper style={style} bounds={bounds} render={({style, bounds}) => 
         <MaxSizePadder style={bounds} bounds={bounds} maxWidth={1000} maxHeight={700} render={({style, bounds}) => 
           <Column style={style}>
-            <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={demoVault}/>
+            <DesignExplorer style={flexGrowShrinkStyle} bounds={bounds} vault={vault}/>
             <StatusBar style={flexAutoStyle}/>
           </Column>
         }/>      

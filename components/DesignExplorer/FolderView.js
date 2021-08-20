@@ -12,6 +12,8 @@ import { DropTarget } from '../DropTarget';
 import { icons } from '../Icons';
 import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { observer } from 'mobx-react';
+import { createFolder } from '../../application/model/Folder';
+import { Rule } from '../../application/model/RuleStore';
 
 export function RootFolderView({style, folder, explorerModel}) {
   return (
@@ -37,13 +39,21 @@ export const FolderView = observer(function({style, indentation, folder, explore
 
   function onDrop() {
     if (explorerModel.isDraggingDesigns()) {
-      explorerModel.dragging.forEach(design => {
-        folder.filter.categorizeToInclude(design);
-      });
+      if (folder.filter) {
+        explorerModel.dragging.forEach(design => {
+          folder.filter.categorizeToInclude(design);
+        });
+      }
       explorerModel.dragging = null;
     } else if (explorerModel.isDraggingFilter()){
-      folder.addChild(createFolder({}))
-      
+      const newFolder = createFolder({ 
+        name: explorerModel.dragging.toEquationString(), 
+        filter: explorerModel.dragging, 
+        image: icons.imply});
+      const cause = explorerModel.dragging.addAllIntersectedCategories({});
+      const effect = folder.filter.addAllIntersectedCategories({})
+      newFolder.rule = new Rule(newFolder, effect, cause); 
+      folder.addChild(newFolder);
       explorerModel.dragging = null;
     }
   }
@@ -67,8 +77,8 @@ export const FolderView = observer(function({style, indentation, folder, explore
           <SelectionBase style={fitStyle} selected={folder === explorerModel.selectedFolder}>
             <Row style={{...fitStyle, paddingLeft:indentation}}>
               <Middle style={{width: 10, marginRight: 2}}>
-                <IconButton style={{display: !folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=true;log("closed")}} image={icons.chevronRight}/>
-                <IconButton style={{display: folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=false;log("open")}} image={icons.chevronDown}/>
+                <IconButton style={{display: !folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=true;}} image={icons.chevronRight}/>
+                <IconButton style={{display: folder.open && folder.children.length > 0 ? "inherit" : "none"}} size={10} onClick={() => {folder.open=false;}} image={icons.chevronDown}/>
               </Middle>
               <Icon size={iconSize} style={{marginRight: "0.5em"}} image={folderImage}/>
               {

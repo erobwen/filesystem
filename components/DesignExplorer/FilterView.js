@@ -95,5 +95,5 @@ function Draggable({style, children, onDragStart, explorerModel}) {
     event.stopPropagation();
     return true;
   }
-  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {explorerModel.dragged = null}}>{children}</div>
+  return <div id="Draggable" style={{...style, cursor: "grab"}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {explorerModel.dragged = null}}>{children}</div>
 }

@@ -1,32 +1,29 @@
 import { DesignsView } from "../../components/DesignExplorer/DesignsView";
+import { vault } from "./Vault";
 
 let nextRuleId = 1;
 
-class Rule {
+export class Rule {
   constructor({cause, effect, folder}) {
     this.id = nextRuleId++;
     this.cause = cause; 
     this.effect = effect;
-    this.folder = folder; 
+    this.folder = folder;
+    vault.rules.addRule(this);
   }
 }
 
-
-class RuleStore {
+export class RuleStore {
   constructor() {
     this.rules = [];
   }
 
-  addRule(ownerFolder, cause, effect) {
-    rules.push(new Rule({
-      cause, 
-      effect,
-      folder: ownerFolder,
-    }));
+  addRule(rule) {
+    this.rules.push(rule);
   }
 
   removeRule(rule) {
     this.rules.remove(rule);
-    designSto.
+    // designSto.
   }
 }
