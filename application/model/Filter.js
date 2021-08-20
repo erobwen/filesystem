@@ -27,6 +27,7 @@ export function simplifyUnion(baseFilter, unionFilterList) {
 
 export function createDifferenceFilter(baseFilter, negatives) {
   const filter = {
+    isFilter: true,
     isDifferenceFilter: true,
 
     baseFilter,  
@@ -60,6 +61,7 @@ export function createDifferenceFilter(baseFilter, negatives) {
 
 export function createCategoryFilter(category) {
   const filter = {
+    isFilter: true,
     isCategoryFilter: true,
     category,
 
@@ -105,6 +107,7 @@ export function createCategoryFilter(category) {
 
 export function createIntersectionFilter(filters) {
   const filter = {
+    isFilter: true,
     isIntersectionFilter: true,
     filters: observable(filters), 
 
@@ -195,6 +198,7 @@ export function createIntersectionFilter(filters) {
 export function createUnionFilter(filters) {
   const filter = {
     filters,
+    isFilter: true,
     isUnionFilter: true,
 
     isAllIntersections: function() {

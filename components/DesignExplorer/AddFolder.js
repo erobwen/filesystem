@@ -6,7 +6,6 @@ import { Icon } from '../Icon';
 import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg } from '../utility/Debug';
-import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
 import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
 

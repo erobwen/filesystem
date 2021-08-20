@@ -15,8 +15,6 @@ import { DesignSelection } from './DesignSelection';
 import { sidePanelWidth } from '../Style';
 import { DesignExplorerModel } from './DesignExplorerModel';
 
-export let draggingType = { value: null};
-
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);

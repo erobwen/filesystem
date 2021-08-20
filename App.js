@@ -15,6 +15,15 @@ import { observable } from 'mobx';
 javaScriptUtility.install();
 initializeKeyTracker();
 
+import { configure } from "mobx"
+
+configure({
+    enforceActions: "never",
+    // computedRequiresReaction: true,
+    // reactionRequiresObservable: true,
+    // observableRequiresReaction: true,
+    // disableErrorBoundaries: true
+})
 
 export default function App() {
   loggg()

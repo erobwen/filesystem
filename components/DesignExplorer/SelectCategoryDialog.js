@@ -2,15 +2,8 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import React, { Component, useState } from 'react';
 import { Column, columnStyle, fitStyle, flexAutoStyle, flexAutoWidthStyle, Flexer, flexGrowShrinkAutoStyle, Middle, pointerEventsAutoStyle, pointerEventsNoneStyle, Row, Wrapper, ZStack, zStackElementStyle, zStackStyle } from '../Layout';
 import { Icon } from '../Icon';
-
-import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg } from '../utility/Debug';
-import { draggingType } from './DesignExplorer';
-import implyImage from '../../assets/imply.svg'
-import { Portal, PortalProvider, PortalHost } from '@gorhom/portal';
-
-import { DropTarget } from '../DropTarget';
 import { Scroller, scrollerContentStyle } from '../Scroller';
 import { ModalDialog, ModalPopover, Popover } from '../Popover';
 import { icons } from '../Icons';

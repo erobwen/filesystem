@@ -28,7 +28,13 @@ export const FilterView = observer(function({style, explorerModel}) {
     filter.filters.forEach(filter => {nonAvailable[filter.category.id] = filter.category});
     return (
       <Row style={{...panelBorderBottomStyle, ...panelPaddingStyle, height: topPanelHeight, ...style}}>
-        <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
+        <Draggable explorerModel={explorerModel} onDragStart={
+          () => {
+            explorerModel.dragged = explorerModel.filter; 
+          }
+        }>
+          <Icon key="fie" size={iconSize} style={{marginRight: "0.5em"}} image={icons.filterBlue}/>
+        </Draggable>
         {explorerModel.filter.filters.map(filter => {
           if (filter.category === AllDesigns) {
             if (explorerModel.filter.filters.length > 1) return null;
@@ -75,20 +81,19 @@ export const FilterView = observer(function({style, explorerModel}) {
               }}/>
           </Middle>
         }
-        {/* {
-          explorerModel.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(explorerModel.displayItems) ? 
-          null 
-          :
-          <Row>
-            <IconButton key="unsorted" style={{display: (explorerModel.displayItems === "all") ? "inherit" : "none"}} 
-              image={icons.unsorted} 
-              onClick={() => {explorerModel.displayItems = "unsorted"}}/>
-            <IconButton key="unsorted_and_sorted" style={{display: (explorerModel.displayItems === "unsorted") ? "inherit" : "none"}} 
-              iconWidth={Math.floor(2.5*iconSize)} image={icons.unsortedAndSorted} 
-              onClick={() => {explorerModel.displayItems = "all"}}/>
-          </Row>
-        } */}
       </Row>
     )  
   }
 });
+
+function Draggable({style, children, onDragStart, explorerModel}) {
+  function innerOnDragStart(event) {
+    if (onDragStart) onDragStart();
+    explorerModel.startDraggingFilter();
+    event.dataTransfer.effectAllowed = "copyMove";
+    // event.preventDefault();
+    event.stopPropagation();
+    return true;
+  }
+  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {explorerModel.dragged = null}}>{children}</div>
+}

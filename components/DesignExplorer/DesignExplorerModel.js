@@ -26,8 +26,8 @@ export class DesignExplorerModel {
     this.designSelection = new DesignSelection(this);
 
     this.filter = selectedFolder.filter.normalized();
-    logg("design explorer constructor")
-    log(this.filter.isNormalized)
+
+    this.dragged = null;
 
     this.editFolderName = false;    
 
@@ -39,6 +39,7 @@ export class DesignExplorerModel {
       editFolderName: observable,
       selectedFolder: observable.ref,
       filter: observable.ref,
+      dragged: observable.ref,
       unsortedFilter: computed, 
       sortedFilter: computed,
       sortedSimplifiedFilter: computed 
@@ -141,5 +142,21 @@ export class DesignExplorerModel {
       parent.removeChild(this.selectedFolder);
       this.userSelectFolder(parent)
     }
+  }
+
+  startDraggingFilter() {
+    this.dragging = this.filter; 
+  }
+
+  startDraggingSelection() {
+    this.dragging = Object.values(this.designSelection.items);
+  }
+
+  isDraggingDesigns() {
+    return this.dragging && this.dragging instanceof Array;
+  }
+
+  isDraggingFilter() {
+    return this.dragging && !!this.dragging.isFilter;
   }
 }

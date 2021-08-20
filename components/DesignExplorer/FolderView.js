@@ -6,7 +6,6 @@ import { Icon } from '../Icon';
 import { ClickablePanel } from '../ClickablePanel';
 import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg, loggg } from '../utility/Debug';
-import { draggingType } from './DesignExplorer';
 import implyImage from '../../assets/imply.svg'
 
 import { DropTarget } from '../DropTarget';
@@ -37,11 +36,15 @@ export const FolderView = observer(function({style, indentation, folder, explore
   const [ showArrow, setShowArrow ] = useState(false);
 
   function onDrop() {
-    if (draggingType.value === "design") {
-      Object.values(explorerModel.designSelection.items).forEach(design => {
+    if (explorerModel.isDraggingDesigns()) {
+      explorerModel.dragging.forEach(design => {
         folder.filter.categorizeToInclude(design);
       });
-      draggingType.value=null;
+      explorerModel.dragging = null;
+    } else if (explorerModel.isDraggingFilter()){
+      folder.addChild(createFolder({}))
+      
+      explorerModel.dragging = null;
     }
   }
 

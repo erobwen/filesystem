@@ -4,7 +4,6 @@ import { CenterMiddle, Column, fitStyle, flexAutoHeightStyle, flexAutoStyle, fle
 import { Scroller } from '../Scroller';
 import { Icon } from '../Icon';
 import { log, loge, logg } from '../utility/Debug';
-import { draggingType } from './DesignExplorer';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { panelBorderBottomStyle, panelPadding, SelectionBase, transparentBlue, transparentGray } from '../Style';
 import { ClickablePanel } from '../ClickablePanel';
@@ -38,35 +37,40 @@ export const DesignsView = observer(class DesignsView extends React.Component {
           <DesignsArea key="unsorted" style={{...panelBorderBottomStyle, ...flexAutoStyle}} 
             title="Unsorted"
             designSelection={designSelection} 
-            deltaStore={explorerModel.unsortedDeltaStore}/>)
+            deltaStore={explorerModel.unsortedDeltaStore}
+            explorerModel={explorerModel}/>)
       }
       if (explorerModel.sortedDeltaStore.items.length > 0) {
         contents.push(
           <DesignsArea key="sorted" style={flexAutoStyle}
             title={sortedTitle} 
             designSelection={designSelection} 
-            deltaStore={explorerModel.sortedDeltaStore}/>);
+            deltaStore={explorerModel.sortedDeltaStore}
+            explorerModel={explorerModel}/>);
       }
     } else if (explorerModel.displayItems === "all") {
       contents = [
         <DesignsArea key="all" style={flexAutoStyle} 
           title={null}
           designSelection={designSelection} 
-          deltaStore={explorerModel.deltaStore}/>,
+          deltaStore={explorerModel.deltaStore}
+          explorerModel={explorerModel}/>,
       ]
     } else if (explorerModel.displayItems === "sorted") {
       contents = [
         <DesignsArea key="sorted" style={flexAutoStyle}
           title={null}
           designSelection={designSelection} 
-          deltaStore={explorerModel.sortedDeltaStore}/>,
+          deltaStore={explorerModel.sortedDeltaStore}
+          explorerModel={explorerModel}/>,
       ]
     } else if (explorerModel.displayItems === "unsorted") {
       contents = [
         <DesignsArea key="unsorted" style={flexAutoStyle} 
           title={null}
           designSelection={designSelection} 
-          deltaStore={explorerModel.unsortedDeltaStore}/>,
+          deltaStore={explorerModel.unsortedDeltaStore}
+          explorerModel={explorerModel}/>,
       ]
     }
 
@@ -81,7 +85,7 @@ export const DesignsView = observer(class DesignsView extends React.Component {
   }
 });
 
-const DesignsArea = observer(function({style, title, deltaStore, designSelection}) {
+const DesignsArea = observer(function({style, title, deltaStore, designSelection, explorerModel}) {
   
   function selectDesign(design) {
     designSelection.click(design);
@@ -95,12 +99,13 @@ const DesignsArea = observer(function({style, title, deltaStore, designSelection
           deltaDesign={deltaDesign}
           selectDesign={selectDesign}
           designSelection={designSelection}
+          explorerModel={explorerModel}
           selected={typeof(designSelection.items[deltaDesign.item.id]) !== "undefined"}/>)}
     </Row>
   );
 });
 
-const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, designSelection, selectDesign}) {
+const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, designSelection, selectDesign, explorerModel}) {
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  
@@ -112,18 +117,19 @@ const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, de
         }}
         style={{flexAutoStyle, opacity: opacity}} 
         design={deltaDesign.item} 
-        selectDesign={selectDesign}/>
+        selectDesign={selectDesign}
+        explorerModel={explorerModel}/>
     }/>
   );
 });
 
 
-function DesignThumbView({style, design, selectDesign, onDragStart}) {
+function DesignThumbView({style, design, selectDesign, onDragStart, explorerModel}) {
   return (
     <ClickablePanel style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20, padding: 5}}
       mouseOverBackgroundColor={transparentBlue(0.1)} 
       callback={() => selectDesign(design)}>
-      <Draggable style={flexAutoStyle} onDragStart={onDragStart}>
+      <Draggable style={flexAutoStyle} onDragStart={onDragStart} explorerModel={explorerModel}>
         <CenterMiddle style={flexAutoStyle}>
           <Column style={flexAutoStyle}>
             <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
@@ -136,14 +142,14 @@ function DesignThumbView({style, design, selectDesign, onDragStart}) {
 }
 
 
-function Draggable({style, children, onDragStart}) {
+function Draggable({style, children, onDragStart, explorerModel}) {
   function innerOnDragStart(event) {
     if (onDragStart) onDragStart();
-    draggingType.value = "design";
+    explorerModel.startDraggingSelection();
     event.dataTransfer.effectAllowed = "copyMove";
     // event.preventDefault();
     event.stopPropagation();
     return true;
   }
-  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {draggingType.value = null}}>{children}</div>
+  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {explorerModel.dragging = null}}>{children}</div>
 }
