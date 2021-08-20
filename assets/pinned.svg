@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="512px"
+   height="512px"
+   viewBox="0 0 512 512"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   sodipodi:docname="pinned.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
+   id="metadata2120"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs2118" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1660"
+   inkscape:window-height="931"
+   id="namedview2116"
+   showgrid="false"
+   inkscape:zoom="1.6953125"
+   inkscape:cx="256"
+   inkscape:cy="397.56682"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" />
+<path
+   d="m 306.8653,362.37958 7e-4,-106.16148 c 17.25765,-10.10173 30.77258,-25.90627 37.94547,-44.83693 H 180.18005 c 7.17359,18.92995 20.68711,34.7345 37.94547,44.83693 l 7e-4,106.16006 c -36.70803,13.02703 -65.98225,41.74264 -79.7574,78.09429 85.83789,0.1797 163.73823,0.001 248.25246,0.001 -13.77444,-36.34953 -43.04866,-65.06796 -79.75598,-78.09428 z m -110.79162,60.16418 c 0,0 -23.43069,0 -29.95162,0.20364 18.54104,-33.82303 46.4555,-40.34185 46.4555,-40.34185 -20.98623,11.00187 -16.50388,40.13821 -16.50388,40.13821 z"
+   id="path2113"
+   sodipodi:nodetypes="ccccccccccccc" />
+</svg>

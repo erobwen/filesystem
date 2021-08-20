@@ -57,8 +57,8 @@ export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, n
             allowCreate ? 
             <Button style={{...flexAutoWidthStyle(150), marginLeft: "0.5em"}} text={"Create new category"} 
               onClick={() => {
-                categoryName = capitalizeEveryFirstLetter(categoryName);
-                category = createCategory(categoryName);
+                const normalizedCategoryName = capitalizeEveryFirstLetter(categoryName);
+                const category = createCategory(normalizedCategoryName);
                 categories.items.push(category);
                 onSelect(category)
               }} 

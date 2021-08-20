@@ -78,7 +78,7 @@ export const CategoriesView = observer(function({style, designSelection}) {
       </Middle>
     )
     children.push(
-      <SelectCategoryDialog open={addFilterDialogOpen} close={() => setAddFilterDialogOpen(false)} 
+      <SelectCategoryDialog key="dialog" open={addFilterDialogOpen} close={() => setAddFilterDialogOpen(false)} 
         allowCreate={true}
         nonAvailable={nonAvailable}
         onSelect={(category) => {

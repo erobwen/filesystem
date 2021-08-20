@@ -141,6 +141,7 @@ function Draggable({style, children, onDragStart}) {
     if (onDragStart) onDragStart();
     draggingType.value = "design";
     event.dataTransfer.effectAllowed = "copyMove";
+    // event.preventDefault();
     event.stopPropagation();
     return true;
   }

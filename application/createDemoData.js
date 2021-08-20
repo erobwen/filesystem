@@ -42,8 +42,10 @@ const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, c
 
 [Dog, Cat, Boat, Ribbon, Felting, Draft, Finished, Vault, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.push(category));
 
+export const quickAccessFolder = folder({image: icons.quickAccess, name:"Quick Access", category: null, irremovable: true});
+
 export const demoFolder = folder("Quick access",
-  folder({image: icons.quickAccess, name:"Quick Access", category: null, irremovable: true}),
+  quickAccessFolder,
   folder({image: icons.heart, category: Favorite, irremovable: true}),
   folder({category: Vault, irremovable: true}),
   folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),

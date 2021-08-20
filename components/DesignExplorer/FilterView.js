@@ -14,12 +14,17 @@ import { AllDesigns } from '../../application/createDemoData';
 import { ModalDialog } from '../Popover';
 import { SelectCategoryDialog } from './SelectCategoryDialog';
 import { createCategoryFilter } from '../../application/model/Filter';
+import { isPinned, pin, unpin } from './QuickAccess';
 
 export const FilterView = observer(function({style, explorerModel}) {
   const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);
 
   const filter = explorerModel.filter;
-
+  logg("Render filter view");
+  log(explorerModel);
+  log(filter.isNormalized);
+  
+  const pinned = isPinned(filter);
   if (filter === null) {
     return null;
   } else {
@@ -57,8 +62,23 @@ export const FilterView = observer(function({style, explorerModel}) {
           nonAvailable={nonAvailable}
           onSelect={(category) => {filter.filters.push(createCategoryFilter(category)); setAddFilterDialogOpen(false); explorerModel.onUserFilterChange()}}
         />
-        {/* <Text key="bar" style={{lineHeight: iconSize}}>{explorerModel.filter.toEquationString()}</Text> */}
         <Flexer/>
+        {
+          pinned ? 
+          <Middle key="pinned" style={{marginLeft: "0.5em"}}>
+            <IconButton style={flexAutoStyle} image={icons.pinned} size={15}
+              onClick={() => {
+                unpin(filter);
+              }}/>
+          </Middle>
+          :
+          <Middle key="pin" style={{marginLeft: "0.5em"}}>
+            <IconButton style={flexAutoStyle} image={icons.pin} size={15}
+              onClick={() => {
+                pin(filter);
+              }}/>
+          </Middle>
+        }
         {/* {
           explorerModel.selectedFolder.children.length === 0 || ["sorted", "splitView"].contains(explorerModel.displayItems) ? 
           null 

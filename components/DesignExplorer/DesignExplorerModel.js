@@ -5,7 +5,7 @@ import { createFolder } from "../../application/model/Folder";
 import { createDeltaStore, createFilterStore } from "../../application/model/Store";
 import { featureSwitches } from "../../config";
 import { appState } from "../AppState";
-import { log, loge } from "../utility/Debug";
+import { log, loge, logg } from "../utility/Debug";
 import { capitalizeEveryFirstLetter } from "../utility/javaScriptUtility";
 import { DesignSelection } from "./DesignSelection";
 
@@ -26,14 +26,14 @@ export class DesignExplorerModel {
     this.designSelection = new DesignSelection(this);
 
     this.filter = selectedFolder.filter.normalized();
+    logg("design explorer constructor")
+    log(this.filter.isNormalized)
 
     this.editFolderName = false;    
-    log(featureSwitches.splitPanelUnsorted)
-    log(appState)
-    log(featureSwitches)
+
     // Valid values: "all" | "unsorted" | "splitView" | "sorted"(only for union) 
     this.displayItems = featureSwitches.splitPanelUnsorted ? "splitView" : "all"; 
-    log(this.displayItems)
+
     makeObservable(this, {
       displayItems: observable.ref,
       editFolderName: observable,
@@ -66,20 +66,16 @@ export class DesignExplorerModel {
 
   get sortedFilter() {
     if (this.selectedFolder && this.filter && !this.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
-      log("Union sorted filter!");
       return this.selectedFolder.getChildUnionFilter();
     } else {
-      // log("No filter!");
       return null;
     }
   }
   
   get sortedSimplifiedFilter() {
     if (this.selectedFolder && this.selectedFolder.filter && !this.selectedFolder.filter.isUnionFilter && this.selectedFolder.children.length > 0) {
-      log("Union sorted filter!");
       return this.selectedFolder.getSimplifiedChildUnionFilter();
     } else {
-      // log("No filter!");
       return null;
     }
   }

@@ -15,6 +15,7 @@ export function folder(input, ...children) {
   let image;
   let category;
   let irremovable;
+  let filter;
   let open = true;
 
   if (typeof(input) == "string") {
@@ -49,17 +50,21 @@ export function folder(input, ...children) {
       if (typeof(input.open) !== "undefined") {
         open = input.open;
       }
+
+      if (typeof(input.filter) !== "undefined") {
+        filter = input.filter;
+      }
     }
   }
 
-  return new Folder(name, image, category, null, irremovable, children, open);
+  return new Folder(name, image, category, null, irremovable, children, open, filter);
 }
 
 
 let nextFolderId = 1;
 
 export class Folder {
-  constructor(name, image, category, rule, irremovable, children, open) {
+  constructor(name, image, category, rule, irremovable, children, open, filter) {
     this.id = nextFolderId++;
 
     this.irremovable = irremovable; 
@@ -73,7 +78,7 @@ export class Folder {
     this.children = observable(children);
     children.forEach(child => child.parent = this);
 
-    this.filter = null;
+    this.filter = filter ? filter : null;
 
     makeObservable(this, {
       open: observable,
@@ -173,6 +178,8 @@ export class Folder {
   }
 
   setupFilters(parentFilter) {
+    if (this.filter) return;
+
     let bottomUpFilter = false;
     let nullFilter = false;  
     if (parentFilter && this.category) {

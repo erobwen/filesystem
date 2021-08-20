@@ -27,6 +27,9 @@ import filterPad from "../assets/filter_pad.svg"
 
 import heart from "../assets/heart.svg"
 import quickAccess from "../assets/quick_access.svg"
+import pin from "../assets/pin.svg"
+import pinned from "../assets/pinned.svg"
+import shortcut from "../assets/shortcut.svg"
 
 import sewingMachine from "../assets/sewing_machine.svg"
 import trashCan from "../assets/trash_can.svg"
@@ -70,6 +73,9 @@ export const icons = {
   filterPad,
   heart,
   quickAccess,
+  pin,
+  pinned,
+  shortcut,
   sewingMachine,
   trashCan,
   designsInTrash,

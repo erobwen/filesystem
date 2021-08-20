@@ -69,7 +69,9 @@ export function createCategoryFilter(category) {
 
     normalized() {
       const children = [filter];
-      return createIntersectionFilter(children);
+      let result = createIntersectionFilter(children);
+      result.isNormalized = true;
+      return result;
     },
 
     addAllIntersectedCategories: function(map) {
@@ -115,19 +117,40 @@ export function createIntersectionFilter(filters) {
       return true;
     },
 
+    isAllDesignsFilter() {
+      return filter.filters.length === 1 
+        && filter.filters[0].isCategoryFilter 
+        && filter.filters[0].category === AllDesigns;
+    },
+
+    fingerprint() {
+      if (!filter.isNormalized) throw new Error("Normalize first");
+      return "[" + 
+      filter.filters
+        .map(filter => filter.category.id)
+        .sort((a, b) => (a - b))
+        .join("|") 
+      + "]";
+    },
+
     normalized() {
+      loge("normalize")
       const children = [];
       filter.addAllIntersectedFilters(children);
-      return createIntersectionFilter(children);
+      children.sortOn(child => child.category.id);
+      let result = createIntersectionFilter(children);
+      result.isNormalized = true;
+      log(result.isNormalized)
+      return result; 
     },
 
     addAllIntersectedCategories: function(map) {
-      filters.forEach(filter => filter.addAllIntersectedCategories(map));
+      filter.filters.forEach(filter => filter.addAllIntersectedCategories(map));
       return map;
     },
 
     addAllIntersectedFilters: function(list) {
-      filters.forEach(filter => filter.addAllIntersectedFilters(list));
+      filter.filters.forEach(filter => filter.addAllIntersectedFilters(list));
       return list;
     },
 
@@ -149,11 +172,15 @@ export function createIntersectionFilter(filters) {
       let result = "";
       let first = true;
       filter.filters.forEach(child => {
-        if (!(child.isCategoryFilter && child.category === AllDesigns)) {
+        if (child.isCategoryFilter && child.category === AllDesigns) {
+          if (filter.filters.length === 1) {
+            result += child.toEquationString();
+          }
+        } else {
           if (first) {
             first = false; 
           } else {
-            result += " & ";
+            result += ", ";
           }
 
           result += child.toEquationString()
