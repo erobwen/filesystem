@@ -74,9 +74,17 @@ export class Design {
 
   get ruleCategories() {
     loge("ruleCategories")
-    function isCauseMet(categoriesA, categoriesB, cause) { 
+    const necessaryUserCategories = {};
+
+    function isCauseMet(userCategories, ruleCategories, cause) { 
       for (let id in cause) {
-        if (typeof(categoriesA[id]) === "undefined" && typeof(categoriesB[id]) === "undefined") {
+        if (typeof(ruleCategories[id]) !== "undefined") {
+          // Another rule supported the cause
+        } else if (typeof(userCategories[id]) !== "undefined") {
+          // User supported cause 
+          necessaryUserCategories[id] = cause[id];
+        } else {
+          // No one supported cause
           return false; 
         }
       }
@@ -94,7 +102,7 @@ export class Design {
         log(ruleId)
         const rule = activeRules[ruleId];
         log(rule);
-        if (isCauseMet(result, this.userCategories, rule.cause)) {
+        if (isCauseMet(this.userCategories, result, rule.cause)) {
           for(let id in rule.effect) {
             result[id] = rule.effect[id]
           }
@@ -104,6 +112,20 @@ export class Design {
       }
     }
     log(result);
+
+    const unecessaryUserCategories={};
+    for (let id in this.userCategories) {
+      if (result[id] && !necessaryUserCategories[id]) {
+        unecessaryUserCategories[id] = this.userCategories[id];
+      }
+    }
+
+    setTimeout(() => {
+      for (let id in unecessaryUserCategories) {
+        this.uncategorize(unecessaryUserCategories[id]);
+      }
+    }, 0)
+
     return result; 
   }
 
