@@ -125,8 +125,8 @@ export class Folder {
       // return icons.tagFlat;
         return icons.filter;
     } else {
-      // return icons.bullet;
-      return icons.objectGroup;
+      return icons.bullet;
+      // return icons.objectGroup;
       // return icons.foldersOutline;
       return icons.folderDashed;
     }

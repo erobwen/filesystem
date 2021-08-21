@@ -14,6 +14,8 @@ import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { observer } from 'mobx-react';
 import { createFolder } from '../../application/model/Folder';
 import { Rule } from '../../application/model/RuleStore';
+import { rules } from '../../application/model/Vault';
+import { AllDesigns } from '../../application/createDemoData';
 
 export function RootFolderView({style, folder, explorerModel}) {
   return (
@@ -51,8 +53,12 @@ export const FolderView = observer(function({style, indentation, folder, explore
         filter: explorerModel.dragging, 
         image: icons.imply});
       const cause = explorerModel.dragging.addAllIntersectedCategories({});
+      if (Object.keys(cause).length > 1) {
+        delete cause[AllDesigns.id];
+      }
       const effect = folder.filter.addAllIntersectedCategories({})
-      newFolder.rule = new Rule(newFolder, effect, cause); 
+      newFolder.rule = new Rule({folder: newFolder, effect, cause});
+      rules.addRule(newFolder.rule);
       folder.addChild(newFolder);
       explorerModel.dragging = null;
     }

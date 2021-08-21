@@ -117,7 +117,6 @@ export class DesignExplorerModel {
       this.filteredStore.filter = this.filter; 
 
       if (!this.filter || this.filter.isUnionFilter || this.selectedFolder.children.length === 0) {
-        loge("setting display items to all")
         this.displayItems = "all"
       } else {
         this.displayItems = (featureSwitches.splitPanelUnsorted) ? "splitView" : "all"

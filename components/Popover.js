@@ -86,7 +86,7 @@ export const ModalPopover = observer(class ModalPopover extends React.Component 
         top:0, 
         left: 0, 
         display: open ? "initial" : "none"}}
-        onClick={() => {loge("close on ModalPopover background"); close()}}>
+        onClick={() => {close()}}>
         <div style={{
           position:"fixed", 
           top:bounds.top, 
@@ -114,7 +114,7 @@ export const ModalDialog = observer(function({open, close, render}) {
       top:0, 
       left: 0, 
       display: open ? "initial" : "none"}}
-      onClick={() => {loge("close on ModalDialog background"); close()}}>
+      onClick={() => {close()}}>
       <CenterMiddle style={fitStyle}>
         {render({style: panelStyle})}
       </CenterMiddle>

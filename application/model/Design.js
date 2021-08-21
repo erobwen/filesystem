@@ -4,6 +4,7 @@ import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { makeObservable, computed, flow } from "mobx"
 import { AllDesigns } from "../createDemoData";
+import { vault } from "./Vault";
 // import { AllDesigns } from "../createDemoData";
 
 
@@ -25,40 +26,97 @@ export class Design {
 
     this.name = name; 
     this.image = image; 
-    this.categorizations = observable([]);
+    this.userCategories = observable({});
     makeObservable(this, {
         name: observable,
         image: observable,
+        ruleCategories: computed,
+        userCategories: observable,
         categories: computed,
     });
 
     categories.forEach(category => {
-      this.categorizations.push(new Categorization(this, category, null))
+      this.categorize(category);
     });
   }
 
   get categories() {
-    let categories = {};
-    for (let categorization of this.categorizations) {
-      categories[categorization.category.id] = categorization.category;
+    let result = {}
+    for (let id in this.ruleCategories) {
+      const category = this.ruleCategories[id];
+      if (this.userCategories[id]) {
+        result[id] = {
+          category,
+          user: true,
+          rule: true
+        };
+      } else {
+        result[id] ={
+          category,
+          rule: true,
+          user: false
+        };
+      }
     }
-    return Object.values(categories);
+
+    for (let id in this.userCategories) {
+      const category = this.userCategories[id];
+      if (!this.ruleCategories[id]) {
+        result[id] = {
+          category,
+          user: true, 
+          rule: false
+        };
+      }
+    }
+    return result; 
+  }
+
+  get ruleCategories() {
+    loge("ruleCategories")
+    function isCauseMet(categoriesA, categoriesB, cause) { 
+      for (let id in cause) {
+        if (typeof(categoriesA[id]) === "undefined" && typeof(categoriesB[id]) === "undefined") {
+          return false; 
+        }
+      }
+      return true;
+    }
+
+    const activeRules = vault.rules.rules.toMap("id");
+    log(activeRules);
+    let result = {};
+    
+    let done = false; 
+    while (!done) {
+      done = true; 
+      for (let ruleId in activeRules) {
+        log(ruleId)
+        const rule = activeRules[ruleId];
+        log(rule);
+        if (isCauseMet(result, this.userCategories, rule.cause)) {
+          for(let id in rule.effect) {
+            result[id] = rule.effect[id]
+          }
+          done = false;
+          delete activeRules[ruleId];
+        }
+      }
+    }
+    log(result);
+    return result; 
   }
 
   in(category) {
-    return this.categories.contains(category);
+    return typeof(this.categories[category.id]) !== "undefined";
   }
 
-  categorize(category, rule) {
+  categorize(category) {
     if (category === AllDesigns) return;
-    if (typeof(rule) === "undefined") rule = null;
-    if (!this.categorizations.containsWhere(categorization => (categorization.rule === rule && categorization.category === category))) {
-      this.categorizations.push(new Categorization(this, category, rule));
-    }
+    this.userCategories[category.id] = category;
   }
 
-  uncategorize(category, rule) {
-    if (typeof(rule) === "undefined") rule = null;
-    this.categorizations.removeWhere(categorization => (categorization.rule === rule && categorization.category === category));
+  uncategorize(category) {
+    delete this.userCategories[category.id];
   }
 }

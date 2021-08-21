@@ -39,7 +39,7 @@ export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, n
     let spacerSize = 15;
     return (
       <div style={{...columnStyle,...panelPaddingStyle, width: 500, height: 400, ...style}} 
-        onClick={(event) => {loge("click on column"); event.preventDefault();event.stopPropagation();}}>
+        onClick={(event) => {event.preventDefault();event.stopPropagation();}}>
         <Text style={{fontSize: 16}}>Category name</Text>
         <Spacer size={spacerSize}/>
         <Row style={{flexAutoStyle}} overflowVisible>

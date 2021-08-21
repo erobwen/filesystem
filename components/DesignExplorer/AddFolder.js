@@ -33,7 +33,7 @@ export function AddFolderPopover({open, close, boundingClientRect, explorerModel
       <Column style={{padding: panelPadding}}>
         <MenuItem key="filter" text="Filter Folder" image={icons.object} onClick={() => {close(); openAddCategoryFolderDialog()}}/>
         <Spacer size={5}/>
-        <MenuItem key="collection" text="Folder Group" image={icons.objectGroup} onClick={() => {close(); explorerModel.createNewFolderGroup()}}/>
+        <MenuItem key="collection" text="Folder Group" image={icons.bullet} onClick={() => {close(); explorerModel.createNewFolderGroup()}}/>
       </Column>
     )
   }}/>

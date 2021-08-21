@@ -152,7 +152,6 @@ export class ClickablePanel extends React.Component {
       panel.addEventListener("mouseout", me.removeMouseoverColor);
 
       me.onDoubleClick = function() {
-        loge("onDoubleClick");
         me.props.onDoubleClick();
       } 
 

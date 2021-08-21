@@ -1,3 +1,4 @@
+import { observable } from "mobx";
 import { DesignsView } from "../../components/DesignExplorer/DesignsView";
 import { vault } from "./Vault";
 
@@ -15,7 +16,7 @@ export class Rule {
 
 export class RuleStore {
   constructor() {
-    this.rules = [];
+    this.rules = observable([]);
   }
 
   addRule(rule) {

@@ -137,7 +137,6 @@ export function createIntersectionFilter(filters) {
     },
 
     normalized() {
-      loge("normalize")
       const children = [];
       filter.addAllIntersectedFilters(children);
       children.sortOn(child => child.category.id);

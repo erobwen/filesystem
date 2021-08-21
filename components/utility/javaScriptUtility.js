@@ -77,6 +77,15 @@ export const javaScriptUtility = {
       }
       return copy;
     }
+    
+    Array.prototype.toMap = function(key) {
+      let map = {};
+      for (let item of this) {
+        map[item[key]] = item;
+      }
+      return map;
+    }
+
 
     Array.prototype.pushAll = function(other) {
       if (other instanceof Array) other.forEach(item => {this.push(item)});
