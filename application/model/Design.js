@@ -73,7 +73,6 @@ export class Design {
   }
 
   get ruleCategories() {
-    loge("ruleCategories")
     const necessaryUserCategories = {};
 
     function isCauseMet(userCategories, ruleCategories, cause) { 
@@ -92,16 +91,13 @@ export class Design {
     }
 
     const activeRules = vault.rules.rules.toMap("id");
-    log(activeRules);
     let result = {};
     
     let done = false; 
     while (!done) {
       done = true; 
       for (let ruleId in activeRules) {
-        log(ruleId)
         const rule = activeRules[ruleId];
-        log(rule);
         if (isCauseMet(this.userCategories, result, rule.cause)) {
           for(let id in rule.effect) {
             result[id] = rule.effect[id]
@@ -111,7 +107,6 @@ export class Design {
         }
       }
     }
-    log(result);
 
     const unecessaryUserCategories={};
     for (let id in this.userCategories) {
