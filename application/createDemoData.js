@@ -2,7 +2,7 @@ import { createStore } from "./model/Store";
 import { Design } from "./model/Design";
 import { createCategory } from "./model/Category";
 import { createFolder, folder } from "./model/Folder";
-import { vault, categories, designs } from "./model/Vault";
+import { vault, categories, designs, AllDesigns } from "./model/Vault";
 
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
@@ -23,8 +23,6 @@ import dogboat1 from "../assets/designs/dogboat1.jpg";
 import dogboat2 from "../assets/designs/dogboat2.jpg";
 import { icons } from "../components/Icons";
 
-
-export const AllDesigns = createCategory("All Designs", icons.allDesigns);
 
 const Animal = createCategory("Animal");
 const Dog = createCategory("Dog");
@@ -72,16 +70,8 @@ vault.folder = folder("Quick access",
     // folder(Dog)),
 );
 
-export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlatBlue, category: null, irremovable: true, open: true});
-categories.items.forEach(category => {
-  const categoryFolder = createFolder({image: icons.tagFlatBlue, category: category, irremovable: true});
-  categoriesFolder.addChild(categoryFolder)
-  // if (category === Animal) {
-  //   categoryFolder.addChild(folder({image: icons.imply, category: Cat}))
-  //   categoryFolder.addChild(folder({image: icons.imply, category: Dog}))
-  // }
-});
-// demoFolder.addChild(categoriesFolder);
+
+
 vault.folder.setupFilters();
 
 designs.items.push(new Design("Striped Boat", boat1, [Boat]));

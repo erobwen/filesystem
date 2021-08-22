@@ -13,9 +13,10 @@ import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { AddCategoryFolderDialog, AddFolderPopover } from './AddFolder';
 import { RemoveFolderDialog } from './RemoveFolder';
 import { observer } from 'mobx-react';
-import { categoriesFolder } from '../../application/createDemoData';
 import { FolderView, RootFolderView } from './FolderView';
 import { Design } from '../../application/model/Design';
+import { categoriesFolder } from '../../application/model/Vault';
+
 
 export const FilterBrowser = observer(function({style, bounds, maxWidth, folder, explorerModel}) {
   const [addFolderPopoverOpen, setAddFolderPopoverOpen] = useState(false);

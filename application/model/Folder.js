@@ -1,7 +1,5 @@
 import { action, autorun, makeObservable, observable, reaction, runInAction } from "mobx";
 import { log, loge, logg } from "../../components/utility/Debug";
-// import categoryFolderImage from '../../assets/folder_filter.svg';
-import folderImage from '../../assets/folder_outline.svg';
 import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter, simplifyUnion } from "./Filter";
 import { icons } from "../../components/Icons";
 import { featureSwitches } from "../../config";
