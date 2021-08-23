@@ -202,11 +202,11 @@ export function createUnionFilter(filters) {
     },
 
     addAllIntersectedCategories: function(map) {
-      // throw new Error("Does not apply!");
+      throw new Error("Does not apply!");
     },
 
     addAllIntersectedFilters: function(list) {
-      // throw new Error("Does not apply!");
+      throw new Error("Does not apply!");
     },
 
     includes: function(design) {

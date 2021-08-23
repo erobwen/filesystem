@@ -3,9 +3,7 @@ import { log, loge } from "../../components/utility/Debug";
 import categoryFolderImage from '../../assets/folder_category.svg';
 import folderImage from '../../assets/folder.svg';
 import { makeObservable, computed, flow } from "mobx"
-import { AllDesigns } from "../createDemoData";
-import { vault } from "./Vault";
-// import { AllDesigns } from "../createDemoData";
+import { vault, AllDesigns } from "./Vault";
 
 
 
