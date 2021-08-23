@@ -14,7 +14,7 @@ export const DesignView = observer(function({style, designSelection}) {
   let contents;
   let selectedItems = Object.values(designSelection.items);
   if (selectedItems.length === 0) {
-    contents = [];
+    return <Column style={{...panelBorderLeftStyle,  ...style}}></Column>
   } else if (selectedItems.length === 1){
     const design = selectedItems[0];
     contents = [

@@ -45,9 +45,6 @@ export class DesignExplorerModel {
       sortedFilter: computed,
       sortedSimplifiedFilter: computed 
     });
-
-    log(this.filteredStore);
-    log(this.deltaStore);
   }
 
   initialize(designs) {

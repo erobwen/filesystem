@@ -14,7 +14,7 @@ export function folder(input, ...children) {
   let category;
   let irremovable;
   let filter;
-  let open = true;
+  let open = false;
 
   if (typeof(input) == "string") {
     name = input;

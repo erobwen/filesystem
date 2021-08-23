@@ -75,7 +75,6 @@ export const DesignsView = observer(class DesignsView extends React.Component {
     } else {
       throw new Error("Fail");
     }
-    log(explorerModel.displayItems);
 
     return <Scroller render={({style, bounds}) => {
       let result = (
