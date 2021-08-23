@@ -27,7 +27,7 @@ export class DesignExplorerModel {
 
     this.filter = selectedFolder.filter.normalized();
 
-    this.dragged = null;
+    this.dragging = null;
 
     this.editFolderName = false;    
 
@@ -39,7 +39,7 @@ export class DesignExplorerModel {
       editFolderName: observable,
       selectedFolder: observable.ref,
       filter: observable.ref,
-      dragged: observable.ref,
+      dragging: observable.ref,
       unsortedFilter: computed, 
       sortedFilter: computed,
       sortedSimplifiedFilter: computed 
