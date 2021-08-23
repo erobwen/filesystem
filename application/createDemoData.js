@@ -21,6 +21,11 @@ import dog2 from "../assets/designs/dog2.jpg";
 import dog3 from "../assets/designs/dog3.jpg";
 import dogboat1 from "../assets/designs/dogboat1.jpg";
 import dogboat2 from "../assets/designs/dogboat2.jpg";
+import willys from "../assets/designs/willys.jpg";
+import flowers from "../assets/designs/flowers.jpg";
+import flowersAndPots from "../assets/designs/flowersandpots.jpg";
+import ww from "../assets/designs/ww.jpg";
+
 import { icons } from "../components/Icons";
 
 
@@ -56,11 +61,12 @@ vault.folder = folder("Quick access",
 
   folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
 
-    folder("Things", 
-      folder(Cat), 
-      folder(Dog, 
-        folder(Ribbon),
-        folder(Felting)),
+    folder("Things",
+      folder(Animal, 
+        folder(Cat), 
+        folder(Dog, 
+          folder(Ribbon),
+          folder(Felting))),
       folder(Boat)),
     folder("Techniques", 
       folder(Ribbon),
@@ -77,20 +83,24 @@ vault.folder.setupFilters();
 designs.items.push(new Design("Striped Boat", boat1, [Boat]));
 designs.items.push(new Design("Stylized boat", boat2, [Boat, Ribbon]));
 designs.items.push(new Design("Boat with red cross", boat3, [Boat, Felting]));
-designs.items.push(new Design("Fancy cat", cat1, [Cat, Favorite,  Ribbon, Draft]));
-designs.items.push(new Design("Multi cat", cat2, [Cat]));
-designs.items.push(new Design("Yawn!", cat3, [Cat, Favorite,  Draft]));
-designs.items.push(new Design("Cat on water", catboat1, [Cat, Favorite,  Boat, Felting]));
-designs.items.push(new Design("Window scene", catboat2, [Cat, Favorite,  Boat, Finished, Protected]));
-designs.items.push(new Design("Friends", catdog1, [Cat, Favorite,  Dog]));
-designs.items.push(new Design("Red and blue cat", catdog2, [Cat, Favorite,  Dog]));
-designs.items.push(new Design("Best Friends", catdog3, [Cat, Favorite,  Dog, Ribbon]));
-designs.items.push(new Design("Happy ride!", catdogboat1, [Cat, Favorite,  Dog, Boat, Felting, MyEpic2]));
-designs.items.push(new Design("Mr dog", dog1, [Dog, Finished]));
-designs.items.push(new Design("Shepherd", dog2, [Dog, Felting, Protected, Finished]));
-designs.items.push(new Design("Funky dog", dog3, [Dog, Favorite]));
-designs.items.push(new Design("Sailor dog", dogboat1, [Dog, Boat, Draft]));
-designs.items.push(new Design("Away", dogboat2, [Dog, Boat]));
+designs.items.push(new Design("Fancy cat", cat1, [Animal, Cat, Favorite,  Ribbon, Draft]));
+designs.items.push(new Design("Multi cat", cat2, [Animal, Cat]));
+designs.items.push(new Design("Yawn!", cat3, [Animal, Cat, Favorite,  Draft]));
+designs.items.push(new Design("Cat on water", catboat1, [Animal, Cat, Favorite,  Boat, Felting]));
+designs.items.push(new Design("Window scene", catboat2, [Animal, Cat, Favorite,  Boat, Finished, Protected]));
+designs.items.push(new Design("Friends", catdog1, [Animal, Cat, Favorite,  Dog]));
+designs.items.push(new Design("Red and blue cat", catdog2, [Animal, Cat, Favorite,  Dog]));
+designs.items.push(new Design("Best Friends", catdog3, [Animal, Cat, Favorite,  Dog, Ribbon]));
+designs.items.push(new Design("Happy ride!", catdogboat1, [Animal, Cat, Favorite,  Dog, Boat, Felting, MyEpic2]));
+designs.items.push(new Design("Mr dog", dog1, [Animal, Dog, Finished]));
+designs.items.push(new Design("Shepherd", dog2, [Animal, Dog, Felting, Protected, Finished]));
+designs.items.push(new Design("Funky dog", dog3, [Animal, Dog, Favorite]));
+designs.items.push(new Design("Sailor dog", dogboat1, [Animal, Dog, Boat, Draft]));
+designs.items.push(new Design("Away", dogboat2, [Animal, Dog, Boat]));
+designs.items.push(new Design("Willys", willys, []));
+designs.items.push(new Design("Flowers", flowers, []));
+designs.items.push(new Design("Flowers and pots", flowersAndPots, []));
+designs.items.push(new Design("Wolksvagen", ww, []));
 
 global.fancyCat = designs.items[3];
 global.bestFriends = designs.items[10];

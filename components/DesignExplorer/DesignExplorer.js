@@ -8,8 +8,6 @@ import { createDeltaStore, createFilterStore } from '../../application/model/Sto
 import { DesignsView } from './DesignsView';
 import { log, loge, logg } from '../utility/Debug';
 import { FilterView } from './FilterView';
-import { createCategoryFilter } from '../../application/model/Filter';
-import { AllDesigns } from '../../application/createDemoData';
 import { DesignView } from './DesignView';
 import { DesignSelection } from './DesignSelection';
 import { sidePanelWidth } from '../Style';

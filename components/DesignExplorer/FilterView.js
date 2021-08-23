@@ -10,11 +10,10 @@ import { ClickablePanel } from '../ClickablePanel';
 import { log, loge, logg } from '../utility/Debug';
 import { observer } from 'mobx-react';
 import { Chip, IconButton } from '../Widgets';
-import { AllDesigns } from '../../application/createDemoData';
-import { ModalDialog } from '../Popover';
 import { SelectCategoryDialog } from './SelectCategoryDialog';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { isPinned, pin, unpin } from './QuickAccess';
+import { AllDesigns } from '../../application/model/Vault';
 
 export const FilterView = observer(function({style, explorerModel}) {
   const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);

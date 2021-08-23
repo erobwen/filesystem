@@ -7,7 +7,6 @@ import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { log, logg } from "../utility/Debug";
 import { Icon } from "../Icon";
 import { CategoriesView } from "./CategoriesView";
-import { AllDesigns } from "../../application/createDemoData";
 import allDesignsImage from "../../assets/all_designs.svg"
 
 
