@@ -16,6 +16,7 @@ import { observer } from 'mobx-react';
 import { FolderView, RootFolderView } from './FolderView';
 import { Design } from '../../application/model/Design';
 import { categoriesFolder } from '../../application/model/Vault';
+import { featureSwitches } from '../../config';
 
 
 export const FilterBrowser = observer(function({style, bounds, maxWidth, folder, explorerModel}) {
@@ -23,7 +24,7 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
   const [RemoveFolderDialogOpen, setRemoveFolderDialogOpen] = useState(false);
   const [addCategoryFolderDialogOpen, setAddCategoryFolderDialogOpen] = useState(false);
   const [clickBoundingClientRect, setClickBoundingClientRect] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(!featureSwitches.intermediaryClosed);
 
   function openAddFolder(boundingClientRect) {
     setClickBoundingClientRect(boundingClientRect);
@@ -72,14 +73,16 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
       <ZStack style={{...flexGrowShrinkStyle, ...panelBorderRightStyle}}>
         <Scroller style={zStackElementStyle}>
           <RootFolderView 
-            style={{paddingTop: panelPadding, ...panelBorderBottomStyle}} 
+            style={{paddingTop: panelPadding}} 
             folder={folder}
             explorerModel={explorerModel}
             />
-          <FolderView style={{paddingTop: panelPadding, paddingBottom: panelPadding}}
-            indentation={panelPadding-12}
-            folder={categoriesFolder} 
-            explorerModel={explorerModel}/>
+          { !featureSwitches.showAdvanced ? null : 
+            <FolderView style={{...panelBorderTopStyle, paddingTop: panelPadding, paddingBottom: panelPadding}}
+              indentation={panelPadding-12}
+              folder={categoriesFolder} 
+              explorerModel={explorerModel}/>
+          }
         </Scroller>
         <Column style={{...zStackElementStyle, ...pointerEventsNoneStyle}} overflowVisible>
           <Flexer/>

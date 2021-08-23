@@ -7,7 +7,7 @@ import { log, loge, logg } from '../utility/Debug';
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { panelBorderBottomStyle, panelPadding, SelectionBase, transparentBlue, transparentGray } from '../Style';
 import { ClickablePanel } from '../ClickablePanel';
-
+import { DesignThumbView } from './DesignThumbView';
 
 
 export const DesignsView = observer(class DesignsView extends React.Component {
@@ -72,7 +72,10 @@ export const DesignsView = observer(class DesignsView extends React.Component {
           deltaStore={explorerModel.unsortedDeltaStore}
           explorerModel={explorerModel}/>,
       ]
+    } else {
+      throw new Error("Fail");
     }
+    log(explorerModel.displayItems);
 
     return <Scroller render={({style, bounds}) => {
       let result = (
@@ -109,7 +112,7 @@ const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, de
   let opacity = deltaDesign.status === "original" ? 1 : 0.5;
   return ( 
     <SelectionBase id="SelectionBase" style={style} selected={selected} render={({style}) =>  
-      <DesignThumbView 
+      <DesignThumbView
         onDragStart={() => {
           if (!designSelection.items[deltaDesign.item.id]) {
             designSelection.set(deltaDesign.item);
@@ -122,34 +125,3 @@ const DeltaDesignThumbView = observer(function({style, deltaDesign, selected, de
     }/>
   );
 });
-
-
-function DesignThumbView({style, design, selectDesign, onDragStart, explorerModel}) {
-  return (
-    <ClickablePanel style={{...style, marginRight: 10, marginLeft: 10, marginTop: 20, padding: 5}}
-      mouseOverBackgroundColor={transparentBlue(0.1)} 
-      callback={() => selectDesign(design)}>
-      <Draggable style={flexAutoStyle} onDragStart={onDragStart} explorerModel={explorerModel}>
-        <CenterMiddle style={flexAutoStyle}>
-          <Column style={flexAutoStyle}>
-            <Icon style={flexAutoWidthHeightStyle(100, 100)} image={design.image} />
-            <Text style={{...flexAutoWidthHeightStyle(100, 20), overflow: "hidden"}}>{design.name}</Text>
-          </Column>
-        </CenterMiddle>
-      </Draggable>
-    </ClickablePanel>
-  );
-}
-
-
-function Draggable({style, children, onDragStart, explorerModel}) {
-  function innerOnDragStart(event) {
-    if (onDragStart) onDragStart();
-    explorerModel.startDraggingSelection();
-    event.dataTransfer.effectAllowed = "copyMove";
-    // event.preventDefault();
-    event.stopPropagation();
-    return true;
-  }
-  return <div id="Draggable" style={{...style}} draggable="true" onDragStart={innerOnDragStart} onDragEnd={() => {explorerModel.dragging = null}}>{children}</div>
-}

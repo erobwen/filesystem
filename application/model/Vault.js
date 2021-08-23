@@ -23,8 +23,6 @@ categories.items.unshift(AllDesigns);
 
 export const rules = vault.rules;
 
-log(vault);
-
 export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlatBlue, category: null, irremovable: true, open: true});
 const keyFolderMap = {};
 
@@ -35,7 +33,6 @@ function getFolder(key, category) {
   return keyFolderMap[key]; 
 }
 
-log(categories)
 const categoriesFolderReaction = reaction(
   () => {
     // return categories.items.copy();
@@ -49,7 +46,6 @@ const categoriesFolderReaction = reaction(
 
       categories.forEach(category => {
         const categoryFolder = getFolder(category.id, category);
-        log(categoriesFolder)
         categoriesFolder.addChild(categoryFolder)
         // if (category === Animal) {
         //   categoryFolder.addChild(folder({image: icons.imply, category: Cat}))

@@ -12,12 +12,13 @@ import { DesignView } from './DesignView';
 import { DesignSelection } from './DesignSelection';
 import { sidePanelWidth } from '../Style';
 import { DesignExplorerModel } from './DesignExplorerModel';
+import { featureSwitches } from '../../config';
 
 export const DesignExplorer = observer(class DesignExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.explorerModel = new DesignExplorerModel({
-      selectedFolder: props.vault.folder.children[5]
+      selectedFolder: featureSwitches.intermediaryClosed ? null : props.vault.folder.children[5]
     });
   }
   

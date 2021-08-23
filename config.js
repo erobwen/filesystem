@@ -14,7 +14,10 @@ export let production = true;
 export const featureSwitches = observable({
   splitPanelUnsorted: true,
   unionFolders: false,
+  showAdvanced: false,
+  intermediaryClosed: true, 
 });
+
 // featureSwitches.splitPanelUnsorted = true;
 global.features = featureSwitches;
 

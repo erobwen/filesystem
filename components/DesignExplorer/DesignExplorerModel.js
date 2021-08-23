@@ -1,8 +1,9 @@
 import { computed, makeObservable, observable } from "mobx";
 import { categories, createCategory } from "../../application/model/Category";
-import { createDifferenceFilter } from "../../application/model/Filter";
+import { createCategoryFilter, createDifferenceFilter, createIntersectionFilter } from "../../application/model/Filter";
 import { createFolder } from "../../application/model/Folder";
 import { createDeltaStore, createFilterStore } from "../../application/model/Store";
+import { AllDesigns } from "../../application/model/Vault";
 import { featureSwitches } from "../../config";
 import { appState } from "../AppState";
 import { log, loge, logg } from "../utility/Debug";
@@ -25,14 +26,14 @@ export class DesignExplorerModel {
 
     this.designSelection = new DesignSelection(this);
 
-    this.filter = selectedFolder.filter.normalized();
+    this.filter = selectedFolder ? selectedFolder.filter.normalized() : createIntersectionFilter([createCategoryFilter(AllDesigns)]).normalized();
 
     this.dragging = null;
 
     this.editFolderName = false;    
 
     // Valid values: "all" | "unsorted" | "splitView" | "sorted"(only for union) 
-    this.displayItems = featureSwitches.splitPanelUnsorted ? "splitView" : "all"; 
+    this.displayItems = selectedFolder ? (featureSwitches.splitPanelUnsorted ? "splitView" : "all") : "all"; 
 
     makeObservable(this, {
       displayItems: observable.ref,
@@ -44,6 +45,9 @@ export class DesignExplorerModel {
       sortedFilter: computed,
       sortedSimplifiedFilter: computed 
     });
+
+    log(this.filteredStore);
+    log(this.deltaStore);
   }
 
   initialize(designs) {
