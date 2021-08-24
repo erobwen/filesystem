@@ -54,6 +54,7 @@ export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, n
                 const normalizedCategoryName = capitalizeEveryFirstLetter(categoryName);
                 const category = createCategory(normalizedCategoryName);
                 categories.items.push(category);
+                setCategoryName("");
                 onSelect(category)
               }} 
               disable={(exactMatch !== null) || categoryName.length === 0}/>
@@ -66,7 +67,7 @@ export function SelectCategoryDialog({open, close, onSelect, allowCreate=true, n
         <Spacer size={spacerSize}/>
         <CategorySelector 
           availableCategories={availableCategories} 
-          selectCategory={(category) => onSelect(category)}/>
+          selectCategory={(category) => {setCategoryName(""); onSelect(category)}}/>
         {/* <CategoryNamePopover open={true}/> */}
       </div>
     )

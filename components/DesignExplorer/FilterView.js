@@ -38,6 +38,11 @@ export const FilterView = observer(function({style, explorerModel}) {
           if (filter.category === AllDesigns) {
             if (explorerModel.filter.filters.length > 1) return null;
             return (
+              <Middle>
+                <Text style={{margin: 5}}>{AllDesigns.name}</Text>
+              </Middle>
+            );
+            return (
               <Chip 
                 key={filter.category.name}
                 style={{...flexAutoStyle, backgroundColor: transparentLightBlue(0.1)}}

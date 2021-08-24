@@ -23,7 +23,7 @@ categories.items.unshift(AllDesigns);
 
 export const rules = vault.rules;
 
-export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlatBlue, category: null, irremovable: true, open: true});
+export const categoriesFolder = createFolder({name: "Categories", image: icons.tagsFlatBlue, category: null, irremovable: true, open: false});
 const keyFolderMap = {};
 
 function getFolder(key, category) {
