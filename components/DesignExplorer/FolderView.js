@@ -104,7 +104,7 @@ export const FolderView = observer(function({style, indentation, folder, explore
       </ClickablePanel>
       <Column style={{display: folder.open ? "inherit" : "none", ...flexAutoStyle}} key="children" children={folder.children.map(child => 
         <FolderView 
-          indentation={indentation + Math.floor(iconSize / 2)} 
+          indentation={indentation + (folder.isTransparentFolder() ? 0 : Math.floor(iconSize / 2))} 
           key={child.id} 
           folder={child}
           explorerModel={explorerModel}
