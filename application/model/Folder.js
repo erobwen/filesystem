@@ -3,6 +3,7 @@ import { log, loge, logg } from "../../components/utility/Debug";
 import { createCategoryFilter, createIntersectionFilter, createNullFilter, createUnionFilter, simplifyUnion } from "./Filter";
 import { icons } from "../../components/Icons";
 import { featureSwitches } from "../../config";
+import { rules } from "./Vault";
 
 export function createFolder(input) {
   return folder(input);
@@ -151,6 +152,7 @@ export class Folder {
 
   removeChild(child) {
     this.children.remove(child);
+    child.removeRules();
 
     if (this.filter && this.filter.isUnionFilter) {
       this.filter.filters.remove(child.filter);
@@ -198,6 +200,13 @@ export class Folder {
       this.filter = featureSwitches.unionFolders ? createUnionFilter(this.children.map(child => child.filter)) : null;
     } else if (nullFilter) {
       this.filter = null; 
+    }
+  }
+
+  removeRules() {
+    if (this.rule) rules.removeRule(this.rule);
+    for (let child of this.children) {
+      child.removeRules();
     }
   }
 

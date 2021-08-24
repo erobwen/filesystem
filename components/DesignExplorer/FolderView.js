@@ -57,7 +57,6 @@ export const FolderView = observer(function({style, indentation, folder, explore
       }
       const effect = folder.filter.addAllIntersectedCategories({})
       newFolder.rule = new Rule({folder: newFolder, effect, cause});
-      rules.addRule(newFolder.rule);
       folder.addChild(newFolder);
       explorerModel.dragging = null;
     }

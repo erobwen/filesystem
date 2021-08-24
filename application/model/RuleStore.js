@@ -1,5 +1,6 @@
-import { observable } from "mobx";
+import { observable, runInAction } from "mobx";
 import { DesignsView } from "../../components/DesignExplorer/DesignsView";
+import { log, logg } from "../../components/utility/Debug";
 import { vault } from "./Vault";
 
 let nextRuleId = 1;
@@ -25,6 +26,5 @@ export class RuleStore {
 
   removeRule(rule) {
     this.rules.remove(rule);
-    // designSto.
   }
 }

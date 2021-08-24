@@ -94,7 +94,7 @@ export const FilterBrowser = observer(function({style, bounds, maxWidth, folder,
                   openAddFolder(boundingClientRect);
                 }}/>
               <IconButton style={{display: "block", marginLeft: "0.5em"}} image={icons.remove} 
-                disable={explorerModel.selectedFolder && !explorerModel.selectedFolder.irremovable}
+                disable={explorerModel.selectedFolder && explorerModel.selectedFolder.irremovable}
                 onClick={(boundingClientRect) => openRemoveFolder(boundingClientRect)}/>
             </Row>
           </Row>
