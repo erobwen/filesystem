@@ -13,7 +13,7 @@ import { Chip, IconButton } from '../Widgets';
 import { SelectCategoryDialog } from './SelectCategoryDialog';
 import { createCategoryFilter } from '../../application/model/Filter';
 import { isPinned, pin, unpin } from './QuickAccess';
-import { AllDesigns } from '../../application/model/Vault';
+import { AllDesigns } from '../../application/model/Category';
 
 export const FilterView = observer(function({style, explorerModel}) {
   const [addFilterDialogOpen, setAddFilterDialogOpen] = useState(false);

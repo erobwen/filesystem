@@ -14,7 +14,8 @@ import { Button, IconButton, LargeMenuItem, MenuItem } from '../Widgets';
 import { observer } from 'mobx-react';
 import { createFolder } from '../../application/model/Folder';
 import { Rule } from '../../application/model/RuleStore';
-import { AllDesigns, rules } from '../../application/model/Vault';
+import { rules } from '../../application/model/Vault';
+import { AllDesigns } from '../../application/model/Category';
 
 export function RootFolderView({style, folder, explorerModel}) {
   return (

@@ -1,9 +1,8 @@
 import { computed, makeObservable, observable } from "mobx";
-import { categories, createCategory } from "../../application/model/Category";
+import { AllDesigns, categories, createCategory } from "../../application/model/Category";
 import { createCategoryFilter, createDifferenceFilter, createIntersectionFilter } from "../../application/model/Filter";
 import { createFolder } from "../../application/model/Folder";
 import { createDeltaStore, createFilterStore } from "../../application/model/Store";
-import { AllDesigns } from "../../application/model/Vault";
 import { featureSwitches } from "../../config";
 import { appState } from "../AppState";
 import { log, loge, logg } from "../utility/Debug";

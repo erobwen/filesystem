@@ -1,8 +1,8 @@
 import { createStore } from "./model/Store";
 import { Design } from "./model/Design";
-import { createCategory } from "./model/Category";
+import { AllDesigns, createCategory } from "./model/Category";
 import { createFolder, folder } from "./model/Folder";
-import { vault, categories, designs, AllDesigns } from "./model/Vault";
+import { vault, categories, designs } from "./model/Vault";
 
 import boat1 from "../assets/designs/boat1.jpg";
 import boat2 from "../assets/designs/boat2.jpg";
@@ -49,7 +49,7 @@ export const Favorite = createCategory("Favorite", icons.heart);
 const MyEpic2 = createCategory("My Epic 2", icons.sewingMachine);
 const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, canBeFilter: false});
 
-[Animal, Dog, Cat, Siamese, Vehicle, Boat, Car, Ribbon, Felting, Draft, Finished, Protected, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.unshift(category));
+//[ProjectA, Animal, Dog, Cat, Siamese, Vehicle, Boat, Car, Ribbon, Felting, Draft, Finished, Protected, Favorite, MyEpic2, RecycleBin].forEach(category => categories.items.unshift(category));
 
 export const quickAccessFolder = folder({image: icons.quickAccess, name:"Quick Access", category: null, irremovable: true});
 
@@ -59,9 +59,7 @@ vault.folder = folder("Quick access",
   folder({category: Protected, irremovable: true}),
   folder({image: icons.sewingMachine, category: MyEpic2, irremovable: true}),
   folder({image: icons.trashCan, category: RecycleBin, irremovable: true}),
-
   folder({image: icons.allDesigns, category: AllDesigns, name: "All Designs", irremovable: true},
-
     folder(ProjectA, folder(Dog), folder(Cat)),
     folder("Things",
       folder(Animal, 

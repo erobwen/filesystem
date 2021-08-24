@@ -1,6 +1,6 @@
 import { action, autorun, observable, reaction, runInAction } from "mobx";
 import { log, loge } from "../../components/utility/Debug";
-import { AllDesigns } from "./Vault";
+import { AllDesigns } from "./Category";
 
 export function simplifyUnion(baseFilter, unionFilterList) {
   function simplifyFilter(filter) {

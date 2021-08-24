@@ -3,7 +3,6 @@ import { RuleStore } from "./RuleStore";
 import { log } from "../../components/utility/Debug";
 import { reaction, runInAction } from "mobx";
 import { createFolder } from "./Folder";
-import { createCategory } from "./Category";
 import { icons } from "../../components/Icons";
 
 
@@ -18,8 +17,6 @@ export const vault = {
 export const designs = vault.designs;
 
 export const categories = vault.categories;
-export const AllDesigns = createCategory("All Designs", icons.allDesigns);
-categories.items.unshift(AllDesigns);
 
 export const rules = vault.rules;
 
