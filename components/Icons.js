@@ -28,6 +28,7 @@ import filter from "../assets/filter.svg"
 import filterPad from "../assets/filter_pad.svg"
 
 import heart from "../assets/heart.svg"
+import heartFilled from "../assets/heart_filled.svg"
 import quickAccess from "../assets/quick_access.svg"
 import pin from "../assets/pin.svg"
 import pinned from "../assets/pinned.svg"
@@ -76,6 +77,7 @@ export const icons = {
   filter,
   filterPad,
   heart,
+  heartFilled,
   quickAccess,
   pin,
   pinned,

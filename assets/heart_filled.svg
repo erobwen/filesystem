@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 50 50"
+   enable-background="new 0 0 50 50"
+   xml:space="preserve"
+   sodipodi:docname="heart_filled.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
+   id="metadata849"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs847" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1017"
+   id="namedview845"
+   showgrid="false"
+   inkscape:zoom="15.6"
+   inkscape:cx="25"
+   inkscape:cy="25"
+   inkscape:window-x="1912"
+   inkscape:window-y="2"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<path
+   fill="#231f20"
+   d="m 23.024,39.274 c 0.189,0.212 0.461,0.333 0.745,0.333 h 0.001 c 0.284,0 0.556,-0.122 0.745,-0.334 L 37.699,24.502 c 1.327,-1.62 2.058,-3.655 2.058,-5.732 0,-5.053 -4.193,-9.163 -9.348,-9.163 -2.538,0 -4.904,0.98 -6.652,2.725 -1.748,-1.744 -4.114,-2.725 -6.652,-2.725 -5.154,0 -9.348,4.11 -9.348,9.163 0,2.078 0.731,4.115 2.094,5.777 0.128,0.156 10.116,11.312 13.173,14.727 z"
+   id="path842"
+   sodipodi:nodetypes="cssccsscsscc" />
+</svg>

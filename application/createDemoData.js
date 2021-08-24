@@ -42,9 +42,9 @@ const Felting = createCategory("Felting");
 
 const Draft = createCategory("Draft");
 const Finished = createCategory("Finished");
-const Protected = createCategory("Protected", icons.lock);
+export const Protected = createCategory("Protected", icons.lock);
 
-const Favorite = createCategory("Favorite", icons.heart);
+export const Favorite = createCategory("Favorite", icons.heart);
 const MyEpic2 = createCategory("My Epic 2", icons.sewingMachine);
 const RecycleBin = createCategory({name: "Recycle Bin", image: icons.trashCan, canBeFilter: false});
 
