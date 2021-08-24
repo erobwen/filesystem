@@ -132,6 +132,7 @@ export class Folder {
   }
 
   addChild(child) {
+    this.open = true; 
     const noIntersectionFilter = (this.filter === null || this.filter.isUnionFilter);
     const trueRoot = this.parent === null;
     
