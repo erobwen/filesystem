@@ -49,7 +49,14 @@ export const FilterView = observer(function({style, explorerModel}) {
               key={filter.category.name}
               style={{...flexAutoStyle, backgroundColor: transparentLightBlue(0.1)}}
               text={filter.category.name} 
-              onDelete={() => {explorerModel.filter.filters.remove(filter); explorerModel.onUserFilterChange();}}/>
+              onDelete={() => {
+                explorerModel.filter.filters.remove(filter); 
+                if (explorerModel.filter.filters.length === 0) {
+                  explorerModel.filter.filters.push(createCategoryFilter(AllDesigns));
+                } 
+                log(explorerModel.filter.filters.length);
+                explorerModel.onUserFilterChange();
+              }}/>
           );
         })}
         <Middle style={{marginLeft: "0.5em"}}>
