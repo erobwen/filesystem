@@ -15,21 +15,18 @@ This should open up the Metro Bundeler as a local web page. Press "Run in web br
 
 # Deploy
 ec2-52-2-14-222.compute-1.amazonaws.com
-scp -i ../keys/vsm_key_pair.pem ./target/deployments/*.war ec2-user@ec2-52-2-14-222.compute-1.amazonaws.com:~/new_release
+scp -i ../keys/vsm_key_pair.pem ./web-build/* admin@ec2-52-2-14-222.compute-1.amazonaws.com:~/new_release
 
-ec2-52-2-14-222.compute-1.amazonaws.com
-ec2-user
+ssh -i ../keys/vsm_key_pair.pem admin@ec2-52-2-14-222.compute-1.amazonaws.com
 sudo su
-yum update -y
-yum install httpd -y
-cd /var/www/html
-service httpd start
-chkconfig httpd on
+sudo apt update
+sudo apt install apache2
+systemctl status apache2
+root@ip-172-31-44-192:/var/www/html# mv /home/admin/new_release/* .
 
 
 
 # Notes
-npm config set registry https://registry.erobwen.npme.io/
 
 Serving on port 80
 sudo ln -s /home/ec2-user/.nvm/versions/node/v13.11.0/bin/node /usr/bin/node
