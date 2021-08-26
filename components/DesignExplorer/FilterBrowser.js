@@ -4,7 +4,7 @@ import { Column, columnStyle, fitStyle, flexAutoStyle, flexAutoWidthStyle, Flexe
 import { Icon } from '../Icon';
 
 import { ClickablePanel } from '../ClickablePanel';
-import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, topPanelHeight, transparentBlue, transparentGray } from '../Style';
+import { iconSize, panelBorderBottomStyle, panelBorderRightStyle, panelBorderTopStyle, panelPadding, panelPaddingStyle, panelStyle, SelectionBase, sidePanelWidth, Spacer, topPanelHeight, transparentBlue, transparentGray } from '../Style';
 import { log, loge, logg, loggg } from '../utility/Debug';
 
 import { Scroller, scrollerContentStyle } from '../Scroller';
