@@ -35,3 +35,4 @@ mv /home/admin/new_release/* /var/www/html/
 npm audit fix --force
 set NODE_OPTIONS=--openssl-legacy-provider
 npx expo install @expo/webpack-config@^0.17.2
+npm install react@latest react-dom@latest
