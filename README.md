@@ -30,3 +30,8 @@ scp  -r -i ../keys/vsm_key_pair.pem ./web-build/* admin@ec2-52-2-14-222.compute-
 ## move to www
 ssh -i ../keys/vsm_key_pair.pem admin@ec2-52-2-14-222.compute-1.amazonaws.com
 mv /home/admin/new_release/* /var/www/html/
+
+## Upgrade
+npm audit fix --force
+set NODE_OPTIONS=--openssl-legacy-provider
+npx expo install @expo/webpack-config@^0.17.2
